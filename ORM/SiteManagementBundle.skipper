@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<skipper version="3.2.2.1235" mvc="Symfony2" orm="Doctrine2" name="TvManagementBundle" uuid="1a570a49-5f93-42b0-a034-12129b345d35">
+  <external-module storage-path="SiteManagement.module.xml"/>
+  <visual-data>
+    <association uuid="45c125cd-0ba3-4a9c-973e-92bbcfb91a59" color="#969696"/>
+    <module uuid="860bb986-ef71-4cef-9da2-f560e58c2569" position-x="50" position-y="50"/>
+    <project uuid="1a570a49-5f93-42b0-a034-12129b345d35" size-x="0" size-x2="900" size-y="0" size-y2="600"/>
+  </visual-data>
+</skipper>

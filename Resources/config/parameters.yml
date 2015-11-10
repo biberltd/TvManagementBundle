@@ -1,0 +1,29 @@
+parameters:
+  # TvManagementBundle actions
+  # actionname: id
+  # 15xx
+  actions:
+      channel.create:                   1500
+      channel.list:                     1520
+      channel.remove:                   1501
+      channel.update:                   1502
+      channel.update.logo:              1512
+      channel.update.frequency:         1513
+      channel.update.name:              1514
+      programme.create:                 1503
+      programme.list:                   1521
+      programme.remove:                 1504
+      programme.update:                 1505
+      programme.update.preview:         1515
+      programme.update.time:            1516
+      programme.update.rating:          1517
+      programme.update.type:            1518
+      programme.update.cat:             1519
+      programme.cat.create:             1506
+      programme.cat.list:               1522
+      programme.cat.remove:             1507
+      programme.cat.update:             1508
+      programme.type.create:            1509
+      programme.type.list:              1523
+      programme.type.remove:            1510
+      programme.type.update:            1511

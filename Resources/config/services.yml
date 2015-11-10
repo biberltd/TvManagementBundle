@@ -1,0 +1,4 @@
+services:
+    tvmanagement.model:
+            class:        BiberLtd\Bundle\TvManagementBundle\Services\TvManagementModel
+            arguments:    [@kernel, "default", "doctrine"]

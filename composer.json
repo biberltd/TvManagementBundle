@@ -1,0 +1,28 @@
+{
+    "name": "biberltd/tv-management-bundle",
+    "type": "symfony-bundle",
+    "description": "",
+    "keywords": [],
+    "homepage": "http://github.com/biberltd/TvManagementBundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Can Berkol",
+            "email": "can.berkol@biberltd.com"
+        },
+		{
+            "name": "Said İmamoğlu",
+            "email": "said.imamoglu@biberltd.com"
+        }
+    ],
+    "require": {
+        "biberltd/core-bundle" : "~3.3",
+		"biberltd/multilanguage-support-bundle" : "~3.3"
+    },
+    "autoload": {
+        "psr-0": { "BiberLtd\\Bundle\\TvManagementBundle": "" }
+
+    },
+    "minimum-stability": "dev",
+    "target-dir": "BiberLtd/Bundle/TvManagementBundle"
+}
