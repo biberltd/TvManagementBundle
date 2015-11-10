@@ -1,41 +1,111 @@
 /*
-Navicat MySQL Data Transfer
+Navicat MariaDB Data Transfer
 
-Source Server         : localhost
-Source Server Version : 50505
+Source Server         : localmariadb
+Source Server Version : 100108
 Source Host           : localhost:3306
 Source Database       : bod_core
 
-Target Server Type    : MYSQL
-Target Server Version : 50505
+Target Server Type    : MariaDB
+Target Server Version : 100108
 File Encoding         : 65001
 
-Date: 2015-04-30 21:48:08
+Date: 2015-11-10 18:52:29
 */
 
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
--- Table structure for site
+-- Table structure for tv_channel
 -- ----------------------------
-DROP TABLE IF EXISTS `site`;
-CREATE TABLE `site` (
+DROP TABLE IF EXISTS `tv_channel`;
+CREATE TABLE `tv_channel` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'System given id.',
-  `title` varchar(155) COLLATE utf8_turkish_ci NOT NULL COMMENT 'Title of the site.',
-  `url_key` varchar(255) COLLATE utf8_turkish_ci NOT NULL COMMENT 'Url key of site.',
-  `description` varchar(255) COLLATE utf8_turkish_ci DEFAULT NULL COMMENT 'Short description of site.',
-  `default_language` int(5) unsigned DEFAULT NULL COMMENT 'Default language of the site.',
-  `settings` text COLLATE utf8_turkish_ci COMMENT 'Base64 Encoded and serialized site settings information.',
-  `date_added` datetime NOT NULL COMMENT 'Date when the site is added.',
-  `date_updated` datetime NOT NULL COMMENT 'Date when the site''s details last updated.',
-  `date_removed` datetime DEFAULT NULL COMMENT 'Date when the entry is marked as removed.',
-  `domain` text COLLATE utf8_turkish_ci COMMENT 'Domain of the site.',
+  `name` varchar(255) COLLATE utf8_turkish_ci NOT NULL COMMENT 'Name of the channel.',
+  `logo` text COLLATE utf8_turkish_ci COMMENT 'Path of logo file.',
+  `frequency` text COLLATE utf8_turkish_ci COMMENT 'Can hold json_decoded values.',
+  `date_added` datetime NOT NULL,
+  `date_updated` datetime NOT NULL,
+  `date_removed` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
+
+-- ----------------------------
+-- Table structure for tv_programme
+-- ----------------------------
+DROP TABLE IF EXISTS `tv_programme`;
+CREATE TABLE `tv_programme` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'System given id.',
+  `time` time NOT NULL,
+  `summary` text COLLATE utf8_turkish_ci,
+  `rating` varchar(20) COLLATE utf8_turkish_ci DEFAULT NULL,
+  `date_added` datetime NOT NULL,
+  `date_updated` datetime NOT NULL,
+  `date_removed` datetime DEFAULT NULL,
+  `title_original` varchar(255) COLLATE utf8_turkish_ci NOT NULL,
+  `title_local` varchar(255) COLLATE utf8_turkish_ci DEFAULT NULL,
+  `channel` int(10) unsigned NOT NULL,
+  `category` int(10) unsigned NOT NULL,
+  `genre` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `idxUSiteId` (`id`) USING BTREE,
-  UNIQUE KEY `idxUSiteUrlKey` (`url_key`) USING BTREE,
-  KEY `idxNSiteDateAdded` (`date_added`) USING BTREE,
-  KEY `idxNSiteDateUpdated` (`date_updated`) USING BTREE,
-  KEY `idxFDefaultLanguageOfSite` (`default_language`) USING BTREE,
-  KEY `idxNSiteDateRemoved` (`date_removed`),
-  CONSTRAINT `idxFDefaultLanguageOfSite` FOREIGN KEY (`default_language`) REFERENCES `language` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci ROW_FORMAT=COMPACT;
+  KEY `idxFTvProgrammeChannel` (`channel`),
+  KEY `idxFTvProgrammeGenre` (`genre`),
+  KEY `idxFTvProgrammeCategory` (`category`),
+  CONSTRAINT `idxFTvProgrammeCategory` FOREIGN KEY (`category`) REFERENCES `tv_programme_category` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `idxFTvProgrammeChannel` FOREIGN KEY (`channel`) REFERENCES `tv_channel` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `idxFTvProgrammeGenre` FOREIGN KEY (`genre`) REFERENCES `tv_programme_genre` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
+
+-- ----------------------------
+-- Table structure for tv_programme_category
+-- ----------------------------
+DROP TABLE IF EXISTS `tv_programme_category`;
+CREATE TABLE `tv_programme_category` (
+  `id` int(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'System given id.',
+  `date_added` datetime NOT NULL,
+  `date_updated` datetime NOT NULL,
+  `date_removed` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
+
+-- ----------------------------
+-- Table structure for tv_programme_category_localization
+-- ----------------------------
+DROP TABLE IF EXISTS `tv_programme_category_localization`;
+CREATE TABLE `tv_programme_category_localization` (
+  `name` varchar(155) COLLATE utf8_turkish_ci NOT NULL,
+  `url_key` varchar(255) COLLATE utf8_turkish_ci NOT NULL,
+  `language` int(5) unsigned DEFAULT NULL,
+  `category` int(10) unsigned DEFAULT NULL,
+  KEY `idxFTvProgrammeCategoryLocalization` (`category`),
+  KEY `idxFTvProgrammeCategoryLocalizationLanguage` (`language`),
+  CONSTRAINT `idxFTvProgrammeCategoryLocalization` FOREIGN KEY (`category`) REFERENCES `tv_programme_category` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `idxFTvProgrammeCategoryLocalizationLanguage` FOREIGN KEY (`language`) REFERENCES `language` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
+
+-- ----------------------------
+-- Table structure for tv_programme_genre
+-- ----------------------------
+DROP TABLE IF EXISTS `tv_programme_genre`;
+CREATE TABLE `tv_programme_genre` (
+  `id` int(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'System given id.',
+  `date_added` datetime NOT NULL,
+  `date_updated` datetime NOT NULL,
+  `date_removed` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
+
+-- ----------------------------
+-- Table structure for tv_programme_genre_localization
+-- ----------------------------
+DROP TABLE IF EXISTS `tv_programme_genre_localization`;
+CREATE TABLE `tv_programme_genre_localization` (
+  `name` varchar(155) COLLATE utf8_turkish_ci NOT NULL,
+  `url_key` varchar(255) COLLATE utf8_turkish_ci NOT NULL,
+  `language` int(5) unsigned DEFAULT NULL,
+  `genre` int(10) unsigned DEFAULT NULL,
+  KEY `idxFTvProgrammeGenreyLocalization` (`genre`) USING BTREE,
+  KEY `idxFTvProgrammeGenreLocalizationLanguage` (`language`) USING BTREE,
+  CONSTRAINT `idxFTvProgrammeGenreLocalization` FOREIGN KEY (`genre`) REFERENCES `tv_programme_genre` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `idxFTvProgrammeGenreLocalizationLanguage` FOREIGN KEY (`language`) REFERENCES `language` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;

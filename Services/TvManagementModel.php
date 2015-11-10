@@ -3,15 +3,14 @@
  * @vendor      BiberLtd
  * @package		Core\Bundles\TvManagementBundle
  * @subpackage	Services
- * @name	    SiteManagementModel
+ * @name	    TvManagementBundle
  *
  * @author		Can Berkol
- * @author		Said İmamoğlu
  *
  * @copyright   Biber Ltd. (www.biberltd.com)
  *
- * @version     1.1.3
- * @date        22.07.2015
+ * @version     1.0.0
+ * @date        10.11.2015
  */
 
 namespace BiberLtd\Bundle\TvManagementBundle\Services;
@@ -27,7 +26,7 @@ use BiberLtd\Bundle\TvManagementBundle\Exceptions as BundleExceptions;
 /** Entities to be used */
 use BiberLtd\Bundle\TvManagementBundle\Entity as BundleEntity;
 
-class SiteManagementModel extends CoreModel{
+class TvManagementModel extends CoreModel{
     /**
      * @name            __construct()
      *                  Constructor.
@@ -48,8 +47,12 @@ class SiteManagementModel extends CoreModel{
          * Register entity names for easy reference.
          */
         $this->entity = array(
-            'da'   => array('name' => 'TvManagementBundle:DomainAliases', 'alias' => 'da'),
-            's'    => array('name' => 'TvManagementBundle:Site', 'alias' => 's'),
+            'tvc'       => array('name' => 'TvManagementBundle:TvChannel', 'alias' => 'tvc'),
+            'tvp'       => array('name' => 'TvManagementBundle:TvProgramme', 'alias' => 'tvp'),
+            'tvpc'      => array('name' => 'TvManagementBundle:TvProgrammeCategory', 'alias' => 'tvpc'),
+            'tvpcl'     => array('name' => 'TvManagementBundle:TvProgrammeCategoryLocalization', 'alias' => 'tvpcl'),
+            'tvpg'      => array('name' => 'TvManagementBundle:TvProgrammeGenre', 'alias' => 'tvpg'),
+            'tvpgl'     => array('name' => 'TvManagementBundle:TvProgrammeGenreLocalization', 'alias' => 'tvpgl'),
         );
     }
     /**
