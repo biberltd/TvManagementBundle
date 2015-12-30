@@ -2392,7 +2392,7 @@ class TvManagementModel extends CoreModel{
 	 *
 	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
-	public function addProgrammesToGenrey(array $collection, $genre)
+	public function addProgrammesToGenre(array $collection, $genre)
 	{
 		$timeStamp = time();
 		$response = $this->getTvProgrammeGenre($genre);
