@@ -2074,6 +2074,321 @@ class TvManagementModel extends CoreModel{
 		$response->result->count->total = count($programmes);
 		return $response;
 	}
+	/**
+	 * @param array $collection
+	 * @param mixed $category
+	 *
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 */
+	public function addProgrammesToCategory(array $collection, $category)
+	{
+		$timeStamp = time();
+		$response = $this->getTvProgrammeCategory($category);
+		if ($response->error->exist) {
+			return $response;
+		}
+		$category = $response->result->set;
+		$copCollection = array();
+		$count = 0;
+		$now = new \DateTime('now', new \DateTimezone($this->kernel->getContainer()->getParameter('app_timezone')));
+		foreach ($collection as $programme) {
+			$response = $this->getTvProgramme($programme);
+			if ($response->error->exist) {
+				return $response;
+			}
+			$entity = $response->result->set;
+			/** Check if association exists */
+			if ($this->isProgrammeAssociatedWithCategory($entity, $category, true)) {
+				break;
+			}
+
+			$cop = new BundleEntity\CategoriesOfTvProgramme();
+			$cop->setProgramme($entity)->setCategory($category)->setDateAdded($now);
+
+			$this->em->persist($cop);
+			$copCollection[] = $cop;
+			$count++;
+		}
+		if ($count > 0) {
+			$this->em->flush();
+			return new ModelResponse($copCollection, $count, 0, null, false, 'S:D:003', 'Selected entries have been successfully inserted into database.', $timeStamp, time());
+		}
+		return new ModelResponse(null, 0, 0, null, true, 'E:D:003', 'One or more entities cannot be inserted into database.', $timeStamp, time());
+	}
+	/**
+	 * @param array $collection
+	 * @param mixed $genre
+	 *
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 */
+	public function addProgrammesToGenre(array $collection, $genre)
+	{
+		$timeStamp = time();
+		$response = $this->getTvProgrammeGenre($genre);
+		if ($response->error->exist) {
+			return $response;
+		}
+		$category = $response->result->set;
+		$copCollection = array();
+		$count = 0;
+		$now = new \DateTime('now', new \DateTimezone($this->kernel->getContainer()->getParameter('app_timezone')));
+		foreach ($collection as $programme) {
+			$response = $this->getTvProgramme($programme);
+			if ($response->error->exist) {
+				return $response;
+			}
+			$entity = $response->result->set;
+			/** Check if association exists */
+			if ($this->isProgrammeAssociatedWithGenre($entity, $genre, true)) {
+				break;
+			}
+
+			$cop = new BundleEntity\GenresOfTvProgramme();
+			$cop->setProgramme($entity)->setGenre($category)->setDateAdded($now);
+
+			$this->em->persist($cop);
+			$copCollection[] = $cop;
+			$count++;
+		}
+		if ($count > 0) {
+			$this->em->flush();
+			return new ModelResponse($copCollection, $count, 0, null, false, 'S:D:003', 'Selected entries have been successfully inserted into database.', $timeStamp, time());
+		}
+		return new ModelResponse(null, 0, 0, null, true, 'E:D:003', 'One or more entities cannot be inserted into database.', $timeStamp, time());
+	}
+
+	/**
+	 * @param mixed $programme
+	 * @param array $collection
+	 *
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 */
+	public function addProgrammeToCategories($programme, array $collection){
+		$timeStamp = time();
+		$response = $this->getTvProgramme($programme);
+		if ($response->error->exist) {
+			return $response;
+		}
+		$programme = $response->result->set;
+		$processQueue = array();
+		$count = 0;
+		$now = new \DateTime('now', new \DateTimezone($this->kernel->getContainer()->getParameter('app_timezone')));
+		foreach ($collection as $category) {
+			$response = $this->getTvProgrammeCategory($category);
+			if ($response->error->exist) {
+				continue;
+			}
+			$category = $response->result->set;
+			if ($this->isProgrammeAssociatedWithCategory($programme, $category, true)) {
+				continue;
+			}
+			/** prepare object */
+			$cop = new BundleEntity\CategoriesOfTvProgramme();
+			$cop->setProgramme($programme)->setCategory($category)->setDateAdded($now);
+
+			/** persist entry */
+			$this->em->persist($cop);
+			$processQueue[] = $cop;
+			$count++;
+		}
+		if ($count > 0) {
+			$this->em->flush();
+			return new ModelResponse($processQueue, $count, 0, null, false, 'S:D:003', 'Selected entries have been successfully inserted into database.', $timeStamp, time());
+		}
+		return new ModelResponse(null, 0, 0, null, true, 'E:D:003', 'One or more entities cannot be inserted into database.', $timeStamp, time());
+	}
+	/**
+	 * @param mixed $programme
+	 * @param array $collection
+	 *
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 */
+	public function addProgrammeToGenres($programme, array $collection){
+		$timeStamp = time();
+		$response = $this->getTvProgramme($programme);
+		if ($response->error->exist) {
+			return $response;
+		}
+		$programme = $response->result->set;
+		$processQueue = array();
+		$count = 0;
+		$now = new \DateTime('now', new \DateTimezone($this->kernel->getContainer()->getParameter('app_timezone')));
+		foreach ($collection as $genre) {
+			$response = $this->getTvProgrammeGenre($genre);
+			if ($response->error->exist) {
+				continue;
+			}
+			$category = $response->result->set;
+			if ($this->isProgrammeAssociatedWitGenre($programme, $genre, true)) {
+				continue;
+			}
+			/** prepare object */
+			$cop = new BundleEntity\GenresOfTvProgramme();
+			$cop->setProgramme($programme)->setGenre($genre)->setDateAdded($now);
+
+			/** persist entry */
+			$this->em->persist($cop);
+			$processQueue[] = $cop;
+			$count++;
+		}
+		if ($count > 0) {
+			$this->em->flush();
+			return new ModelResponse($processQueue, $count, 0, null, false, 'S:D:003', 'Selected entries have been successfully inserted into database.', $timeStamp, time());
+		}
+		return new ModelResponse(null, 0, 0, null, true, 'E:D:003', 'One or more entities cannot be inserted into database.', $timeStamp, time());
+	}
+	/**
+	 * @param mixed $programme
+	 * @param mixed $category
+	 * @param bool $bypass
+	 *
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse|bool
+	 */
+	public function isProgrammeAssociatedWithCategory($programme, $category, \bool $bypass = false){
+		$timeStamp = time();
+		$response = $this->getTvProgramme($programme);
+		if ($response->error->exist) {
+			return $response;
+		}
+		$programme = $response->result->set;
+
+		$response = $this->getTvProgrammeCategory($category);
+		if ($response->error->exist) {
+			return $response;
+		}
+		$category = $response->result->set;
+		$found = false;
+
+		$qStr = 'SELECT COUNT(' . $this->entity['cotp']['alias'] . '.programme)'
+			. ' FROM ' . $this->entity['cotp']['name'] . ' ' . $this->entity['cotp']['alias']
+			. ' WHERE ' . $this->entity['cotp']['alias'] . '.programme = ' . $programme->getId()
+			. ' AND ' . $this->entity['cotp']['alias'] . '.category = ' . $category->getId();
+		$query = $this->em->createQuery($qStr);
+
+		$result = $query->getSingleScalarResult();
+
+		if ($result > 0) {
+			$found = true;
+		}
+		if ($bypass) {
+			return $found;
+		}
+		return new ModelResponse($found, 1, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, time());
+	}
+	/**
+	 * @param mixed $programme
+	 * @param mixed $genre
+	 * @param bool $bypass
+	 *
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse|bool
+	 */
+	public function isProgrammeAssociatedWithGenre($programme, $genre, \bool $bypass = false){
+		$timeStamp = time();
+		$response = $this->getTvProgramme($programme);
+		if ($response->error->exist) {
+			return $response;
+		}
+		$programme = $response->result->set;
+
+		$response = $this->getTvProgrammeGenre($genre);
+		if ($response->error->exist) {
+			return $response;
+		}
+		$genre = $response->result->set;
+		$found = false;
+
+		$qStr = 'SELECT COUNT(' . $this->entity['gotp']['alias'] . '.programme)'
+			. ' FROM ' . $this->entity['gotp']['name'] . ' ' . $this->entity['gotp']['alias']
+			. ' WHERE ' . $this->entity['gotp']['alias'] . '.programme = ' . $programme->getId()
+			. ' AND ' . $this->entity['gotp']['alias'] . '.category = ' . $genre->getId();
+		$query = $this->em->createQuery($qStr);
+
+		$result = $query->getSingleScalarResult();
+
+		if ($result > 0) {
+			$found = true;
+		}
+		if ($bypass) {
+			return $found;
+		}
+		return new ModelResponse($found, 1, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, time());
+	}
+	/**
+	 * @param array $collection
+	 * @param mixed $category
+	 *
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 */
+	public function removeProgrammesFromCategory(array $collection, $category){
+		$timeStamp = time();
+		$response = $this->getTvProgrammeCategory($category);
+		if ($response->error->exist) {
+			return $response;
+		}
+		$category = $response->result->set;
+		$idsToRemove = array();
+		foreach ($collection as $p) {
+			$response = $this->getTvProgramme($p);
+			if ($response->error->exist) {
+				continue;
+			}
+			$idsToRemove[] = $response->result->set->getId();
+		}
+		$in = ' IN (' . implode(',', $idsToRemove) . ')';
+		$qStr = 'DELETE FROM ' . $this->entity['cotp']['name'] . ' ' . $this->entity['cotp']['alias']
+			. ' WHERE ' . $this->entity['cotp']['alias'] . '.category ' . $category->getId()
+			. ' WHERE ' . $this->entity['cotp']['alias'] . '.programme ' . $in;
+
+		$q = $this->em->createQuery($qStr);
+		$result = $q->getResult();
+
+		$deleted = true;
+		if (!$result) {
+			$deleted = false;
+		}
+		if ($deleted) {
+			return new ModelResponse(null, 0, 0, null, false, 'S:D:001', 'Selected entries have been successfully removed from database.', $timeStamp, time());
+		}
+		return new ModelResponse(null, 0, 0, null, true, 'E:E:001', 'Unable to delete all or some of the selected entries.', $timeStamp, time());
+	}
+	/**
+	 * @param array $collection
+	 * @param mixed $genre
+	 *
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 */
+	public function removeProgrammesFromGenre(array $collection, $genre){
+		$timeStamp = time();
+		$response = $this->getTvProgrammeGenre($genre);
+		if ($response->error->exist) {
+			return $response;
+		}
+		$genre = $response->result->set;
+		$idsToRemove = array();
+		foreach ($collection as $p) {
+			$response = $this->getTvProgramme($p);
+			if ($response->error->exist) {
+				continue;
+			}
+			$idsToRemove[] = $response->result->set->getId();
+		}
+		$in = ' IN (' . implode(',', $idsToRemove) . ')';
+		$qStr = 'DELETE FROM ' . $this->entity['gotp']['name'] . ' ' . $this->entity['gotp']['alias']
+			. ' WHERE ' . $this->entity['gotp']['alias'] . '.genre ' . $genre->getId()
+			. ' WHERE ' . $this->entity['gotp']['alias'] . '.programme ' . $in;
+
+		$q = $this->em->createQuery($qStr);
+		$result = $q->getResult();
+
+		$deleted = true;
+		if (!$result) {
+			$deleted = false;
+		}
+		if ($deleted) {
+			return new ModelResponse(null, 0, 0, null, false, 'S:D:001', 'Selected entries have been successfully removed from database.', $timeStamp, time());
+		}
+		return new ModelResponse(null, 0, 0, null, true, 'E:E:001', 'Unable to delete all or some of the selected entries.', $timeStamp, time());
+	}
 }
 /**
  * Change Log
