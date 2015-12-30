@@ -1,18 +1,11 @@
-/*
-Navicat MariaDB Data Transfer
-
-Source Server         : localmariadb
-Source Server Version : 100108
-Source Host           : localhost:3306
-Source Database       : bod_core
-
-Target Server Type    : MariaDB
-Target Server Version : 100108
-File Encoding         : 65001
-
-Date: 2015-12-28 20:10:34
-*/
-
+/**
+ * @author		Can Berkol
+ *
+ * @copyright   Biber Ltd. (http://www.biberltd.com) (C) 2015
+ * @license     GPLv3
+ *
+ * @date        28.12.2015
+ */
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
