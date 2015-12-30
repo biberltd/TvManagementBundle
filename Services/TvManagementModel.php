@@ -5,7 +5,7 @@
  * @copyright   Biber Ltd. (http://www.biberltd.com) (C) 2015
  * @license     GPLv3
  *
- * @date        28.12.2015
+ * @date        30.12.2015
  */
 namespace BiberLtd\Bundle\TvManagementBundle\Services;
 
@@ -78,21 +78,13 @@ class TvManagementModel extends CoreModel{
 	public function deleteTvChannel($channel){
 		return $this->deleteTvChannels(array($channel));
 	}
-    /**
-     * @name 			deleteTvChannels()
-     *
-     * @since			1.0.0
-     * @version         1.0.0
+
+	/**
+	 * @param array $collection
 	 *
-     * @author          Can Berkol
-     *
-     * @use             $this->createException()
-     *
-     * @param           array           $collection
-	 *
-     * @return          \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
-     */
-	public function deleteTvChannels($collection) {
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 */
+	public function deleteTvChannels(array $collection) {
 		$timeStamp = time();
 		if (!is_array($collection)) {
 			return $this->createException('InvalidParameterValueException', 'Invalid parameter value. Parameter must be an array collection', 'E:S:001');
@@ -119,21 +111,14 @@ class TvManagementModel extends CoreModel{
 
 		return new ModelResponse(null, 0, 0, null, false, 'S:D:001', 'Selected entries have been successfully removed from database.', $timeStamp, time());
 	}
+
 	/**
-	 * @name 			doesTvChannelExist()
+	 * @param mixed $channel
+	 * @param bool $bypass
 	 *
-	 * @since			1.0.0
-	 * @version         1.0.0
-	 * @author          Can Berkol
-	 *
-	 * @use             $this->getSite()
-	 *
-	 * @param           mixed           $channel        TvChannel entity or site id.
-	 * @param           bool            $bypass         If set to true does not return response but only the result.
-	 *
-	 * @return          \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse|bool
 	 */
-	public function doesTvChannelExist($channel, $bypass = false) {
+	public function doesTvChannelExist($channel, \bool $bypass = false) {
 		$timeStamp = time();
 		$exist = false;
 
@@ -154,18 +139,11 @@ class TvManagementModel extends CoreModel{
 		}
 		return new ModelResponse(true, 1, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, time());
 	}
+
 	/**
-	 * @name 			getTvChannel()
+	 * @param mixed $channel
 	 *
-	 * @since			1.0.0
-	 * @version         1.0.0
-	 * @author          Can Berkol
-	 *
-	 * @use				$this->createException()
-	 *
-	 * @param           mixed           $channel           TvChannel entity or site id.
-	 *
-	 * @return          \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
 	public function getTvChannel($channel) {
 		$timeStamp = time();
@@ -184,20 +162,15 @@ class TvManagementModel extends CoreModel{
 
 		return new ModelResponse($result, 1, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, time());
 	}
-    /**
-     * @name 			listTvChannels()
-     *
-     * @since			1.0.0
-     * @version         1.0.0
-     * @author          Can Berkol
-     *
-     * @param           array           $filter
-     * @param           array           $sortOrder
-     * @param           array           $limit
-     *
-     * @return          \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
-     */
-	public function listTvChannels($filter = null, $sortOrder = null, $limit = null) {
+
+	/**
+	 * @param array|null $filter
+	 * @param array|null $sortOrder
+	 * @param array|null $limit
+	 *
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 */
+	public function listTvChannels(array $filter = null, array $sortOrder = null, array $limit = null) {
 		$timeStamp = time();
 		if (!is_array($sortOrder) && !is_null($sortOrder)) {
 			return $this->createException('InvalidSortOrderException', '$sortOrder must be an array with key => value pairs where value can only be "asc" or "desc".', 'E:S:002');
@@ -246,35 +219,22 @@ class TvManagementModel extends CoreModel{
 		}
 		return new ModelResponse($result, $totalRows, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, time());
 	}
+
 	/**
-	 * @name 			insertTvChannel()
+	 * @param mixed $channel
 	 *
-	 * @since			1.0.0
-	 * @version         1.0.0
-	 * @author          Can Berkol
-	 *
-	 * @use             $this->insertTvChannels()
-	 *
-	 * @param           mixed           $channel
-	 * @return          \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
 	public function insertTvChannel($channel){
 		return $this->insertTvChannels(array($channel));
 	}
-    /**
-     * @name 			insertTvChannels()
-     *
-     * @since			1.0.0
-     * @version         1.0.0
-     * @author          Can Berkol
-     *
-     * @use             $this->createException()
-     *
-     * @param           array           $collection      Collection of Site entities or array of site detais array.
-     *
-     * @return          \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
-     */
-	public function insertTvChannels($collection) {
+
+	/**
+	 * @param array $collection
+	 *
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 */
+	public function insertTvChannels(array $collection) {
 		$timeStamp = time();
 		if (!is_array($collection)) {
 			return $this->createException('InvalidParameterValueException', 'Invalid parameter value. Parameter must be an array collection', 'E:S:001');
@@ -309,36 +269,22 @@ class TvManagementModel extends CoreModel{
 		}
 		return new ModelResponse(null, 0, 0, null, true, 'E:D:003', 'One or more entities cannot be inserted into database.', $timeStamp, time());
 	}
+
 	/**
-	 * @name 			updateTvChannel()
+	 * @param mixed $channel
 	 *
-	 * @since			1.0.0
-	 * @version         1.0.0
-	 * @author          Can Berkol
-	 *
-	 * @use             $this->updateSites()
-	 *
-	 * @param           array           $channel      TvChannel Entity or a collection of post input that stores site details.
-	 *
-	 * @return          \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
 	public function updateTvChannel($channel){
 		return $this->updateTvChannels(array($channel));
 	}
-    /**
-     * @name 			updateTvChannels()
-     *
-     * @since			1.0.0
-     * @version         1.0.0
-     * @author          Can Berkol
-     *
-     * @ue              $this->createException()
-     *
-     * @param           array           $collection
-     *
-     * @return          \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
-     */
-    public function updateTvChannels($collection){
+
+	/**
+	 * @param array $collection
+	 *
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 */
+    public function updateTvChannels(array $collection){
         $timeStamp = time();
         /** Parameter must be an array */
         if (!is_array($collection)) {
@@ -393,36 +339,20 @@ class TvManagementModel extends CoreModel{
     }
 
 	/**
-	 * @name 			deleteTvProgrammeCategory()
+	 * @param mixed $category
 	 *
-	 * @since			1.0.0
-	 * @version         1.0.0
-	 * @author          Can Berkol
-	 *
-	 * @use             $this->deleteTvProgrammeCategories()
-	 *
-	 * @param           mixed           $category
-	 *
-	 * @return          \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
 	public function deleteTvProgrammeCategory($category){
 		return $this->deleteTvProgrammeCategories(array($category));
 	}
+
 	/**
-	 * @name 			deleteTvProgrammeCategories()
+	 * @param array $collection
 	 *
-	 * @since			1.0.0
-	 * @version         1.0.0
-	 *
-	 * @author          Can Berkol
-	 *
-	 * @use             $this->createException()
-	 *
-	 * @param           array           $collection
-	 *
-	 * @return          \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
-	public function deleteTvProgrammeCategories($collection) {
+	public function deleteTvProgrammeCategories(array $collection) {
 		$timeStamp = time();
 		if (!is_array($collection)) {
 			return $this->createException('InvalidParameterValueException', 'Invalid parameter value. Parameter must be an array collection', 'E:S:001');
@@ -449,21 +379,14 @@ class TvManagementModel extends CoreModel{
 
 		return new ModelResponse(null, 0, 0, null, false, 'S:D:001', 'Selected entries have been successfully removed from database.', $timeStamp, time());
 	}
+
 	/**
-	 * @name 			doesTvProgrammeCategoryExist()
+	 * @param mixed $category
+	 * @param bool $bypass
 	 *
-	 * @since			1.0.0
-	 * @version         1.0.0
-	 * @author          Can Berkol
-	 *
-	 * @use             $this->getSite()
-	 *
-	 * @param           mixed           $category       TvProgrammeCategory entity or site id.
-	 * @param           bool            $bypass         If set to true does not return response but only the result.
-	 *
-	 * @return          \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse|bool
 	 */
-	public function doesTvProgrammeCategoryExist($category, $bypass = false) {
+	public function doesTvProgrammeCategoryExist($category, \bool $bypass = false) {
 		$timeStamp = time();
 		$exist = false;
 
@@ -486,17 +409,9 @@ class TvManagementModel extends CoreModel{
 	}
 
 	/**
-	 * @name 			getTvProgrammeCategory()
+	 * @param mixed $category
 	 *
-	 * @since			1.0.0
-	 * @version         1.0.0
-	 * @author          Can Berkol
-	 *
-	 * @use				$this->createException()
-	 *
-	 * @param           mixed           $category           TvProgrammeCategory entity or site id.
-	 *
-	 * @return          \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
 	public function getTvProgrammeCategory($category){
 		$timeStamp = time();
@@ -523,22 +438,14 @@ class TvManagementModel extends CoreModel{
 
 		return new ModelResponse($result, 1, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, time());
 	}
+
 	/**
-	 * @name            getTvProgrammeCategoryByUrlKey()
+	 * @param string $urlKey
+	 * @param mixed|null   $language
 	 *
-	 * @since           1.0.0
-	 * @version         1.0.0
-	 * @author          Can Berkol
-	 *
-	 * @use             $this->listTvProgrammeCategories()
-	 * @use             $this->createException()
-	 *
-	 * @param           mixed $urlKey
-	 * @param           mixed $language
-	 *
-	 * @return          \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
-	public function getTvProgrammeCategoryByUrlKey($urlKey, $language = null){
+	public function getTvProgrammeCategoryByUrlKey(\string $urlKey, $language = null){
 		$timeStamp = time();
 		if (!is_string($urlKey)) {
 			return $this->createException('InvalidParameterValueException', '$urlKey must be a string.', 'E:S:007');
@@ -575,20 +482,15 @@ class TvManagementModel extends CoreModel{
 
 		return $response;
 	}
+
 	/**
-	 * @name 			listTvProgrammeCategories()
+	 * @param array|null $filter
+	 * @param array|null $sortOrder
+	 * @param array|null $limit
 	 *
-	 * @since			1.0.0
-	 * @version         1.0.0
-	 * @author          Can Berkol
-	 *
-	 * @param           array           $filter
-	 * @param           array           $sortOrder
-	 * @param           array           $limit
-	 *
-	 * @return          \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
-	public function listTvProgrammeCategories($filter = null, $sortOrder = null, $limit = null)
+	public function listTvProgrammeCategories(array $filter = null, array $sortOrder = null, array $limit = null)
 	{
 		$timeStamp = time();
 		if (!is_array($sortOrder) && !is_null($sortOrder)) {
@@ -644,35 +546,22 @@ class TvManagementModel extends CoreModel{
 		}
 		return new ModelResponse($entities, $totalRows, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, time());
 	}
+
 	/**
-	 * @name 			insertTvProgrammeCategory()
+	 * @param mixed $category
 	 *
-	 * @since			1.0.0
-	 * @version         1.0.0
-	 * @author          Can Berkol
-	 *
-	 * @use             $this->insertTvProgrammes()
-	 *
-	 * @param           mixed           $category
-	 * @return          \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
 	public function insertTvProgrammeCategory($category){
 		return $this->insertTvProgrammeCategories(array($category));
 	}
+
 	/**
-	 * @name 			insertTvProgrammeCategories()
+	 * @param array $collection
 	 *
-	 * @since			1.0.0
-	 * @version         1.0.0
-	 * @author          Can Berkol
-	 *
-	 * @use             $this->createException()
-	 *
-	 * @param           array           $collection      Collection of TvProgrammeCategory entities or array of site detais array.
-	 *
-	 * @return          \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
-	public function insertTvProgrammeCategories($collection){
+	public function insertTvProgrammeCategories(array $collection){
 		$timeStamp = time();
 		if (!is_array($collection)) {
 			return $this->createException('InvalidParameterValueException', 'Invalid parameter value. Parameter must be an array collection', 'E:S:001');
@@ -729,20 +618,13 @@ class TvManagementModel extends CoreModel{
 		}
 		return new ModelResponse(null, 0, 0, null, true, 'E:D:003', 'One or more entities cannot be inserted into database.', $timeStamp, time());
 	}
+
 	/**
-	 * @name            insertTvProgrammeCategoryLocalizations ()
+	 * @param array $collection
 	 *
-	 * @since           1.1.8
-	 * @version         1.5.5
-	 * @author          Can Berkol
-	 *
-	 * @use             $this->createException()
-	 *
-	 * @param           array $collection
-	 *
-	 * @return          \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
-	public function insertTvProgrammeCategoryLocalizations($collection){
+	public function insertTvProgrammeCategoryLocalizations(array $collection){
 		$timeStamp = time();
 		if (!is_array($collection)) {
 			return $this->createException('InvalidParameterValueException', 'Invalid parameter value. Parameter must be an array collection', 'E:S:001');
@@ -790,36 +672,22 @@ class TvManagementModel extends CoreModel{
 		}
 		return new ModelResponse(null, 0, 0, null, true, 'E:D:003', 'One or more entities cannot be inserted into database.', $timeStamp, time());
 	}
+
 	/**
-	 * @name 			updateTvProgrammeCategory()
+	 * @param \BiberLtd\Bundle\TvManagementBundle\Services\mixed $category
 	 *
-	 * @since			1.0.0
-	 * @version         1.0.0
-	 * @author          Can Berkol
-	 *
-	 * @use             $this->updateSites()
-	 *
-	 * @param           mixed           $category      TvProgrammeCategory Entity or a collection of post input that stores site details.
-	 *
-	 * @return          \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
-	public function updateTvProgrammeCategory($category){
+	public function updateTvProgrammeCategory(mixed $category){
 		return $this->updateTvProgrammeCategories(array($category));
 	}
+
 	/**
-	 * @name 			updateTvProgrammeCategories()
+	 * @param array $collection
 	 *
-	 * @since			1.0.0
-	 * @version         1.0.0
-	 * @author          Can Berkol
-	 *
-	 * @ue              $this->createException()
-	 *
-	 * @param           array           $collection
-	 *
-	 * @return          \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
-	public function updateTvProgrammeCategories($collection){
+	public function updateTvProgrammeCategories(array $collection){
 		$timeStamp = time();
 		if (!is_array($collection)) {
 			return $this->createException('InvalidParameterValueException', 'Invalid parameter value. Parameter must be an array collection', 'E:S:001');
@@ -894,37 +762,22 @@ class TvManagementModel extends CoreModel{
 		}
 		return new ModelResponse(null, 0, 0, null, true, 'E:D:004', 'One or more entities cannot be updated within database.', $timeStamp, time());
 	}
+
 	/**
-	 * @name 			deleteTvProgramme()
+	 * @param mixed $programme
 	 *
-	 * @since			1.0.0
-	 * @version         1.0.0
-	 * @author          Can Berkol
-	 *
-	 * @use             $this->deleteTvChannels()
-	 *
-	 * @param           mixed           $programme
-	 *
-	 * @return          \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
 	public function deleteTvProgramme($programme){
 		return $this->deleteTvProgrammes(array($programme));
 	}
+
 	/**
-	 * @name 			deleteTvProgrammes()
+	 * @param array $collection
 	 *
-	 * @since			1.0.0
-	 * @version         1.0.0
-	 *
-	 * @author          Can Berkol
-	 *
-	 * @use             $this->createException()
-	 *
-	 * @param           array           $collection
-	 *
-	 * @return          \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
-	public function deleteTvProgrammes($collection) {
+	public function deleteTvProgrammes(array $collection) {
 		$timeStamp = time();
 		if (!is_array($collection)) {
 			return $this->createException('InvalidParameterValueException', 'Invalid parameter value. Parameter must be an array collection', 'E:S:001');
@@ -951,21 +804,14 @@ class TvManagementModel extends CoreModel{
 
 		return new ModelResponse(null, 0, 0, null, false, 'S:D:001', 'Selected entries have been successfully removed from database.', $timeStamp, time());
 	}
+
 	/**
-	 * @name 			doesTvProgrammeExist()
+	 * @param mixed $programme
+	 * @param bool $bypass
 	 *
-	 * @since			1.0.0
-	 * @version         1.0.0
-	 * @author          Can Berkol
-	 *
-	 * @use             $this->getSite()
-	 *
-	 * @param           mixed           $programme      Tvrogramme entity or site id.
-	 * @param           bool            $bypass         If set to true does not return response but only the result.
-	 *
-	 * @return          \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse|bool
 	 */
-	public function doesTvProgrammeExist($programme, $bypass = false) {
+	public function doesTvProgrammeExist($programme, \bool $bypass = false) {
 		$timeStamp = time();
 		$exist = false;
 
@@ -988,17 +834,9 @@ class TvManagementModel extends CoreModel{
 	}
 
 	/**
-	 * @name 			getTvProgramme()
+	 * @param $programme
 	 *
-	 * @since			1.0.0
-	 * @version         1.0.0
-	 * @author          Can Berkol
-	 *
-	 * @use				$this->createException()
-	 *
-	 * @param           mixed           $programme           TvProgramme entity or site id.
-	 *
-	 * @return          \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
 	public function getTvProgramme($programme) {
 		$timeStamp = time();
@@ -1017,20 +855,15 @@ class TvManagementModel extends CoreModel{
 
 		return new ModelResponse($result, 1, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, time());
 	}
+
 	/**
-	 * @name 			listTvProgrammes()
+	 * @param array|null $filter
+	 * @param array|null $sortOrder
+	 * @param array|null $limit
 	 *
-	 * @since			1.0.0
-	 * @version         1.0.0
-	 * @author          Can Berkol
-	 *
-	 * @param           array           $filter
-	 * @param           array           $sortOrder
-	 * @param           array           $limit
-	 *
-	 * @return          \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
-	public function listTvProgrammes($filter = null, $sortOrder = null, $limit = null) {
+	public function listTvProgrammes(array $filter = null, array $sortOrder = null, array $limit = null) {
 		$timeStamp = time();
 		if (!is_array($sortOrder) && !is_null($sortOrder)) {
 			return $this->createException('InvalidSortOrderException', '$sortOrder must be an array with key => value pairs where value can only be "asc" or "desc".', 'E:S:002');
@@ -1080,35 +913,22 @@ class TvManagementModel extends CoreModel{
 		}
 		return new ModelResponse($result, $totalRows, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, time());
 	}
+
 	/**
-	 * @name 			insertTvProgramme()
+	 * @param mixed $programme
 	 *
-	 * @since			1.0.0
-	 * @version         1.0.0
-	 * @author          Can Berkol
-	 *
-	 * @use             $this->insertTvProgrammes()
-	 *
-	 * @param           mixed           $programme
-	 * @return          \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
 	public function insertTvProgramme($programme){
 		return $this->insertTvProgrammes(array($programme));
 	}
+
 	/**
-	 * @name 			insertTvProgrammes()
+	 * @param array $collection
 	 *
-	 * @since			1.0.0
-	 * @version         1.0.0
-	 * @author          Can Berkol
-	 *
-	 * @use             $this->createException()
-	 *
-	 * @param           array           $collection      Collection of Site entities or array of site detais array.
-	 *
-	 * @return          \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
-	public function insertTvProgrammes($collection) {
+	public function insertTvProgrammes(array $collection) {
 		$timeStamp = time();
 		if (!is_array($collection)) {
 			return $this->createException('InvalidParameterValueException', 'Invalid parameter value. Parameter must be an array collection', 'E:S:001');
@@ -1143,36 +963,22 @@ class TvManagementModel extends CoreModel{
 		}
 		return new ModelResponse(null, 0, 0, null, true, 'E:D:003', 'One or more entities cannot be inserted into database.', $timeStamp, time());
 	}
+
 	/**
-	 * @name 			updateTvProgramme()
+	 * @param mixed $programme
 	 *
-	 * @since			1.0.0
-	 * @version         1.0.0
-	 * @author          Can Berkol
-	 *
-	 * @use             $this->updateSites()
-	 *
-	 * @param           mixed           $programme      TvProgramme Entity or a collection of post input that stores site details.
-	 *
-	 * @return          \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
 	public function updateTvProgramme($programme){
 		return $this->updateTvProgrammes(array($programme));
 	}
+
 	/**
-	 * @name 			updateTvProgrammes()
+	 * @param array $collection
 	 *
-	 * @since			1.0.0
-	 * @version         1.0.0
-	 * @author          Can Berkol
-	 *
-	 * @ue              $this->createException()
-	 *
-	 * @param           array           $collection
-	 *
-	 * @return          \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
-	public function updateTvProgrammes($collection){
+	public function updateTvProgrammes(array $collection){
 		$timeStamp = time();
 		/** Parameter must be an array */
 		if (!is_array($collection)) {
@@ -1225,37 +1031,22 @@ class TvManagementModel extends CoreModel{
 		}
 		return new ModelResponse(null, 0, 0, null, true, 'E:D:004', 'One or more entities cannot be updated within database.', $timeStamp, time());
 	}
+
 	/**
-	 * @name 			deleteTvProgrammeGenre()
+	 * @param mixed $genre
 	 *
-	 * @since			1.0.0
-	 * @version         1.0.0
-	 * @author          Can Berkol
-	 *
-	 * @use             $this->deleteTvProgrammeGenres()
-	 *
-	 * @param           mixed           $genre
-	 *
-	 * @return          \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
 	public function deleteTvProgrammeGenre($genre){
 		return $this->deleteTvProgrammeGenres(array($genre));
 	}
+
 	/**
-	 * @name 			deleteTvProgrammeGenres()
+	 * @param array $collection
 	 *
-	 * @since			1.0.0
-	 * @version         1.0.0
-	 *
-	 * @author          Can Berkol
-	 *
-	 * @use             $this->createException()
-	 *
-	 * @param           array           $collection
-	 *
-	 * @return          \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
-	public function deleteTvProgrammeGenres($collection) {
+	public function deleteTvProgrammeGenres(array $collection) {
 		$timeStamp = time();
 		if (!is_array($collection)) {
 			return $this->createException('InvalidParameterValueException', 'Invalid parameter value. Parameter must be an array collection', 'E:S:001');
@@ -1282,21 +1073,14 @@ class TvManagementModel extends CoreModel{
 
 		return new ModelResponse(null, 0, 0, null, false, 'S:D:001', 'Selected entries have been successfully removed from database.', $timeStamp, time());
 	}
+
 	/**
-	 * @name 			doesTvProgrammeGenreExist()
+	 * @param mixed $genre
+	 * @param bool $bypass
 	 *
-	 * @since			1.0.0
-	 * @version         1.0.0
-	 * @author          Can Berkol
-	 *
-	 * @use             $this->getSite()
-	 *
-	 * @param           mixed           $genre          TvProgrammeGenre entity or site id.
-	 * @param           bool            $bypass         If set to true does not return response but only the result.
-	 *
-	 * @return          \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse|bool
 	 */
-	public function doesTvProgrammeGenreExist($genre, $bypass = false) {
+	public function doesTvProgrammeGenreExist($genre, \bool $bypass = false) {
 		$timeStamp = time();
 		$exist = false;
 
@@ -1319,17 +1103,9 @@ class TvManagementModel extends CoreModel{
 	}
 
 	/**
-	 * @name 			getTvProgrammeGenre()
+	 * @param mixed $genre
 	 *
-	 * @since			1.0.0
-	 * @version         1.0.0
-	 * @author          Can Berkol
-	 *
-	 * @use				$this->createException()
-	 *
-	 * @param           mixed           $genre           TvProgrammeGenre entity or site id.
-	 *
-	 * @return          \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
 	public function getTvProgrammeGenre($genre){
 		$timeStamp = time();
@@ -1356,22 +1132,14 @@ class TvManagementModel extends CoreModel{
 
 		return new ModelResponse($result, 1, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, time());
 	}
+
 	/**
-	 * @name            getTvProgrammeGenreyByUrlKey()
+	 * @param string $urlKey
+	 * @param mixed|null   $language
 	 *
-	 * @since           1.0.0
-	 * @version         1.0.0
-	 * @author          Can Berkol
-	 *
-	 * @use             $this->listTvProgrammeGenres()
-	 * @use             $this->createException()
-	 *
-	 * @param           mixed $urlKey
-	 * @param           mixed $language
-	 *
-	 * @return          \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
-	public function getTvProgrammeGenreyByUrlKey($urlKey, $language = null){
+	public function getTvProgrammeGenreyByUrlKey(\string $urlKey, $language = null){
 		$timeStamp = time();
 		if (!is_string($urlKey)) {
 			return $this->createException('InvalidParameterValueException', '$urlKey must be a string.', 'E:S:007');
@@ -1408,20 +1176,15 @@ class TvManagementModel extends CoreModel{
 
 		return $response;
 	}
+
 	/**
-	 * @name 			listTvProgrammeGenres()
+	 * @param array|null $filter
+	 * @param array|null $sortOrder
+	 * @param array|null $limit
 	 *
-	 * @since			1.0.0
-	 * @version         1.0.0
-	 * @author          Can Berkol
-	 *
-	 * @param           array           $filter
-	 * @param           array           $sortOrder
-	 * @param           array           $limit
-	 *
-	 * @return          \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
-	public function listTvProgrammeGenres($filter = null, $sortOrder = null, $limit = null)
+	public function listTvProgrammeGenres(array $filter = null, array $sortOrder = null, array $limit = null)
 	{
 		$timeStamp = time();
 		if (!is_array($sortOrder) && !is_null($sortOrder)) {
@@ -1477,35 +1240,22 @@ class TvManagementModel extends CoreModel{
 		}
 		return new ModelResponse($entities, $totalRows, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, time());
 	}
+
 	/**
-	 * @name 			insertTvProgrammeGenre()
+	 * @param mixed $genre
 	 *
-	 * @since			1.0.0
-	 * @version         1.0.0
-	 * @author          Can Berkol
-	 *
-	 * @use             $this->insertTvProgrammeGenres()
-	 *
-	 * @param           mixed           $genre
-	 * @return          \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
 	public function insertTvProgrammeGenre($genre){
 		return $this->insertTvProgrammeGenres(array($genre));
 	}
+
 	/**
-	 * @name 			insertTvProgrammeGenres()
+	 * @param array $collection
 	 *
-	 * @since			1.0.0
-	 * @version         1.0.0
-	 * @author          Can Berkol
-	 *
-	 * @use             $this->createException()
-	 *
-	 * @param           array           $collection      Collection of TvProgrammeCategory entities or array of site detais array.
-	 *
-	 * @return          \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
-	public function insertTvProgrammeGenres($collection){
+	public function insertTvProgrammeGenres(array $collection){
 		$timeStamp = time();
 		if (!is_array($collection)) {
 			return $this->createException('InvalidParameterValueException', 'Invalid parameter value. Parameter must be an array collection', 'E:S:001');
@@ -1562,20 +1312,13 @@ class TvManagementModel extends CoreModel{
 		}
 		return new ModelResponse(null, 0, 0, null, true, 'E:D:003', 'One or more entities cannot be inserted into database.', $timeStamp, time());
 	}
+
 	/**
-	 * @name            insertTvProgrammeGenreLocalizations ()
+	 * @param array $collection
 	 *
-	 * @since           1.0.0
-	 * @version         1.0.0
-	 * @author          Can Berkol
-	 *
-	 * @use             $this->createException()
-	 *
-	 * @param           array $collection
-	 *
-	 * @return          \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
-	public function insertTvProgrammeGenreLocalizations($collection){
+	public function insertTvProgrammeGenreLocalizations(array $collection){
 		$timeStamp = time();
 		if (!is_array($collection)) {
 			return $this->createException('InvalidParameterValueException', 'Invalid parameter value. Parameter must be an array collection', 'E:S:001');
@@ -1623,36 +1366,22 @@ class TvManagementModel extends CoreModel{
 		}
 		return new ModelResponse(null, 0, 0, null, true, 'E:D:003', 'One or more entities cannot be inserted into database.', $timeStamp, time());
 	}
+
 	/**
-	 * @name 			updateTvProgrammeGenre()
+	 * @param mixed $genre
 	 *
-	 * @since			1.0.0
-	 * @version         1.0.0
-	 * @author          Can Berkol
-	 *
-	 * @use             $this->updateTvProgrammeGenres()
-	 *
-	 * @param           mixed           $genre      TvProgrammeGenre Entity or a collection of post input that stores site details.
-	 *
-	 * @return          \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
 	public function updateTvProgrammeGenre($genre){
 		return $this->updateTvProgrammeGenres(array($genre));
 	}
+
 	/**
-	 * @name 			updateTvProgrammeGenres()
+	 * @param array $collection
 	 *
-	 * @since			1.0.0
-	 * @version         1.0.0
-	 * @author          Can Berkol
-	 *
-	 * @ue              $this->createException()
-	 *
-	 * @param           array           $collection
-	 *
-	 * @return          \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
-	public function updateTvProgrammeGenres($collection){
+	public function updateTvProgrammeGenres(array $collection){
 		$timeStamp = time();
 		if (!is_array($collection)) {
 			return $this->createException('InvalidParameterValueException', 'Invalid parameter value. Parameter must be an array collection', 'E:S:001');
