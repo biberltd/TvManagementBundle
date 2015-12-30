@@ -10,10 +10,50 @@ Target Server Type    : MariaDB
 Target Server Version : 100108
 File Encoding         : 65001
 
-Date: 2015-11-10 18:52:29
+Date: 2015-12-28 20:10:34
 */
 
 SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for categories_of_tv_programme
+-- ----------------------------
+DROP TABLE IF EXISTS `categories_of_tv_programme`;
+CREATE TABLE `categories_of_tv_programme` (
+  `date_added` datetime NOT NULL,
+  `date_updated` datetime NOT NULL,
+  `date_removed` datetime DEFAULT NULL,
+  `programme` int(10) unsigned NOT NULL,
+  `category` int(5) unsigned NOT NULL,
+  PRIMARY KEY (`programme`,`category`),
+  KEY `idxFCategoryOfTvProgramme` (`category`),
+  CONSTRAINT `idxFCategoryOfTvProgramme` FOREIGN KEY (`category`) REFERENCES `tv_programme_category` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `idxFTvProgrammeCategory` FOREIGN KEY (`programme`) REFERENCES `tv_programme_category` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
+
+-- ----------------------------
+-- Records of categories_of_tv_programme
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for genres_of_tv_programme
+-- ----------------------------
+DROP TABLE IF EXISTS `genres_of_tv_programme`;
+CREATE TABLE `genres_of_tv_programme` (
+  `date_added` datetime NOT NULL,
+  `date_updated` datetime NOT NULL,
+  `date_removed` datetime DEFAULT NULL,
+  `programme` int(10) unsigned NOT NULL,
+  `genre` int(5) unsigned NOT NULL,
+  PRIMARY KEY (`genre`,`programme`),
+  KEY `idxFTvProgrammeOfGenre` (`programme`),
+  CONSTRAINT `idxFGenreOfTvProgramme` FOREIGN KEY (`genre`) REFERENCES `tv_programme` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `idxFTvProgrammeOfGenre` FOREIGN KEY (`programme`) REFERENCES `tv_programme_genre` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
+
+-- ----------------------------
+-- Records of genres_of_tv_programme
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for tv_channel
@@ -31,30 +71,38 @@ CREATE TABLE `tv_channel` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
 
 -- ----------------------------
+-- Records of tv_channel
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for tv_programme
 -- ----------------------------
 DROP TABLE IF EXISTS `tv_programme`;
 CREATE TABLE `tv_programme` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'System given id.',
-  `time` time NOT NULL,
   `summary` text COLLATE utf8_turkish_ci,
-  `rating` varchar(20) COLLATE utf8_turkish_ci DEFAULT NULL,
+  `rating_tag` varchar(20) COLLATE utf8_turkish_ci DEFAULT NULL,
   `date_added` datetime NOT NULL,
   `date_updated` datetime NOT NULL,
   `date_removed` datetime DEFAULT NULL,
   `title_original` varchar(255) COLLATE utf8_turkish_ci NOT NULL,
   `title_local` varchar(255) COLLATE utf8_turkish_ci DEFAULT NULL,
-  `channel` int(10) unsigned NOT NULL,
-  `category` int(10) unsigned NOT NULL,
-  `genre` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `idxFTvProgrammeChannel` (`channel`),
-  KEY `idxFTvProgrammeGenre` (`genre`),
-  KEY `idxFTvProgrammeCategory` (`category`),
-  CONSTRAINT `idxFTvProgrammeCategory` FOREIGN KEY (`category`) REFERENCES `tv_programme_category` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `idxFTvProgrammeChannel` FOREIGN KEY (`channel`) REFERENCES `tv_channel` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `idxFTvProgrammeGenre` FOREIGN KEY (`genre`) REFERENCES `tv_programme_genre` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  `broadcast_type` char(1) COLLATE utf8_turkish_ci DEFAULT NULL COMMENT 'l:live,r:recorded (banttan), s:second show (ikinci gösterim - tekrar)',
+  `description` text COLLATE utf8_turkish_ci,
+  `motto` varchar(155) COLLATE utf8_turkish_ci DEFAULT NULL,
+  `url` text COLLATE utf8_turkish_ci,
+  `presented` varchar(255) COLLATE utf8_turkish_ci DEFAULT NULL,
+  `broadcast_quality` varchar(3) COLLATE utf8_turkish_ci DEFAULT NULL COMMENT 'hd:High definition, 3d:3d',
+  `production_year` int(4) DEFAULT NULL,
+  `is_dubbed` char(1) COLLATE utf8_turkish_ci DEFAULT NULL COMMENT 'y:yes,n:no',
+  `is_turkish` char(1) COLLATE utf8_turkish_ci DEFAULT NULL COMMENT 'y:yes,n:no',
+  `raw_json` longtext COLLATE utf8_turkish_ci,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
+
+-- ----------------------------
+-- Records of tv_programme
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for tv_programme_category
@@ -65,8 +113,15 @@ CREATE TABLE `tv_programme_category` (
   `date_added` datetime NOT NULL,
   `date_updated` datetime NOT NULL,
   `date_removed` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `parent` int(5) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idxFParentTvProgrammeCategory` (`parent`),
+  CONSTRAINT `idxFParentTvProgrammeCategory` FOREIGN KEY (`parent`) REFERENCES `tv_programme_category` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
+
+-- ----------------------------
+-- Records of tv_programme_category
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for tv_programme_category_localization
@@ -84,6 +139,10 @@ CREATE TABLE `tv_programme_category_localization` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
 
 -- ----------------------------
+-- Records of tv_programme_category_localization
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for tv_programme_genre
 -- ----------------------------
 DROP TABLE IF EXISTS `tv_programme_genre`;
@@ -92,8 +151,15 @@ CREATE TABLE `tv_programme_genre` (
   `date_added` datetime NOT NULL,
   `date_updated` datetime NOT NULL,
   `date_removed` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `parent` int(5) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idxFParentTvProgrammeGenre` (`parent`),
+  CONSTRAINT `idxFParentTvProgrammeGenre` FOREIGN KEY (`parent`) REFERENCES `tv_programme_genre` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
+
+-- ----------------------------
+-- Records of tv_programme_genre
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for tv_programme_genre_localization
@@ -109,3 +175,53 @@ CREATE TABLE `tv_programme_genre_localization` (
   CONSTRAINT `idxFTvProgrammeGenreLocalization` FOREIGN KEY (`genre`) REFERENCES `tv_programme_genre` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `idxFTvProgrammeGenreLocalizationLanguage` FOREIGN KEY (`language`) REFERENCES `language` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
+
+-- ----------------------------
+-- Records of tv_programme_genre_localization
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for tv_programme_reminder
+-- ----------------------------
+DROP TABLE IF EXISTS `tv_programme_reminder`;
+CREATE TABLE `tv_programme_reminder` (
+  `date_added` datetime NOT NULL,
+  `date_updated` datetime NOT NULL,
+  `date_removed` datetime DEFAULT NULL,
+  `date_reminder` datetime DEFAULT NULL,
+  `member` int(10) unsigned DEFAULT NULL,
+  `programme` int(10) unsigned DEFAULT NULL,
+  KEY `idxFMemberOfTvProgrammeReminder` (`member`),
+  KEY `idxFProgrammeOfTvProgrammeReminder` (`programme`),
+  CONSTRAINT `idxFMemberOfTvProgrammeReminder` FOREIGN KEY (`member`) REFERENCES `member` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `idxFProgrammeOfTvProgrammeReminder` FOREIGN KEY (`programme`) REFERENCES `tv_programme` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
+
+-- ----------------------------
+-- Records of tv_programme_reminder
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for tv_programme_schedule
+-- ----------------------------
+DROP TABLE IF EXISTS `tv_programme_schedule`;
+CREATE TABLE `tv_programme_schedule` (
+  `utc_offset` int(2) unsigned NOT NULL COMMENT '2',
+  `gmt_offset` int(2) unsigned DEFAULT NULL COMMENT '2',
+  `date_added` datetime NOT NULL,
+  `date_updated` datetime NOT NULL,
+  `date_removed` datetime DEFAULT NULL,
+  `actual_time` datetime NOT NULL,
+  `end_time` datetime NOT NULL,
+  `duration` int(10) unsigned DEFAULT NULL COMMENT 'in minutes.',
+  `channel` int(10) unsigned NOT NULL,
+  `programme` int(10) unsigned NOT NULL,
+  KEY `idxFChannelOfTvProgrammeSchedule` (`channel`),
+  KEY `idxFProgrammeOfTvProgrammeSchedule` (`programme`),
+  CONSTRAINT `idxFChannelOfTvProgrammeSchedule` FOREIGN KEY (`channel`) REFERENCES `tv_channel` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `idxFProgrammeOfTvProgrammeSchedule` FOREIGN KEY (`programme`) REFERENCES `tv_channel` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
+
+-- ----------------------------
+-- Records of tv_programme_schedule
+-- ----------------------------

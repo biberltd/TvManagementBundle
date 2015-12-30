@@ -1,17 +1,11 @@
 <?php
 /**
- * @name        TvProgrammeGenre
- * @package     BiberLtd\Bundle\TvManagementBundle\Entity
+ * @author		Can Berkol
  *
- * @author      Can Berkol
- * @version     1.0.0
- * @date        10.11.2015
+ * @copyright   Biber Ltd. (http://www.biberltd.com) (C) 2015
+ * @license     GPLv3
  *
- * @copyright   Biber Ltd. (http://www.biberltd.com)
- * @license     GPL v3.0
- *
- * @description Model / Entity class.
- *
+ * @date        28.12.2015
  */
 namespace BiberLtd\Bundle\TvManagementBundle\Entity;
 use BiberLtd\Bundle\CoreBundle\CoreLocalizableEntity;
@@ -27,44 +21,69 @@ class TvProgrammeGenre extends CoreLocalizableEntity
      * @ORM\Id
      * @ORM\Column(type="integer", length=5)
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @var int
      */
     private $id;
 
     /**
      * @ORM\Column(type="datetime", nullable=false)
+     * @var \DateTime
      */
-    private $date_added;
+    public $date_added;
 
     /**
      * @ORM\Column(type="datetime", nullable=false)
+     * @var \DateTime
      */
-    private $date_updated;
+    public $date_updated;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @var \DateTime
      */
-    private $date_removed;
+    public  $date_removed;
 
     /**
      * @ORM\OneToMany(
      *     targetEntity="BiberLtd\Bundle\TvManagementBundle\Entity\TvProgrammeGenreLocalization",
      *     mappedBy="genre"
      * )
+     * @var array
      */
-    private $localizations;
+    public $localizations;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="BiberLtd\Bundle\TvManagementBundle\Entity\TvProgrammeGenre")
+     * @ORM\JoinColumn(name="parent", referencedColumnName="id", onDelete="CASCADE")
+     * @var \BiberLtd\Bundle\TvManagementBundle\Entity\TvProgrammeGenre
+     */
+    private $parent;
 
 	/**
-	 * @name        getId ()
-	 *
-	 * @author      Can Berkol
-	 *
-	 * @since       1.0.0
-	 * @version     1.0.0
-	 *
-	 * @return      mixed
+	 * @return int
 	 */
 	public function getId(){
 		return $this->id;
 	}
 
+	/**
+	 * @return \BiberLtd\Bundle\TvManagementBundle\Entity\TvProgrammeGenre
+	 */
+	public function getParent(){
+		return $this->parent;
+	}
+
+	/**
+	 * @param \BiberLtd\Bundle\TvManagementBundle\Entity\TvProgrammeGenre $parent
+	 *
+	 * @return $this
+	 */
+	public function setParent(\BiberLtd\Bundle\TvManagementBundle\Entity\TvProgrammeGenre $parent){
+		if(!$this->setModified('parent', $parent)->isModified()){
+			return $this;
+		}
+		$this->parent = $parent;
+
+		return $this;
+	}
 }

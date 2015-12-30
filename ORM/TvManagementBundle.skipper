@@ -3,22 +3,51 @@
   <external-module storage-path="TvManagementBundle.module.xml"/>
   <external-module storage-path="../../site-management-bundle/ORM/SiteManagement.module.xml"/>
   <external-module storage-path="../../multilanguage-support-bundle/ORM/MultiLanguageSupport.module.xml"/>
+  <external-module storage-path="../../file-management-bundle/ORM/FileManagement.module.xml"/>
+  <external-module storage-path="../../member-management-bundle/ORM/MemberManagement.module.xml"/>
   <visual-data>
-    <association uuid="0c3cb845-0f90-4c45-8661-1a5dd9e573da" color="#969696"/>
+    <association uuid="0132b5a4-c206-4f06-bcf7-08bf61d249f3" color="#969696"/>
+    <association uuid="02e3ef16-39f8-42b5-891d-96224803b169" color="#969696"/>
+    <association uuid="1bc49ece-cade-4d01-b739-aa1d5fe2d1e9" color="#969696"/>
+    <association uuid="26f7cc73-061d-4c44-af29-f3c12a4c1835" color="#969696"/>
     <association uuid="45c125cd-0ba3-4a9c-973e-92bbcfb91a59" color="#969696"/>
     <association uuid="4a21a97e-810e-4e2d-a330-69d23cf801c7" color="#969696"/>
+    <association uuid="5586a1ca-d147-4bb1-ad7a-8cde9cf8f9c0" caption1-position-x="0" caption1-position-y="0" center-position-x="0" center-position-y="-20" color="#969696"/>
     <association uuid="558ff6fc-50a6-4dc2-8c4c-35f9893d4e09" color="#969696"/>
+    <association uuid="5c053399-bdfe-4fd2-b79b-2eebb1c870ef" color="#969696"/>
+    <association uuid="5c0cb22f-9c1b-4a25-9da6-7a205fbe92c3" caption1-position-x="0" caption1-position-y="0" center-position-x="0" center-position-y="-20" color="#969696"/>
+    <association uuid="5c927613-228b-4b47-8de8-8967f386ebf1" color="#969696"/>
+    <association uuid="5d9fbbab-e6e7-446b-b35a-5a92b2665907" color="#969696"/>
     <association uuid="691cd89a-3534-4a4c-bf70-544fa15a4c35" color="#969696"/>
     <association uuid="70944b17-0948-4250-b9b6-d31fcee6ddae" color="#969696"/>
     <association uuid="71f15a54-6bc9-4510-84b1-2b2817781440" color="#969696"/>
-    <association uuid="9595b747-2dd2-4400-a33e-4e38079b131b" color="#969696"/>
-    <association uuid="9c259471-1d4d-4f92-a138-34c213b98761" color="#969696"/>
-    <association uuid="c592f4b8-216a-4acb-86c1-7d37f7ada726" caption1-position-x="0" caption1-position-y="0" center-position-x="0" center-position-y="0" color="#969696"/>
+    <association uuid="804845fb-f53d-4ae3-923e-e8d8a46ebef1" color="#969696"/>
+    <association uuid="8307d58b-624a-4045-9a0a-6cbcb0c7068b" color="#969696"/>
+    <association uuid="92c1c6b0-6655-405e-89c0-17463c6cf058" color="#969696"/>
+    <association uuid="93fd6dcc-590e-4490-ad0f-03a9b480fa94" color="#969696"/>
+    <association uuid="9595b747-2dd2-4400-a33e-4e38079b131b" caption1-position-x="0" caption1-position-y="0" center-position-x="0" center-position-y="0" color="#969696"/>
+    <association uuid="98d48d17-f488-4b18-833f-1671af44d614" color="#969696"/>
+    <association uuid="9aa319f9-0057-4338-9baa-01096d251a53" color="#969696"/>
+    <association uuid="a50bcd82-290b-4009-b270-6e47a63148cc" color="#969696"/>
+    <association uuid="ae4257ec-40ad-4a53-95bc-43688e025441" color="#969696"/>
+    <association uuid="b1bb0d0b-841e-42dd-9eb4-9e33e559358b" color="#969696"/>
+    <association uuid="b210e152-462a-45f8-b840-75b0217b73c5" color="#969696"/>
+    <association uuid="b9e4d241-2e4f-4fbf-a78c-0414234947d6" color="#969696"/>
+    <association uuid="c821334b-cf7b-4b30-a499-c53e1549f08c" color="#969696"/>
+    <association uuid="c887a9bb-2e58-4f0e-b56a-0863540f107c" color="#969696"/>
+    <association uuid="c9717edb-1291-46d3-af44-549fab9eaa16" color="#969696"/>
+    <association uuid="d0a6295c-5f68-40e3-bfb4-da2ca6e40fb6" color="#969696"/>
+    <association uuid="d120204e-3d7c-47ea-bfe6-c33110876e00" color="#969696"/>
     <association uuid="dcbf1caf-6474-4dfe-90be-7b58aa71c5c7" color="#969696"/>
+    <association uuid="e4b8bef7-0c3c-46d1-bfa9-0ec729c456c3" color="#969696"/>
+    <association uuid="e615dfba-7f2b-4dac-a61b-519c9538e9f0" color="#969696"/>
+    <association uuid="e759f273-144f-4e29-817a-0fe9f39c4187" color="#969696"/>
     <association uuid="f8935c7f-8346-402c-96f2-d901983e4710" color="#969696"/>
-    <module uuid="264804cf-5ddd-4089-aaa2-d7c0f129a5ed" position-x="1050" position-y="456"/>
-    <module uuid="860bb986-ef71-4cef-9da2-f560e58c2569" position-x="1049" position-y="50"/>
+    <module uuid="264804cf-5ddd-4089-aaa2-d7c0f129a5ed" position-x="1200" position-y="506"/>
+    <module uuid="860bb986-ef71-4cef-9da2-f560e58c2569" position-x="1210" position-y="50"/>
     <module uuid="8df118b3-f262-4295-8436-9b1c655d84fc" position-x="61" position-y="72"/>
-    <project uuid="e0f115e7-ab9b-4ce4-81d5-62ff642bebe9" size-x="0" size-x2="2240" size-y="0" size-y2="923"/>
+    <module uuid="9d574194-22af-4673-a2ee-bb67ec7d212e" position-x="2026" position-y="51"/>
+    <module uuid="d40aa0eb-3691-4818-880c-0a9ad1dd9833" position-x="2821" position-y="99"/>
+    <project uuid="e0f115e7-ab9b-4ce4-81d5-62ff642bebe9" size-x="0" size-x2="3671" size-y="0" size-y2="973"/>
   </visual-data>
 </skipper>

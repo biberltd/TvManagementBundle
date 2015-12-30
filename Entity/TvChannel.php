@@ -1,17 +1,11 @@
 <?php
 /**
- * @name        TvChannel
- * @package     BiberLtd\Bundle\TvManagementBundle\Entity
+ * @author		Can Berkol
  *
- * @author      Can Berkol
- * @version     1.0.0
- * @date        10.11.2015
+ * @copyright   Biber Ltd. (http://www.biberltd.com) (C) 2015
+ * @license     GPLv3
  *
- * @copyright   Biber Ltd. (http://www.biberltd.com)
- * @license     GPL v3.0
- *
- * @description Model / Entity class.
- *
+ * @date        26.12.2015
  */
 namespace BiberLtd\Bundle\TvManagementBundle\Entity;
 use BiberLtd\Bundle\CoreBundle\CoreEntity;
@@ -30,78 +24,64 @@ class TvChannel extends CoreEntity
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @var int
      */
     private $id;
 
     /**
      * @ORM\Column(nullable=false)
+     * @var string
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", nullable=true)
+     * @var string
      */
     private $logo;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @var string
      */
     private $frequency;
 
     /**
      * @ORM\Column(type="datetime", nullable=false)
+     * @var \DateTime
      */
     public $date_added;
 
     /**
      * @ORM\Column(type="datetime", nullable=false)
+     * @var \DateTime
      */
 	public $date_updated;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @var \DateTime
      */
 	public $date_removed;
 
 	/**
-	 * @name        getId ()
-	 *
-	 * @author      Can Berkol
-	 *
-	 * @since       1.0.0
-	 * @version     1.0.0
-	 *
-	 * @return      mixed
+	 * @return mixed
 	 */
 	public function getId(){
 		return $this->id;
 	}
 
 	/**
-	 * @name        getName()
-	 *
-	 * @author      Can Berkol
-	 *
-	 * @since       1.0.0
-	 * @version     1.0.0
-	 *
-	 * @return      mixed
+	 * @return mixed
 	 */
 	public function getName(){
 		return $this->name;
 	}
 
 	/**
-	 * @name        setName()
+	 * @param $name
 	 *
-	 * @author      Can Berkol
-	 *
-	 * @since       1.0.0
-	 * @version     1.0.0
-	 *
-	 * @param       mixed $name
-	 *
-	 * @return      $this
+	 * @return $this
 	 */
 	public function setNameOriginal($name){
 		if(!$this->setModified('name_original', $name)->isModified()){
@@ -113,30 +93,16 @@ class TvChannel extends CoreEntity
 	}
 
 	/**
-	 * @name        getLogo ()
-	 *
-	 * @author      Can Berkol
-	 *
-	 * @since       1.0.0
-	 * @version     1.0.0
-	 *
-	 * @return      mixed
+	 * @return mixed
 	 */
 	public function getLogo(){
 		return $this->logo;
 	}
 
 	/**
-	 * @name        setLogo ()
+	 * @param $logo
 	 *
-	 * @author      Can Berkol
-	 *
-	 * @since       1.0.0
-	 * @version     1.0.0
-	 *
-	 * @param       mixed $logo
-	 *
-	 * @return      $this
+	 * @return $this
 	 */
 	public function setLogo($logo){
 		if(!$this->setModified('logo', $logo)->isModified()){
@@ -148,30 +114,16 @@ class TvChannel extends CoreEntity
 	}
 
 	/**
-	 * @name        getFrequency ()
-	 *
-	 * @author      Can Berkol
-	 *
-	 * @since       1.0.0
-	 * @version     1.0.0
-	 *
-	 * @return      mixed
+	 * @return mixed
 	 */
 	public function getFrequency(){
 		return $this->frequency;
 	}
 
 	/**
-	 * @name        setFrequency ()
+	 * @param $frequency
 	 *
-	 * @author      Can Berkol
-	 *
-	 * @since       1.0.0
-	 * @version     1.0.0
-	 *
-	 * @param       mixed $frequency
-	 *
-	 * @return      $this
+	 * @return $this
 	 */
 	public function setFrequency($frequency){
 		if(!$this->setModified('frequency', $frequency)->isModified()){
@@ -181,6 +133,4 @@ class TvChannel extends CoreEntity
 
 		return $this;
 	}
-
-
 }

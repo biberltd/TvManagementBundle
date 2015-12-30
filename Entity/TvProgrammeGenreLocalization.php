@@ -28,11 +28,13 @@ class TvProgrammeGenreLocalization extends CoreEntity
 {
     /**
      * @ORM\Column(type="string", nullable=false)
+     * @var string
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", nullable=false)
+     * @var string
      */
     private $url_key;
 
@@ -40,6 +42,7 @@ class TvProgrammeGenreLocalization extends CoreEntity
      * @ORM\Id
      * @ORM\ManyToOne(targetEntity="BiberLtd\Bundle\MultiLanguageSupportBundle\Entity\Language")
      * @ORM\JoinColumn(name="language", referencedColumnName="id", nullable=false, onDelete="CASCADE")
+     * @var \BiberLtd\Bundle\MultiLanguageSupportBundle\Entity\Language
      */
     private $language;
 
@@ -50,34 +53,21 @@ class TvProgrammeGenreLocalization extends CoreEntity
      *     inversedBy="localizations"
      * )
      * @ORM\JoinColumn(name="genre", referencedColumnName="id", nullable=false, onDelete="CASCADE")
+     * @var \BiberLtd\Bundle\TvManagementBundle\Entity\TvProgrammeGenre
      */
     private $genre;
 
     /**
-     * @name        getName ()
-     *
-     * @author      Can Berkol
-     *
-     * @since       1.0.0
-     * @version     1.0.0
-     *
-     * @return      mixed
+     * @return mixed
      */
     public function getName(){
         return $this->name;
     }
 
     /**
-     * @name        setName ()
+     * @param $name
      *
-     * @author      Can Berkol
-     *
-     * @since       1.0.0
-     * @version     1.0.0
-     *
-     * @param       mixed $name
-     *
-     * @return      $this
+     * @return $this
      */
     public function setName($name){
         if(!$this->setModified('name', $name)->isModified()){
@@ -89,30 +79,16 @@ class TvProgrammeGenreLocalization extends CoreEntity
     }
 
     /**
-     * @name        getUrlKey ()
-     *
-     * @author      Can Berkol
-     *
-     * @since       1.0.0
-     * @version     1.0.0
-     *
-     * @return      mixed
+     * @return mixed
      */
     public function getUrlKey(){
         return $this->url_key;
     }
 
     /**
-     * @name        setUrlKey ()
+     * @param $url_key
      *
-     * @author      Can Berkol
-     *
-     * @since       1.0.0
-     * @version     1.0.0
-     *
-     * @param       mixed $url_key
-     *
-     * @return      $this
+     * @return $this
      */
     public function setUrlKey($url_key){
         if(!$this->setModified('url_key', $url_key)->isModified()){
@@ -124,30 +100,16 @@ class TvProgrammeGenreLocalization extends CoreEntity
     }
 
     /**
-     * @name        getLanguage ()
-     *
-     * @author      Can Berkol
-     *
-     * @since       1.0.0
-     * @version     1.0.0
-     *
-     * @return      mixed
+     * @return mixed
      */
     public function getLanguage(){
         return $this->language;
     }
 
     /**
-     * @name        setLanguage ()
+     * @param $language
      *
-     * @author      Can Berkol
-     *
-     * @since       1.0.0
-     * @version     1.0.0
-     *
-     * @param       mixed $language
-     *
-     * @return      $this
+     * @return $this
      */
     public function setLanguage($language){
         if(!$this->setModified('language', $language)->isModified()){
@@ -159,32 +121,18 @@ class TvProgrammeGenreLocalization extends CoreEntity
     }
 
     /**
-     * @name        getGenre ()
-     *
-     * @author      Can Berkol
-     *
-     * @since       1.0.0
-     * @version     1.0.0
-     *
-     * @return      mixed
+     * @return mixed
      */
     public function getGenre(){
         return $this->genre;
     }
 
     /**
-     * @name        setGenre ()
+     * @param \BiberLtd\Bundle\TvManagementBundle\Entity\TvProgrammeGenre $genre
      *
-     * @author      Can Berkol
-     *
-     * @since       1.0.0
-     * @version     1.0.0
-     *
-     * @param       mixed $genre
-     *
-     * @return      $this
+     * @return $this
      */
-    public function setGenre($genre){
+    public function setGenre(\BiberLtd\Bundle\TvManagementBundle\Entity\TvProgrammeGenre $genre){
         if(!$this->setModified('genre', $genre)->isModified()){
             return $this;
         }

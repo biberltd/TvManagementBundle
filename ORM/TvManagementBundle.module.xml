@@ -22,17 +22,23 @@
     </entity>
     <entity name="\BiberLtd\Bundle\TvManagementBundle\Entity\TvProgramme&#10;" local-name="TvProgramme&#10;" namespace="\BiberLtd\Bundle\TvManagementBundle\Entity" description="Holds details of a tv programme." uuid="1be2d3b4-aa06-4d8c-8620-b7a43c163b30">
       <field name="id" description="System given id." type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="33518d09-00c7-48ab-b364-5590f147ed3f"/>
-      <field name="time" description="Time of programme." type="time" required="true" uuid="d18ef0c2-8133-4884-97c2-8c19c3e04636"/>
       <field name="summary" description="Summary / description of programme." type="text" uuid="e422e9bd-eac6-4171-be57-11d192ad3f63"/>
-      <field name="rating" description="Rating of tv programme." type="string" uuid="2d98b6e4-747d-46b5-92fb-b498446d550b"/>
-      <field name="channel" description="Channel where the tv programme is located&#xE7;" type="integer" required="true" uuid="aca26004-e701-4c1f-b7d7-f078223357eb"/>
-      <field name="category" description="Category of tv programme." type="integer" size="5" required="true" uuid="03e3c0da-d3da-4099-a59f-70eb708d64fe"/>
-      <field name="genre" description="Genre of tv programme." type="integer" size="5" required="true" uuid="0e5549f9-0b41-4e51-a8e0-070588099c7e"/>
       <field name="date_added" description="Date when the record first added." type="datetime" required="true" uuid="46bd4910-1f08-4601-95c3-bff57f7c7372"/>
       <field name="date_updated" description="Date when the record is last updated." type="datetime" required="true" uuid="f03d19dd-a22d-484e-943f-13d8e8c92f49"/>
       <field name="date_removed" description="Date when the record is marked as removed." type="datetime" uuid="8a77162a-5559-4e0b-a0be-68f40e87d770"/>
       <field name="title_original" description="Name of tv programme." type="string" unique="true" uuid="a7fe66b2-f11b-4500-a5b1-694fcf02e109"/>
       <field name="title_local" description="Local name of tv programme." type="string" uuid="8e202ef6-5f21-4130-871e-6763c46bde59"/>
+      <field name="broadcast_type" description="l:live,r:recorded (banttan), s:second show (ikinci g&#xF6;sterim - tekrar)" type="string" uuid="d6cde827-11de-46a7-a8a2-a3eeaf91b35e"/>
+      <field name="description" description="Long synopsis." type="text" uuid="a05b18d3-4f51-42d0-b6a3-be2da37b9d3f"/>
+      <field name="motto" description="One liner synopsis." type="string" size="155" uuid="bd8521ff-fb62-4c1a-9a6c-40a61ae89392"/>
+      <field name="rating_tag" description="f:family" type="string" size="1" uuid="9f56688b-3ddc-438d-b75d-2d1c79755f88"/>
+      <field name="url" description="Url of tv programme" type="text" uuid="c9bc16d5-09ad-40da-8d77-6c69eceacfd9"/>
+      <field name="presenter" description="Name of host / presenter." type="string" size="255" uuid="51dd4586-e78e-4a8f-a8e5-f83030c68c2f"/>
+      <field name="broadcast_quality" description="hd:High definition, 3d:3d" type="string" size="3" uuid="f75a3d41-47b6-441b-8e4f-47fc7f22653f"/>
+      <field name="production_year" description="Production year." type="integer" uuid="00367d51-f987-40e0-aed7-d6ec0cafc5bd"/>
+      <field name="is_dubbed" description="Indicates if the movie is in local language. y:yes,n:no" type="string" uuid="1554a82d-1c6f-4430-a895-02755731c1ee"/>
+      <field name="is_turkish" description="y:yes,n:no" type="string" size="1" uuid="fe121fdd-0bbb-44c0-8892-ccfd445e70f4"/>
+      <field name="raw_json" description="Raw json entry." type="text" uuid="2214a1ce-081f-4fb0-9f9d-8b1c3d3970c9"/>
       <orm-attributes>
         <attribute name="table">tv_programme</attribute>
         <attribute name="export-file-name">TvProgramme.php</attribute>
@@ -43,29 +49,12 @@
         </attribute>
       </orm-attributes>
     </entity>
-    <association from="\BiberLtd\Bundle\TvManagementBundle\Entity\TvProgramme&#10;" to="\BiberLtd\Bundle\TvManagementBundle\Entity\TvChannel" caption="idxFChannelOfProgramme" inverse-alias="channel" many-owner="true" many-inverse="false" parent-required="true" uuid="0c3cb845-0f90-4c45-8661-1a5dd9e573da">
-      <association-field from="channel" to="id"/>
-      <orm-attributes>
-        <attribute name="on-delete">CASCADE</attribute>
-      </orm-attributes>
-    </association>
-    <association from="\BiberLtd\Bundle\TvManagementBundle\Entity\TvProgramme&#10;" to="\BiberLtd\Bundle\TvManagementBundle\Entity\TvProgrammeCategory" caption="idxFTvProgrammeCategory" inverse-alias="category" many-owner="true" many-inverse="false" parent-required="true" uuid="9c259471-1d4d-4f92-a138-34c213b98761">
-      <association-field from="category" to="id"/>
-      <orm-attributes>
-        <attribute name="on-delete">CASCADE</attribute>
-      </orm-attributes>
-    </association>
-    <association from="\BiberLtd\Bundle\TvManagementBundle\Entity\TvProgramme&#10;" to="\BiberLtd\Bundle\TvManagementBundle\Entity\TvProgrammeGenre" caption="idxFTvProgrammeGenre" inverse-alias="genre" many-owner="true" many-inverse="false" parent-required="true" uuid="c592f4b8-216a-4acb-86c1-7d37f7ada726">
-      <association-field from="genre" to="id"/>
-      <orm-attributes>
-        <attribute name="on-delete">CASCADE</attribute>
-      </orm-attributes>
-    </association>
     <entity name="\BiberLtd\Bundle\TvManagementBundle\Entity\TvProgrammeCategory" local-name="TvProgrammeCategory" namespace="\BiberLtd\Bundle\TvManagementBundle\Entity" description="Holds a list of tv programme category definitions." uuid="14c93230-f474-4924-b30a-32578154d0ad">
       <field name="id" description="System given id." type="integer" size="5" required="true" unique="true" primary="true" auto-increment="true" uuid="591fb29c-abb6-4f58-85a8-33c797800414"/>
       <field name="date_added" description="Date when the entry is first added." type="datetime" required="true" uuid="047df2ae-7eca-4ffd-8ab6-ae9d5dd22cd9"/>
       <field name="date_updated" description="Date when the entry is last updated." type="datetime" required="true" uuid="d8ec7126-492a-4dcd-9b06-49235fb34d03"/>
       <field name="date_removed" description="Date when the entry is marked as removed.7" type="datetime" uuid="e1721fe7-5199-42a5-8272-f1cdbf5c710e"/>
+      <field name="parent" type="integer" size="5" uuid="415490e0-68ba-4186-a133-4e18ac58a4fa"/>
       <orm-attributes>
         <attribute name="export-file-name">TvProgrammeCategory.php</attribute>
         <attribute name="table">tv_programme_category</attribute>
@@ -76,6 +65,12 @@
         </attribute>
       </orm-attributes>
     </entity>
+    <association from="\BiberLtd\Bundle\TvManagementBundle\Entity\TvProgrammeCategory" to="\BiberLtd\Bundle\TvManagementBundle\Entity\TvProgrammeCategory" caption="idxFParentTvProgrammeCategory" inverse-alias="parent" many-owner="true" many-inverse="false" uuid="5c0cb22f-9c1b-4a25-9da6-7a205fbe92c3">
+      <association-field from="parent" to="id"/>
+      <orm-attributes>
+        <attribute name="on-delete">CASCADE</attribute>
+      </orm-attributes>
+    </association>
     <entity name="\BiberLtd\Bundle\TvManagementBundle\Entity\TvProgrammeCategoryLocalization" local-name="TvProgrammeCategoryLocalization" namespace="\BiberLtd\Bundle\TvManagementBundle\Entity" description="Holds localization values for tv programmes." uuid="9d6e3263-745b-4220-91e2-8c0c2432ffad">
       <field name="name" description="Localized name of category." type="string" required="true" uuid="f2eed88b-deae-46d1-a311-7a609360c4d2"/>
       <field name="url_key" description="Localized url key." type="string" required="true" uuid="3fcc2ac4-2fc3-4646-992a-c519a0b05983"/>
@@ -108,6 +103,7 @@
       <field name="date_added" description="Date when the entry is first added." type="datetime" required="true" uuid="20c53527-0930-4a77-9b62-08a7c50dfd85"/>
       <field name="date_updated" description="Date when the entry is last updated." type="datetime" required="true" uuid="b1a6e65b-991d-49e5-b547-97035817e6bf"/>
       <field name="date_removed" description="Date when the entry is marked as removed.7" type="datetime" uuid="87d3c628-3728-4123-98df-149466bf3bff"/>
+      <field name="parent" description="Parent genre." type="integer" size="5" uuid="6e4c8ed8-8ddc-4497-84db-10343f53c7f3"/>
       <orm-attributes>
         <attribute name="export-file-name">TvProgrammeGenre.php</attribute>
         <attribute name="table">tv_programme_genre</attribute>
@@ -118,6 +114,12 @@
         </attribute>
       </orm-attributes>
     </entity>
+    <association from="\BiberLtd\Bundle\TvManagementBundle\Entity\TvProgrammeGenre" to="\BiberLtd\Bundle\TvManagementBundle\Entity\TvProgrammeGenre" caption="idxFParentTvProgrammeGenre" inverse-alias="parent" many-owner="true" many-inverse="false" uuid="5586a1ca-d147-4bb1-ad7a-8cde9cf8f9c0">
+      <association-field from="parent" to="id"/>
+      <orm-attributes>
+        <attribute name="on-delete">CASCADE</attribute>
+      </orm-attributes>
+    </association>
     <entity name="\BiberLtd\Bundle\TvManagementBundle\Entity\TvProgrammeGenreLocalization" local-name="TvProgrammeGenreLocalization" namespace="\BiberLtd\Bundle\TvManagementBundle\Entity" description="Holds localization values for tv programme genres." uuid="ea54e904-9b1f-4f45-a910-016baa31d07e">
       <field name="name" description="Localized name of genre." type="string" required="true" uuid="8f917d60-46c0-4d2b-b808-6b491d3526b2"/>
       <field name="url_key" description="Localized url key." type="string" required="true" uuid="9dcd2764-3848-43f5-9545-101188a46fe1"/>
@@ -145,18 +147,145 @@
         <attribute name="on-delete">CASCADE</attribute>
       </orm-attributes>
     </association>
+    <entity name="\BiberLtd\Bundle\TvManagementBundle\Entity\TvProgrammeSchedule" local-name="TvProgrammeSchedule" namespace="\BiberLtd\Bundle\TvManagementBundle\Entity" description="Holds broadcast times of tv programmes for each given channel." uuid="094635ae-a6d3-45e9-9b42-b2a240f53aec">
+      <field name="utc_offset" description="UTC offset of time entries." type="integer" default="2" unique="true" uuid="dc1d5fa7-e687-4526-8126-4faefd02e617"/>
+      <field name="gmt_offset" description="GTM offset of time entries." type="integer" default="2" uuid="9b1a04c8-edd6-4d63-af26-b85279b84607"/>
+      <field name="date_added" description="Date when the entry is first added." type="datetime" required="true" uuid="6cb55da6-2f5c-4b83-8952-e008d10652a2"/>
+      <field name="date_updated" description="Date when the entry is alast updated." type="datetime" required="true" uuid="51314209-60f3-43e9-8a36-47f84649ddef"/>
+      <field name="date_removed" description="Date when the entry is marked as removed." type="datetime" uuid="efe2f21a-71d7-4fd4-a15d-bdf5c47411e6"/>
+      <field name="actual_time" description="Actual show time." type="datetime" required="true" uuid="3241591b-f2c5-4b17-89a0-fde16bc3bcfa"/>
+      <field name="end_time" description="Show end time." type="datetime" required="true" uuid="6593a1d2-5175-4525-84f8-27bb7f6c2ce2"/>
+      <field name="duration" description="Total duration in minutes." type="integer" default="0" required="true" uuid="e638f286-29c5-4186-a92f-3c21e2887526"/>
+      <field name="channel" type="integer" required="true" uuid="e2d9d93a-1635-46de-8ab4-0100d79d6341"/>
+      <field name="programme" type="integer" required="true" uuid="0e9f0ba9-9963-477e-a6db-9fb8f1f441f7"/>
+      <index name="idxUTvProgrammeSchedule" unique="true">
+        <index-field name="actual_time"/>
+        <index-field name="channel"/>
+        <index-field name="programme"/>
+      </index>
+      <orm-attributes>
+        <attribute name="export-file-name">TvProgrammeSchedule.php</attribute>
+        <attribute name="options">
+          <attribute name="charset">utf8</attribute>
+          <attribute name="collate">utf8_turkish_ci</attribute>
+          <attribute name="engine">innodb</attribute>
+        </attribute>
+        <attribute name="table">tv_programme_schedule</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="\BiberLtd\Bundle\TvManagementBundle\Entity\TvProgrammeSchedule" to="\BiberLtd\Bundle\TvManagementBundle\Entity\TvChannel" caption="idxFTvChannelOfSchedule" inverse-alias="channel" many-owner="true" many-inverse="false" parent-required="true" uuid="c887a9bb-2e58-4f0e-b56a-0863540f107c">
+      <association-field from="channel" to="id"/>
+      <orm-attributes>
+        <attribute name="on-delete">CASCADE</attribute>
+      </orm-attributes>
+    </association>
+    <association from="\BiberLtd\Bundle\TvManagementBundle\Entity\TvProgrammeSchedule" to="\BiberLtd\Bundle\TvManagementBundle\Entity\TvProgramme&#10;" caption="idxFTvProgrammeOfSchedule" inverse-alias="programme" many-owner="true" many-inverse="false" parent-required="true" uuid="e4b8bef7-0c3c-46d1-bfa9-0ec729c456c3">
+      <association-field from="programme" to="id"/>
+      <orm-attributes>
+        <attribute name="on-delete">CASCADE</attribute>
+      </orm-attributes>
+    </association>
+    <entity name="\BiberLtd\Bundle\TvManagementBundle\Entity\CategoriesOfTvProgramme" local-name="CategoriesOfTvProgramme" namespace="\BiberLtd\Bundle\TvManagementBundle\Entity" description="Matches tv programmes with categories." uuid="ba767360-ab78-4203-87b1-b20274756853">
+      <field name="date_added" description="Date when the entr is first added." type="datetime" required="true" uuid="7ab9fc88-5337-478a-be11-6490f61cb61e"/>
+      <field name="date_updated" description="Date when the entry is last updated." type="datetime" required="true" uuid="7f3184aa-bc53-4b7a-a2e1-2f8bb38fbad3"/>
+      <field name="date_removed" description="Date when the entry is marked as removed." type="datetime" uuid="2690ed8b-388a-4681-88c5-0469f85dca94"/>
+      <field name="programme" description="Tv programme." type="integer" required="true" uuid="34aca968-be12-4c22-a7ec-d06d27546bc5"/>
+      <field name="category" description="Category of tv programme." type="integer" size="5" required="true" uuid="5204d5e9-9f3f-411f-8077-15de4bb5cc19"/>
+      <orm-attributes>
+        <attribute name="export-file-name">CategoriesOfTvProgramme.php</attribute>
+        <attribute name="table">categories_of_tv_programme</attribute>
+        <attribute name="options">
+          <attribute name="charset">utf8</attribute>
+          <attribute name="collate">utf8_turkish_ci</attribute>
+          <attribute name="engine">innodb</attribute>
+        </attribute>
+      </orm-attributes>
+    </entity>
+    <association from="\BiberLtd\Bundle\TvManagementBundle\Entity\CategoriesOfTvProgramme" to="\BiberLtd\Bundle\TvManagementBundle\Entity\TvProgramme&#10;" caption="idxFTvProgrammeOfCategory" inverse-alias="programme" many-owner="true" many-inverse="false" parent-required="true" uuid="c9717edb-1291-46d3-af44-549fab9eaa16">
+      <association-field from="programme" to="id"/>
+      <orm-attributes>
+        <attribute name="on-delete">CASCADE</attribute>
+      </orm-attributes>
+    </association>
+    <association from="\BiberLtd\Bundle\TvManagementBundle\Entity\CategoriesOfTvProgramme" to="\BiberLtd\Bundle\TvManagementBundle\Entity\TvProgrammeCategory" caption="idxFCategoryOfTvProgramme" inverse-alias="category" many-owner="true" many-inverse="false" parent-required="true" uuid="26f7cc73-061d-4c44-af29-f3c12a4c1835">
+      <association-field from="category" to="id"/>
+      <orm-attributes>
+        <attribute name="on-delete">CASCADE</attribute>
+      </orm-attributes>
+    </association>
+    <entity name="\BiberLtd\Bundle\TvManagementBundle\Entity\GenresOfTvProgramme" local-name="GenresOfTvProgramme" namespace="\BiberLtd\Bundle\TvManagementBundle\Entity" description="Matches tv programmes with genres." uuid="600e665a-901f-442b-a5e7-c126e0e991e7">
+      <field name="date_added" description="Date when the entr is first added." type="datetime" required="true" uuid="a2cda52e-4bdb-4f87-80ed-67c2669263c7"/>
+      <field name="date_updated" description="Date when the entry is last updated." type="datetime" required="true" uuid="63a8d3d6-a929-46e5-8feb-a81fae050044"/>
+      <field name="date_removed" description="Date when the entry is marked as removed." type="datetime" uuid="816a5b09-47f0-4994-a475-0e9c7600efc4"/>
+      <field name="programme" description="Tv programme." type="integer" required="true" uuid="0a95cd61-306d-4402-bd0b-13a055670b36"/>
+      <field name="genre" description="Tv programme genre." type="integer" size="5" required="true" uuid="3dc68761-97e9-47a4-9a0f-f4577405d240"/>
+      <orm-attributes>
+        <attribute name="export-file-name">GenresOfTvProgramme.php</attribute>
+        <attribute name="table">genres_of_tv_programme</attribute>
+        <attribute name="options">
+          <attribute name="charset">utf8</attribute>
+          <attribute name="collate">utf8_turkish_ci</attribute>
+          <attribute name="engine">innodb</attribute>
+        </attribute>
+      </orm-attributes>
+    </entity>
+    <association from="\BiberLtd\Bundle\TvManagementBundle\Entity\GenresOfTvProgramme" to="\BiberLtd\Bundle\TvManagementBundle\Entity\TvProgramme&#10;" caption="idxFTvProgrammeOfCategory" inverse-alias="programme" many-owner="true" many-inverse="false" parent-required="true" uuid="92c1c6b0-6655-405e-89c0-17463c6cf058">
+      <association-field from="programme" to="id"/>
+      <orm-attributes>
+        <attribute name="on-delete">CASCADE</attribute>
+      </orm-attributes>
+    </association>
+    <association from="\BiberLtd\Bundle\TvManagementBundle\Entity\GenresOfTvProgramme" to="\BiberLtd\Bundle\TvManagementBundle\Entity\TvProgrammeGenre" caption="idxFGenreOfTvProgramme" inverse-alias="genre" many-owner="true" many-inverse="false" parent-required="true" uuid="8307d58b-624a-4045-9a0a-6cbcb0c7068b">
+      <association-field from="genre" to="id"/>
+      <orm-attributes>
+        <attribute name="on-delete">CASCADE</attribute>
+      </orm-attributes>
+    </association>
+    <entity name="\BiberLtd\Bundle\TvManagementBundle\Entity\TvProgrammeReminder" local-name="TvProgrammeReminder" namespace="\BiberLtd\Bundle\TvManagementBundle\Entity" description="Jeeps track of reminders of members." uuid="4f7327b7-2034-4aac-bf68-d2e1fbda6bc4">
+      <field name="date_added" description="Date when the entry is first added." type="datetime" required="true" uuid="f8a1ddb1-edde-4ad7-a902-206419f63565"/>
+      <field name="date_updated" description="Date when the entry is last updated." type="datetime" required="true" uuid="e3bd5924-7edd-4ff8-a195-b28fb692d7f8"/>
+      <field name="date_removed" description="Date when the entry is marked as removed." type="datetime" uuid="d00497a3-6779-4805-8685-ed3ea6f7a196"/>
+      <field name="date_reminder" description="Date of reminder." type="datetime" uuid="79f98ae6-e24a-439b-a848-53689ab198e2"/>
+      <field name="member" description="Member to remind." type="integer" size="10" primary="true" unsigned="true" uuid="79fce1b0-97c3-4b1b-af79-72dfb2b9c144"/>
+      <field name="programme" description="Programme to remind." type="integer" primary="true" unsigned="true" uuid="4951168e-2aa1-4454-b795-3df10b5d4077"/>
+      <orm-attributes>
+        <attribute name="export-file-name">TvProgrammeReminder.php</attribute>
+        <attribute name="options">
+          <attribute name="charset">utf8</attribute>
+          <attribute name="collate">utf8_turkish_ci</attribute>
+          <attribute name="engine">innodb</attribute>
+        </attribute>
+        <attribute name="table">tv_programme_reminder</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="\BiberLtd\Bundle\TvManagementBundle\Entity\TvProgrammeReminder" to="\BiberLtd\Bundle\MemberManagementBundle\Entity\Member" caption="idxFMemberOfTvProgrammeReminder" inverse-alias="member" many-owner="true" many-inverse="false" uuid="c821334b-cf7b-4b30-a499-c53e1549f08c">
+      <association-field from="member" to="id"/>
+      <orm-attributes>
+        <attribute name="on-delete">CASCADE</attribute>
+      </orm-attributes>
+    </association>
+    <association from="\BiberLtd\Bundle\TvManagementBundle\Entity\TvProgrammeReminder" to="\BiberLtd\Bundle\TvManagementBundle\Entity\TvProgramme&#10;" caption="idxFProgrammeTvProgrammeReminder" inverse-alias="programme" many-owner="true" many-inverse="false" uuid="5c927613-228b-4b47-8de8-8967f386ebf1">
+      <association-field from="programme" to="id"/>
+      <orm-attributes>
+        <attribute name="on-delete">CASCADE</attribute>
+      </orm-attributes>
+    </association>
     <orm-attributes>
       <attribute name="file-suffix">without-suffix</attribute>
       <attribute name="filename-format">entity-name-only</attribute>
     </orm-attributes>
   </module>
   <visual-data>
-    <entity uuid="14c93230-f474-4924-b30a-32578154d0ad" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="589" position-y="28" size-x="0" size-x2="130" size-y="0" size-y2="73"/>
-    <entity uuid="1be2d3b4-aa06-4d8c-8620-b7a43c163b30" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="209" position-y="62" size-x="0" size-x2="130" size-y="0" size-y2="185"/>
-    <entity uuid="52bd6869-f5a1-4842-9cc3-2059f414c9e2" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="89" position-y="278" size-x="0" size-x2="126" size-y="0" size-y2="73"/>
-    <entity uuid="9d6e3263-745b-4220-91e2-8c0c2432ffad" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="489" position-y="228" size-x="0" size-x2="167" size-y="0" size-y2="73"/>
-    <entity uuid="ea54e904-9b1f-4f45-a910-016baa31d07e" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="317" position-y="328" size-x="0" size-x2="172" size-y="0" size-y2="73"/>
+    <entity uuid="094635ae-a6d3-45e9-9b42-b2a240f53aec" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="439" position-y="128" size-x="0" size-x2="20" size-y="0" size-y2="20"/>
+    <entity uuid="14c93230-f474-4924-b30a-32578154d0ad" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="739" position-y="28" size-x="0" size-x2="130" size-y="0" size-y2="73"/>
+    <entity uuid="1be2d3b4-aa06-4d8c-8620-b7a43c163b30" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="197" position-y="73" size-x="0" size-x2="142" size-y="0" size-y2="255"/>
+    <entity uuid="4f7327b7-2034-4aac-bf68-d2e1fbda6bc4" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="389" position-y="478" size-x="0" size-x2="130" size-y="0" size-y2="101"/>
+    <entity uuid="52bd6869-f5a1-4842-9cc3-2059f414c9e2" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="39" position-y="328" size-x="0" size-x2="130" size-y="0" size-y2="73"/>
+    <entity uuid="600e665a-901f-442b-a5e7-c126e0e991e7" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="839" position-y="328" size-x="0" size-x2="134" size-y="0" size-y2="87"/>
+    <entity uuid="9d6e3263-745b-4220-91e2-8c0c2432ffad" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="739" position-y="178" size-x="0" size-x2="167" size-y="0" size-y2="73"/>
+    <entity uuid="ba767360-ab78-4203-87b1-b20274756853" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="639" position-y="378" size-x="0" size-x2="130" size-y="0" size-y2="87"/>
+    <entity uuid="ea54e904-9b1f-4f45-a910-016baa31d07e" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="39" position-y="528" size-x="0" size-x2="153" size-y="0" size-y2="73"/>
     <entity uuid="fe68189e-23c6-4fa9-aa79-3f36094e7aa1" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="10" position-y="20"/>
-    <module uuid="8df118b3-f262-4295-8436-9b1c655d84fc" bg-color="#9E9893" size-x="11" size-x2="839" size-y="22" size-y2="427"/>
+    <module uuid="8df118b3-f262-4295-8436-9b1c655d84fc" bg-color="#9E9893" size-x="11" size-x2="1089" size-y="22" size-y2="621"/>
   </visual-data>
 </skipper>

@@ -1,17 +1,11 @@
 <?php
 /**
- * @name        TvProgrammeCategoryLocalization
- * @package     BiberLtd\Bundle\TvManagementBundle\Entity
+ * @author		Can Berkol
  *
- * @author      Can Berkol
- * @version     1.0.0
- * @date        10.11.2015
+ * @copyright   Biber Ltd. (http://www.biberltd.com) (C) 2015
+ * @license     GPLv3
  *
- * @copyright   Biber Ltd. (http://www.biberltd.com)
- * @license     GPL v3.0
- *
- * @description Model / Entity class.
- *
+ * @date        28.12.2015
  */
 namespace BiberLtd\Bundle\TvManagementBundle\Entity;
 use BiberLtd\Bundle\CoreBundle\CoreEntity;
@@ -28,11 +22,13 @@ class TvProgrammeCategoryLocalization extends CoreEntity
 {
     /**
      * @ORM\Column(type="string", nullable=false)
+     * @var string
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", nullable=false)
+     * @var string
      */
     private $url_key;
 
@@ -44,6 +40,7 @@ class TvProgrammeCategoryLocalization extends CoreEntity
      * )
      * @ORM\JoinColumn(name="category", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      * @ORM\Id
+     * @var \BiberLtd\Bundle\TvManagementBundle\Entity\TvProgrammeCategory
      */
     private $category;
 
@@ -51,34 +48,21 @@ class TvProgrammeCategoryLocalization extends CoreEntity
      * @ORM\Id
      * @ORM\ManyToOne(targetEntity="BiberLtd\Bundle\MultiLanguageSupportBundle\Entity\Language")
      * @ORM\JoinColumn(name="language", referencedColumnName="id", nullable=false, onDelete="CASCADE")
+     * @var \BiberLtd\Bundle\MultiLanguageSupportBundle\Entity\Language
      */
     private $language;
 
 	/**
-	 * @name        getName ()
-	 *
-	 * @author      Can Berkol
-	 *
-	 * @since       1.0.0
-	 * @version     1.0.0
-	 *
-	 * @return      mixed
+	 * @return mixed
 	 */
 	public function getName(){
 		return $this->name;
 	}
 
 	/**
-	 * @name        setName ()
+	 * @param $name
 	 *
-	 * @author      Can Berkol
-	 *
-	 * @since       1.0.0
-	 * @version     1.0.0
-	 *
-	 * @param       mixed $name
-	 *
-	 * @return      $this
+	 * @return $this
 	 */
 	public function setName($name){
 		if(!$this->setModified('name', $name)->isModified()){
@@ -90,30 +74,16 @@ class TvProgrammeCategoryLocalization extends CoreEntity
 	}
 
 	/**
-	 * @name        getUrlKey ()
-	 *
-	 * @author      Can Berkol
-	 *
-	 * @since       1.0.0
-	 * @version     1.0.0
-	 *
-	 * @return      mixed
+	 * @return mixed
 	 */
 	public function getUrlKey(){
 		return $this->url_key;
 	}
 
 	/**
-	 * @name        setUrlKey ()
+	 * @param $url_key
 	 *
-	 * @author      Can Berkol
-	 *
-	 * @since       1.0.0
-	 * @version     1.0.0
-	 *
-	 * @param       mixed $url_key
-	 *
-	 * @return      $this
+	 * @return $this
 	 */
 	public function setUrlKey($url_key){
 		if(!$this->setModified('url_key', $url_key)->isModified()){
@@ -125,32 +95,18 @@ class TvProgrammeCategoryLocalization extends CoreEntity
 	}
 
 	/**
-	 * @name        getCategory ()
-	 *
-	 * @author      Can Berkol
-	 *
-	 * @since       1.0.0
-	 * @version     1.0.0
-	 *
-	 * @return      mixed
+	 * @return mixed
 	 */
 	public function getCategory(){
 		return $this->category;
 	}
 
 	/**
-	 * @name        setCategory ()
+	 * @param \BiberLtd\Bundle\TvManagementBundle\Entity\TvProgrammeCategory $category
 	 *
-	 * @author      Can Berkol
-	 *
-	 * @since       1.0.0
-	 * @version     1.0.0
-	 *
-	 * @param       mixed $category
-	 *
-	 * @return      $this
+	 * @return $this
 	 */
-	public function setCategory($category){
+	public function setCategory(\BiberLtd\Bundle\TvManagementBundle\Entity\TvProgrammeCategory $category){
 		if(!$this->setModified('category', $category)->isModified()){
 			return $this;
 		}
@@ -160,32 +116,18 @@ class TvProgrammeCategoryLocalization extends CoreEntity
 	}
 
 	/**
-	 * @name        getLanguage ()
-	 *
-	 * @author      Can Berkol
-	 *
-	 * @since       1.0.0
-	 * @version     1.0.0
-	 *
-	 * @return      mixed
+	 * @return \BiberLtd\Bundle\MultiLanguageSupportBundle\Entity\Language
 	 */
 	public function getLanguage(){
 		return $this->language;
 	}
 
 	/**
-	 * @name        setLanguage ()
+	 * @param \BiberLtd\Bundle\MultiLanguageSupportBundle\Entity\Language $language
 	 *
-	 * @author      Can Berkol
-	 *
-	 * @since       1.0.0
-	 * @version     1.0.0
-	 *
-	 * @param       mixed $language
-	 *
-	 * @return      $this
+	 * @return $this
 	 */
-	public function setLanguage($language){
+	public function setLanguage(\BiberLtd\Bundle\MultiLanguageSupportBundle\Entity\Language $language){
 		if(!$this->setModified('language', $language)->isModified()){
 			return $this;
 		}
@@ -193,5 +135,4 @@ class TvProgrammeCategoryLocalization extends CoreEntity
 
 		return $this;
 	}
-
 }

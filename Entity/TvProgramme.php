@@ -1,19 +1,12 @@
 <?php
 /**
- * @name        TvProgramme
- * @package     BiberLtd\Bundle\TvManagementBundle\Entity
+ * @author		Can Berkol
  *
- * @author      Can Berkol
- * @version     1.0.0
- * @date        10.11.2015
+ * @copyright   Biber Ltd. (http://www.biberltd.com) (C) 2015
+ * @license     GPLv3
  *
- * @copyright   Biber Ltd. (http://www.biberltd.com)
- * @license     GPL v3.0
- *
- * @description Model / Entity class.
- *
+ * @date        26.12.2015
  */
-
 namespace BiberLtd\Bundle\TvManagementBundle\Entity;
 use BiberLtd\Bundle\CoreBundle\CoreEntity;
 use Doctrine\ORM\Mapping AS ORM;
@@ -22,148 +15,150 @@ use Doctrine\ORM\Mapping AS ORM;
  * @ORM\Entity
  * @ORM\Table(name="tv_programme", options={"charset":"utf8","collate":"utf8_turkish_ci","engine":"innodb"})
  */
-class TvProgramme
+class TvProgramme extends CoreEntity
 
 {
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @var int
      */
     private $id;
 
     /**
-     * @ORM\Column(type="time", nullable=false)
-     */
-    private $time;
-
-    /**
      * @ORM\Column(type="text", nullable=true)
+     * @var string
      */
     private $summary;
 
     /**
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="datetime", nullable=false)
+     * @var \DateTime
      */
-    private $rating;
+    public $date_added;
 
     /**
      * @ORM\Column(type="datetime", nullable=false)
+     * @var \DateTime
      */
-    private $date_added;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=false)
-     */
-    private $date_updated;
+    public $date_updated;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @var \DateTime
      */
-    private $date_removed;
+    public  $date_removed;
 
     /**
      * @ORM\Column(type="string", unique=true, nullable=true)
+     * @var string
      */
     private $title_original;
 
     /**
      * @ORM\Column(type="string", nullable=true)
+     * @var string
      */
     private $title_local;
 
     /**
-     * @ORM\ManyToOne(targetEntity="BiberLtd\Bundle\TvManagementBundle\Entity\TvChannel")
-     * @ORM\JoinColumn(name="channel", referencedColumnName="id", nullable=false, onDelete="CASCADE")
+     * @ORM\Column(type="string", nullable=true)
+     * @var string
      */
-    private $channel;
+    private $broadcast_type;
 
     /**
-     * @ORM\ManyToOne(targetEntity="BiberLtd\Bundle\TvManagementBundle\Entity\TvProgrammeCategory")
-     * @ORM\JoinColumn(name="category", referencedColumnName="id", nullable=false, onDelete="CASCADE")
+     * @ORM\Column(type="text", nullable=true)
+     * @var string
      */
-    private $category;
+    private $description;
 
     /**
-     * @ORM\ManyToOne(targetEntity="BiberLtd\Bundle\TvManagementBundle\Entity\TvProgrammeGenre")
-     * @ORM\JoinColumn(name="genre", referencedColumnName="id", nullable=false, onDelete="CASCADE")
+     * @ORM\Column(type="string", length=155, nullable=true)
      */
-    private $genre;
+    private $motto;
 
     /**
-     * @name        getId ()
-     *
-     * @author      Can Berkol
-     *
-     * @since       1.0.0
-     * @version     1.0.0
-     *
-     * @return      mixed
+     * @ORM\Column(type="string", length=1, nullable=true)
+     * @var string
+     */
+    private $rating_tag;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     * @var string
+     */
+    private $url;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @var string
+     */
+    private $presenter;
+
+    /**
+     * @ORM\Column(type="string", length=3, nullable=true)
+     * @var string
+     */
+    private $broadcast_quality;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     * @var int
+     */
+    private $production_year;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     * @var string
+     */
+    private $is_dubbed;
+
+    /**
+     * @ORM\Column(type="string", length=1, nullable=true)
+     * @var string
+     */
+    private $is_turkish;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     * @var string
+     */
+    private $raw_json;
+
+    /**
+     * @return int
      */
     public function getId(){
         return $this->id;
     }
 
     /**
-     * @name        getTime ()
+     * @param $id
      *
-     * @author      Can Berkol
-     *
-     * @since       1.0.0
-     * @version     1.0.0
-     *
-     * @return      mixed
+     * @return $this
      */
-    public function getTime(){
-        return $this->time;
-    }
-
-    /**
-     * @name        setTime ()
-     *
-     * @author      Can Berkol
-     *
-     * @since       1.0.0
-     * @version     1.0.0
-     *
-     * @param       mixed $time
-     *
-     * @return      $this
-     */
-    public function setTime($time){
-        if(!$this->setModified('time', $time)->isModified()){
+    public function setId($id){
+        if(!$this->setModified('id', $id)->isModified()){
             return $this;
         }
-        $this->time = $time;
+        $this->id = $id;
 
         return $this;
     }
 
     /**
-     * @name        getSummary ()
-     *
-     * @author      Can Berkol
-     *
-     * @since       1.0.0
-     * @version     1.0.0
-     *
-     * @return      mixed
+     * @return string
      */
     public function getSummary(){
         return $this->summary;
     }
 
     /**
-     * @name        setSummary ()
+     * @param $summary
      *
-     * @author      Can Berkol
-     *
-     * @since       1.0.0
-     * @version     1.0.0
-     *
-     * @param       mixed $summary
-     *
-     * @return      $this
+     * @return $this
      */
     public function setSummary($summary){
         if(!$this->setModified('summary', $summary)->isModified()){
@@ -175,213 +170,275 @@ class TvProgramme
     }
 
     /**
-     * @name        getRating ()
-     *
-     * @author      Can Berkol
-     *
-     * @since       1.0.0
-     * @version     1.0.0
-     *
-     * @return      mixed
+     * @return string
      */
-    public function getRating(){
-        return $this->rating;
+    public function getTitleOriginal(){
+        return $this->title_original;
     }
 
     /**
-     * @name        setRating ()
+     * @param $title_original
      *
-     * @author      Can Berkol
-     *
-     * @since       1.0.0
-     * @version     1.0.0
-     *
-     * @param       mixed $rating
-     *
-     * @return      $this
+     * @return $this
      */
-    public function setRating($rating){
-        if(!$this->setModified('rating', $rating)->isModified()){
+    public function setTitleOriginal($title_original){
+        if(!$this->setModified('title_original', $title_original)->isModified()){
             return $this;
         }
-        $this->rating = $rating;
+        $this->title_original = $title_original;
 
         return $this;
     }
 
     /**
-     * @name        getChannel ()
-     *
-     * @author      Can Berkol
-     *
-     * @since       1.0.0
-     * @version     1.0.0
-     *
-     * @return      mixed
+     * @return string
      */
-    public function getChannel(){
-        return $this->channel;
+    public function getTitleLocal(){
+        return $this->title_local;
     }
 
     /**
-     * @name        setChannel ()
+     * @param $title_local
      *
-     * @author      Can Berkol
-     *
-     * @since       1.0.0
-     * @version     1.0.0
-     *
-     * @param       mixed $channel
-     *
-     * @return      $this
+     * @return $this
      */
-    public function setChannel($channel){
-        if(!$this->setModified('channel', $channel)->isModified()){
+    public function setTitleLocal($title_local){
+        if(!$this->setModified('title_local', $title_local)->isModified()){
             return $this;
         }
-        $this->channel = $channel;
+        $this->title_local = $title_local;
 
         return $this;
     }
 
     /**
-     * @name        getCategory ()
-     *
-     * @author      Can Berkol
-     *
-     * @since       1.0.0
-     * @version     1.0.0
-     *
-     * @return      mixed
+     * @return string
      */
-    public function getCategory(){
-        return $this->category;
+    public function getBroadcastType(){
+        return $this->broadcast_type;
     }
 
     /**
-     * @name        setCategory ()
+     * @param $broadcast_type
      *
-     * @author      Can Berkol
-     *
-     * @since       1.0.0
-     * @version     1.0.0
-     *
-     * @param       mixed $category
-     *
-     * @return      $this
+     * @return $this
      */
-    public function setCategory($category){
-        if(!$this->setModified('category', $category)->isModified()){
+    public function setBroadcastType($broadcast_type){
+        if(!$this->setModified('broadcast_type', $broadcast_type)->isModified()){
             return $this;
         }
-        $this->category = $category;
+        $this->broadcast_type = $broadcast_type;
 
         return $this;
     }
 
     /**
-     * @name        getGenre ()
-     *
-     * @author      Can Berkol
-     *
-     * @since       1.0.0
-     * @version     1.0.0
-     *
-     * @return      mixed
+     * @return string
      */
-    public function getGenre(){
-        return $this->genre;
+    public function getDescription(){
+        return $this->description;
     }
 
     /**
-     * @name        setGenre ()
+     * @param $description
      *
-     * @author      Can Berkol
-     *
-     * @since       1.0.0
-     * @version     1.0.0
-     *
-     * @param       mixed $genre
-     *
-     * @return      $this
+     * @return $this
      */
-    public function setGenre($genre){
-        if(!$this->setModified('genre', $genre)->isModified()){
+    public function setDescription($description){
+        if(!$this->setModified('description', $description)->isModified()){
             return $this;
         }
-        $this->genre = $genre;
+        $this->description = $description;
 
         return $this;
     }
 
-	/**
-	 * @name        getTitleOriginal ()
-	 *
-	 * @author      Can Berkol
-	 *
-	 * @since       1.0.0
-	 * @version     1.0.0
-	 *
-	 * @return      mixed
-	 */
-	public function getTitleOriginal(){
-		return $this->title_original;
-	}
+    /**
+     * @return mixed
+     */
+    public function getMotto(){
+        return $this->motto;
+    }
 
-	/**
-	 * @name        setTitleOriginal ()
-	 *
-	 * @author      Can Berkol
-	 *
-	 * @since       1.0.0
-	 * @version     1.0.0
-	 *
-	 * @param       mixed $title_original
-	 *
-	 * @return      $this
-	 */
-	public function setTitleOriginal($title_original){
-		if(!$this->setModified('title_original', $title_original)->isModified()){
-			return $this;
-		}
-		$this->title_original = $title_original;
+    /**
+     * @param $motto
+     *
+     * @return $this
+     */
+    public function setMotto($motto){
+        if(!$this->setModified('motto', $motto)->isModified()){
+            return $this;
+        }
+        $this->motto = $motto;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * @name        getTitleLocal ()
-	 *
-	 * @author      Can Berkol
-	 *
-	 * @since       1.0.0
-	 * @version     1.0.0
-	 *
-	 * @return      mixed
-	 */
-	public function getTitleLocal(){
-		return $this->title_local;
-	}
+    /**
+     * @return string
+     */
+    public function getRatingTag(){
+        return $this->rating_tag;
+    }
 
-	/**
-	 * @name        setTitleLocal ()
-	 *
-	 * @author      Can Berkol
-	 *
-	 * @since       1.0.0
-	 * @version     1.0.0
-	 *
-	 * @param       mixed $title_local
-	 *
-	 * @return      $this
-	 */
-	public function setTitleLocal($title_local){
-		if(!$this->setModified('title_local', $title_local)->isModified()){
-			return $this;
-		}
-		$this->title_local = $title_local;
+    /**
+     * @param $rating_tag
+     *
+     * @return $this
+     */
+    public function setRatingTag($rating_tag){
+        if(!$this->setModified('rating_tag', $rating_tag)->isModified()){
+            return $this;
+        }
+        $this->rating_tag = $rating_tag;
 
-		return $this;
-	}
+        return $this;
+    }
 
+    /**
+     * @return string
+     */
+    public function getUrl(){
+        return $this->url;
+    }
+
+    /**
+     * @param $url
+     *
+     * @return $this
+     */
+    public function setUrl($url){
+        if(!$this->setModified('url', $url)->isModified()){
+            return $this;
+        }
+        $this->url = $url;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPresenter(){
+        return $this->presenter;
+    }
+
+    /**
+     * @param $presenter
+     *
+     * @return $this
+     */
+    public function setPresenter($presenter){
+        if(!$this->setModified('presenter', $presenter)->isModified()){
+            return $this;
+        }
+        $this->presenter = $presenter;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBroadcastQuality(){
+        return $this->broadcast_quality;
+    }
+
+    /**
+     * @param $broadcast_quality
+     *
+     * @return $this
+     */
+    public function setBroadcastQuality($broadcast_quality){
+        if(!$this->setModified('broadcast_quality', $broadcast_quality)->isModified()){
+            return $this;
+        }
+        $this->broadcast_quality = $broadcast_quality;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getProductionYear(){
+        return $this->production_year;
+    }
+
+    /**
+     * @param $production_year
+     *
+     * @return $this
+     */
+    public function setProductionYear($production_year){
+        if(!$this->setModified('production_year', $production_year)->isModified()){
+            return $this;
+        }
+        $this->production_year = $production_year;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getIsDubbed(){
+        return $this->is_dubbed;
+    }
+
+    /**
+     * @param $is_dubbed
+     *
+     * @return $this
+     */
+    public function setIsDubbed($is_dubbed){
+        if(!$this->setModified('is_dubbed', $is_dubbed)->isModified()){
+            return $this;
+        }
+        $this->is_dubbed = $is_dubbed;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getIsTurkish(){
+        return $this->is_turkish;
+    }
+
+    /**
+     * @param $is_turkish
+     *
+     * @return $this
+     */
+    public function setIsTurkish($is_turkish){
+        if(!$this->setModified('is_turkish', $is_turkish)->isModified()){
+            return $this;
+        }
+        $this->is_turkish = $is_turkish;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRawJson(){
+        return $this->raw_json;
+    }
+
+    /**
+     * @param $raw_json
+     *
+     * @return $this
+     */
+    public function setRawJson($raw_json){
+        if(!$this->setModified('raw_json', $raw_json)->isModified()){
+            return $this;
+        }
+        $this->raw_json = $raw_json;
+
+        return $this;
+    }
 }
