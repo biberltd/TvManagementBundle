@@ -700,6 +700,13 @@ class TvManagementModel extends CoreModel{
 					$localeSet = false;
 					$set = 'set' . $this->translateColumnName($column);
 					switch ($column) {
+						case 'parent':
+							$response = $this->getTvProgrammeCategory($value);
+							if(!$response->error->exist){
+								$entity->$set($response->result->set);
+							}
+							unset($response);
+							break;
 						case 'local':
 							$localizations[$countInserts]['localizations'] = $value;
 							$localeSet = true;
@@ -1123,7 +1130,7 @@ class TvManagementModel extends CoreModel{
 				$countInserts++;
 			}
 			else if(is_object($data)){
-				$entity = new BundleEntity\TcProgramme();
+				$entity = new BundleEntity\TvProgramme();
 				foreach($data as $column => $value){
 					$set = 'set'.$this->translateColumnName($column);
 					switch($column){
@@ -1143,6 +1150,86 @@ class TvManagementModel extends CoreModel{
 		}
 		return new ModelResponse(null, 0, 0, null, true, 'E:D:003', 'One or more entities cannot be inserted into database.', $timeStamp, time());
 	}
+
+	/**
+	 * @name 			insertTvProgrammeSchedule()
+	 *
+	 * @since			1.0.0
+	 * @version         1.0.0
+	 * @author          Can Berkol
+	 *
+	 * @use             $this->insertTvProgrammes()
+	 *
+	 * @param           mixed           $schedule
+	 * @return          \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 */
+	public function insertTvProgrammeSchedule($schedule){
+		return $this->insertTvProgrammeSchedules(array($schedule));
+	}
+	/**
+	 * @name 			insertTvProgrammeSchedules()
+	 *
+	 * @since			1.0.0
+	 * @version         1.0.0
+	 * @author          Can Berkol
+	 *
+	 * @use             $this->createException()
+	 *
+	 * @param           array           $collection      Collection of Site entities or array of site detais array.
+	 *
+	 * @return          \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 */
+	public function insertTvProgrammeSchedules($collection) {
+		$timeStamp = time();
+		if (!is_array($collection)) {
+			return $this->createException('InvalidParameterValueException', 'Invalid parameter value. Parameter must be an array collection', 'E:S:001');
+		}
+		$countInserts = 0;
+		$insertedItems = array();
+		foreach($collection as $data){
+			if($data instanceof BundleEntity\TvProgrammeSchedule){
+				$entity = $data;
+				$this->em->persist($entity);
+				$insertedItems[] = $entity;
+				$countInserts++;
+			}
+			else if(is_object($data)){
+				$entity = new BundleEntity\TvProgrammeSchedule();
+				foreach($data as $column => $value){
+					$set = 'set'.$this->translateColumnName($column);
+					switch($column){
+						case 'channel':
+							$response = $this->getTvChannel($value);
+							if(!$response->error->exist){
+								$entity->$set($response->result->set);
+							}
+							unset($response);
+							break;
+						case 'programme':
+							$response = $this->getTvProgramme($value);
+							if(!$response->error->exist){
+								$entity->$set($response->result->set);
+							}
+							unset($response);
+							break;
+						default:
+							$entity->$set($value);
+							break;
+					}
+				}
+				$this->em->persist($entity);
+				$insertedItems[] = $entity;
+				$countInserts++;
+			}
+		}
+		if($countInserts > 0){
+			$this->em->flush();
+			return new ModelResponse($insertedItems, $countInserts, 0, null, false, 'S:D:003', 'Selected entries have been successfully inserted into database.', $timeStamp, time());
+		}
+		return new ModelResponse(null, 0, 0, null, true, 'E:D:003', 'One or more entities cannot be inserted into database.', $timeStamp, time());
+	}
+
+
 	/**
 	 * @name 			updateTvProgramme()
 	 *
@@ -1537,6 +1624,13 @@ class TvManagementModel extends CoreModel{
 							$localizations[$countInserts]['localizations'] = $value;
 							$localeSet = true;
 							$countLocalizations++;
+							break;
+						case 'parent':
+							$response = $this->getTvProgrammeGenre($value);
+							if(!$response->error->exist){
+								$entity->$set($response->result->set);
+							}
+							unset($response);
 							break;
 						default:
 							$entity->$set($value);
