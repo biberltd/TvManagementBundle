@@ -924,6 +924,70 @@ class TvManagementModel extends CoreModel{
 	}
 
 	/**
+	 * @param mixed $schedule
+	 *
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 */
+	public function insertTvProgrammeSchedule($schedule){
+		return $this->insertTvProgrammeSchedules(array($schedule));
+	}
+
+	/**
+	 * @param array $collection
+	 *
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 */
+	public function insertTvProgrammeSchedules(array $collection) {
+		$timeStamp = time();
+		if (!is_array($collection)) {
+			return $this->createException('InvalidParameterValueException', 'Invalid parameter value. Parameter must be an array collection', 'E:S:001');
+		}
+		$countInserts = 0;
+		$insertedItems = array();
+		foreach($collection as $data){
+			if($data instanceof BundleEntity\TvProgrammeSchedule){
+				$entity = $data;
+				$this->em->persist($entity);
+				$insertedItems[] = $entity;
+				$countInserts++;
+			}
+			else if(is_object($data)){
+				$entity = new BundleEntity\TvProgrammeSchedule();
+				foreach($data as $column => $value){
+					$set = 'set'.$this->translateColumnName($column);
+					switch($column){
+						case 'channel':
+							$response = $this->getTvChannel($value);
+							if(!$response->error->exist){
+								$entity->$set($response->result->set);
+							}
+							unset($response);
+							break;
+						case 'programme':
+							$response = $this->getTvProgramme($value);
+							if(!$response->error->exist){
+								$entity->$set($response->result->set);
+							}
+							unset($response);
+							break;
+						default:
+							$entity->$set($value);
+							break;
+					}
+				}
+				$this->em->persist($entity);
+				$insertedItems[] = $entity;
+				$countInserts++;
+			}
+		}
+		if($countInserts > 0){
+			$this->em->flush();
+			return new ModelResponse($insertedItems, $countInserts, 0, null, false, 'S:D:003', 'Selected entries have been successfully inserted into database.', $timeStamp, time());
+		}
+		return new ModelResponse(null, 0, 0, null, true, 'E:D:003', 'One or more entities cannot be inserted into database.', $timeStamp, time());
+	}
+
+	/**
 	 * @param array $collection
 	 *
 	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
@@ -1032,6 +1096,87 @@ class TvManagementModel extends CoreModel{
 		return new ModelResponse(null, 0, 0, null, true, 'E:D:004', 'One or more entities cannot be updated within database.', $timeStamp, time());
 	}
 
+	/**
+	 * @param mixed $schedule
+	 *
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 */
+	public function updateTvProgrammeSchedule($schedule){
+		return $this->updateTvProgrammes(array($schedule));
+	}
+
+	/**
+	 * @param array $collection
+	 *
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 */
+	public function updateTvProgrammeSchedules(array $collection){
+		$timeStamp = time();
+		/** Parameter must be an array */
+		if (!is_array($collection)) {
+			return $this->createException('InvalidParameterValueException', 'Invalid parameter value. Parameter must be an array collection', 'E:S:001');
+		}
+		$countUpdates = 0;
+		$updatedItems = array();
+		foreach($collection as $data){
+			if($data instanceof BundleEntity\TvProgrammeSchedule){
+				$entity = $data;
+				$this->em->persist($entity);
+				$updatedItems[] = $entity;
+				$countUpdates++;
+			}
+			else if(is_object($data)){
+				if(!property_exists($data, 'id') || !is_numeric($data->id)){
+					return $this->createException('InvalidParameterException', 'Parameter must be an object with the "id" parameter and id parameter must have an integer value.', 'E:S:003');
+				}
+				if(!property_exists($data, 'date_updated')){
+					$data->date_updated = new \DateTime('now', new \DateTimeZone($this->kernel->getContainer()->getParameter('app_timezone')));
+				}
+				if(!property_exists($data, 'date_added')){
+					unset($data->date_added);
+				}
+				$response = $this->getTvProgramme($data->id);
+				if($response->error->exist){
+					return $response;
+				}
+				$oldEntity = $response->result->set;
+				foreach($data as $column => $value){
+					$set = 'set'.$this->translateColumnName($column);
+					switch($column){
+						case 'id':
+							break;
+						case 'channel':
+							$response = $this->getTvChannel($value);
+							if(!$response->error->exist){
+								$oldEntity->$set($response->result->set);
+							}
+							unset($response);
+							break;
+						case 'programme':
+							$response = $this->getTvProgramme($value);
+							if(!$response->error->exist){
+								$oldEntity->$set($response->result->set);
+							}
+							unset($response);
+							break;
+						default:
+							$oldEntity->$set($value);
+							break;
+					}
+					if($oldEntity->isModified()){
+						$this->em->persist($oldEntity);
+						$countUpdates++;
+						$updatedItems[] = $oldEntity;
+					}
+				}
+			}
+		}
+		if($countUpdates > 0){
+			$this->em->flush();
+			return new ModelResponse($updatedItems, $countUpdates, 0, null, false, 'S:D:004', 'Selected entries have been successfully updated within database.', $timeStamp, time());
+		}
+		return new ModelResponse(null, 0, 0, null, true, 'E:D:004', 'One or more entities cannot be updated within database.', $timeStamp, time());
+	}
 	/**
 	 * @param mixed $genre
 	 *
