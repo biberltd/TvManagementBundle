@@ -1,4 +1,4 @@
-Product Management Bundle
+Tv Management Bundle
  ==============
  **Namespace**: BiberLtd\Bundle\TvManagementBundle
 
