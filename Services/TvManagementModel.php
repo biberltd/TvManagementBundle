@@ -16,52 +16,52 @@ use BiberLtd\Bundle\TvManagementBundle\Exceptions as BundleExceptions;
 use BiberLtd\Bundle\TvManagementBundle\Entity as BundleEntity;
 
 class TvManagementModel extends CoreModel{
-    /**
-     * @name            __construct()
-     *                  Constructor.
-     *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.1.2
-     *
-     * @param           object          $kernel
-     * @param           string          $dbConnection  Database connection key as set in app/config.yml
-     * @param           string          $orm            ORM that is used.
-     */
-    public function __construct($kernel, $dbConnection = 'default', $orm = 'doctrine'){
-        parent::__construct($kernel, $dbConnection, $orm);
-
-        /**
-         * Register entity names for easy reference.
-         */
-        $this->entity = array(
-            'cotp'      => array('name' => 'TvManagementBundle:CategoriesOfTvProgramme', 'alias' => 'cotp'),
-            'gotp'      => array('name' => 'TvManagementBundle:GenresOfTvProgramme', 'alias' => 'gotp'),
-            'tvc'       => array('name' => 'TvManagementBundle:TvChannel', 'alias' => 'tvc'),
-            'tvp'       => array('name' => 'TvManagementBundle:TvProgramme', 'alias' => 'tvp'),
-            'tvpc'      => array('name' => 'TvManagementBundle:TvProgrammeCategory', 'alias' => 'tvpc'),
-            'tvpcl'     => array('name' => 'TvManagementBundle:TvProgrammeCategoryLocalization', 'alias' => 'tvpcl'),
-            'tvpg'      => array('name' => 'TvManagementBundle:TvProgrammeGenre', 'alias' => 'tvpg'),
-            'tvpgl'     => array('name' => 'TvManagementBundle:TvProgrammeGenreLocalization', 'alias' => 'tvpgl'),
-            'tvpr'      => array('name' => 'TvManagementBundle:TvProgrammeReminder', 'alias' => 'tvpr'),
-            'tvps'      => array('name' => 'TvManagementBundle:TvProgrammeSchedule', 'alias' => 'tvps'),
-        );
-    }
-    /**
-     * @name            __destruct()
+	/**
+	 * @name            __construct()
+	 *                  Constructor.
 	 *
-     * @author          Can Berkol
-     *
-     * @since           1.0.0
-     * @version         1.0.0
-     *
-     */
-    public function __destruct(){
-        foreach($this as $property => $value) {
-            $this->$property = null;
-        }
-    }
+	 * @author          Can Berkol
+	 *
+	 * @since           1.0.0
+	 * @version         1.1.2
+	 *
+	 * @param           object          $kernel
+	 * @param           string          $dbConnection  Database connection key as set in app/config.yml
+	 * @param           string          $orm            ORM that is used.
+	 */
+	public function __construct($kernel, $dbConnection = 'default', $orm = 'doctrine'){
+		parent::__construct($kernel, $dbConnection, $orm);
+
+		/**
+		 * Register entity names for easy reference.
+		 */
+		$this->entity = array(
+			'cotp'      => array('name' => 'TvManagementBundle:CategoriesOfTvProgramme', 'alias' => 'cotp'),
+			'gotp'      => array('name' => 'TvManagementBundle:GenresOfTvProgramme', 'alias' => 'gotp'),
+			'tvc'       => array('name' => 'TvManagementBundle:TvChannel', 'alias' => 'tvc'),
+			'tvp'       => array('name' => 'TvManagementBundle:TvProgramme', 'alias' => 'tvp'),
+			'tvpc'      => array('name' => 'TvManagementBundle:TvProgrammeCategory', 'alias' => 'tvpc'),
+			'tvpcl'     => array('name' => 'TvManagementBundle:TvProgrammeCategoryLocalization', 'alias' => 'tvpcl'),
+			'tvpg'      => array('name' => 'TvManagementBundle:TvProgrammeGenre', 'alias' => 'tvpg'),
+			'tvpgl'     => array('name' => 'TvManagementBundle:TvProgrammeGenreLocalization', 'alias' => 'tvpgl'),
+			'tvpr'      => array('name' => 'TvManagementBundle:TvProgrammeReminder', 'alias' => 'tvpr'),
+			'tvps'      => array('name' => 'TvManagementBundle:TvProgrammeSchedule', 'alias' => 'tvps'),
+		);
+	}
+	/**
+	 * @name            __destruct()
+	 *
+	 * @author          Can Berkol
+	 *
+	 * @since           1.0.0
+	 * @version         1.0.0
+	 *
+	 */
+	public function __destruct(){
+		foreach($this as $property => $value) {
+			$this->$property = null;
+		}
+	}
 	/**
 	 * @name 			deleteTvChannel()
 	 *
@@ -78,20 +78,20 @@ class TvManagementModel extends CoreModel{
 	public function deleteTvChannel($channel){
 		return $this->deleteTvChannels(array($channel));
 	}
-    /**
-     * @name 			deleteTvChannels()
-     *
-     * @since			1.0.0
-     * @version         1.0.0
+	/**
+	 * @name 			deleteTvChannels()
 	 *
-     * @author          Can Berkol
-     *
-     * @use             $this->createException()
-     *
-     * @param           array           $collection
+	 * @since			1.0.0
+	 * @version         1.0.0
 	 *
-     * @return          \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
-     */
+	 * @author          Can Berkol
+	 *
+	 * @use             $this->createException()
+	 *
+	 * @param           array           $collection
+	 *
+	 * @return          \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 */
 	public function deleteTvChannels($collection) {
 		$timeStamp = time();
 		if (!is_array($collection)) {
@@ -184,19 +184,19 @@ class TvManagementModel extends CoreModel{
 
 		return new ModelResponse($result, 1, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, time());
 	}
-    /**
-     * @name 			listTvChannels()
-     *
-     * @since			1.0.0
-     * @version         1.0.0
-     * @author          Can Berkol
-     *
-     * @param           array           $filter
-     * @param           array           $sortOrder
-     * @param           array           $limit
-     *
-     * @return          \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
-     */
+	/**
+	 * @name 			listTvChannels()
+	 *
+	 * @since			1.0.0
+	 * @version         1.0.0
+	 * @author          Can Berkol
+	 *
+	 * @param           array           $filter
+	 * @param           array           $sortOrder
+	 * @param           array           $limit
+	 *
+	 * @return          \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 */
 	public function listTvChannels($filter = null, $sortOrder = null, $limit = null) {
 		$timeStamp = time();
 		if (!is_array($sortOrder) && !is_null($sortOrder)) {
@@ -261,19 +261,19 @@ class TvManagementModel extends CoreModel{
 	public function insertTvChannel($channel){
 		return $this->insertTvChannels(array($channel));
 	}
-    /**
-     * @name 			insertTvChannels()
-     *
-     * @since			1.0.0
-     * @version         1.0.0
-     * @author          Can Berkol
-     *
-     * @use             $this->createException()
-     *
-     * @param           array           $collection      Collection of Site entities or array of site detais array.
-     *
-     * @return          \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
-     */
+	/**
+	 * @name 			insertTvChannels()
+	 *
+	 * @since			1.0.0
+	 * @version         1.0.0
+	 * @author          Can Berkol
+	 *
+	 * @use             $this->createException()
+	 *
+	 * @param           array           $collection      Collection of Site entities or array of site detais array.
+	 *
+	 * @return          \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 */
 	public function insertTvChannels($collection) {
 		$timeStamp = time();
 		if (!is_array($collection)) {
@@ -325,72 +325,72 @@ class TvManagementModel extends CoreModel{
 	public function updateTvChannel($channel){
 		return $this->updateTvChannels(array($channel));
 	}
-    /**
-     * @name 			updateTvChannels()
-     *
-     * @since			1.0.0
-     * @version         1.0.0
-     * @author          Can Berkol
-     *
-     * @ue              $this->createException()
-     *
-     * @param           array           $collection
-     *
-     * @return          \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
-     */
-    public function updateTvChannels($collection){
-        $timeStamp = time();
-        /** Parameter must be an array */
-        if (!is_array($collection)) {
+	/**
+	 * @name 			updateTvChannels()
+	 *
+	 * @since			1.0.0
+	 * @version         1.0.0
+	 * @author          Can Berkol
+	 *
+	 * @ue              $this->createException()
+	 *
+	 * @param           array           $collection
+	 *
+	 * @return          \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 */
+	public function updateTvChannels($collection){
+		$timeStamp = time();
+		/** Parameter must be an array */
+		if (!is_array($collection)) {
 			return $this->createException('InvalidParameterValueException', 'Invalid parameter value. Parameter must be an array collection', 'E:S:001');
-        }
-        $countUpdates = 0;
-        $updatedItems = array();
-        foreach($collection as $data){
-            if($data instanceof BundleEntity\TvChannel){
-                $entity = $data;
-                $this->em->persist($entity);
-                $updatedItems[] = $entity;
-                $countUpdates++;
-            }
-            else if(is_object($data)){
-                if(!property_exists($data, 'id') || !is_numeric($data->id)){
+		}
+		$countUpdates = 0;
+		$updatedItems = array();
+		foreach($collection as $data){
+			if($data instanceof BundleEntity\TvChannel){
+				$entity = $data;
+				$this->em->persist($entity);
+				$updatedItems[] = $entity;
+				$countUpdates++;
+			}
+			else if(is_object($data)){
+				if(!property_exists($data, 'id') || !is_numeric($data->id)){
 					return $this->createException('InvalidParameterException', 'Parameter must be an object with the "id" parameter and id parameter must have an integer value.', 'E:S:003');
-                }
-                if(!property_exists($data, 'date_updated')){
-                    $data->date_updated = new \DateTime('now', new \DateTimeZone($this->kernel->getContainer()->getParameter('app_timezone')));
-                }
-                if(!property_exists($data, 'date_added')){
-                    unset($data->date_added);
-                }
-                $response = $this->getTvChannel($data->id);
-                if($response->error->exist){
+				}
+				if(!property_exists($data, 'date_updated')){
+					$data->date_updated = new \DateTime('now', new \DateTimeZone($this->kernel->getContainer()->getParameter('app_timezone')));
+				}
+				if(!property_exists($data, 'date_added')){
+					unset($data->date_added);
+				}
+				$response = $this->getTvChannel($data->id);
+				if($response->error->exist){
 					return $response;
-                }
-                $oldEntity = $response->result->set;
-                foreach($data as $column => $value){
-                    $set = 'set'.$this->translateColumnName($column);
-                    switch($column){
-                        case 'id':
-                            break;
-                        default:
-                            $oldEntity->$set($value);
-                            break;
-                    }
-                    if($oldEntity->isModified()){
-                        $this->em->persist($oldEntity);
-                        $countUpdates++;
-                        $updatedItems[] = $oldEntity;
-                    }
-                }
-            }
-        }
+				}
+				$oldEntity = $response->result->set;
+				foreach($data as $column => $value){
+					$set = 'set'.$this->translateColumnName($column);
+					switch($column){
+						case 'id':
+							break;
+						default:
+							$oldEntity->$set($value);
+							break;
+					}
+					if($oldEntity->isModified()){
+						$this->em->persist($oldEntity);
+						$countUpdates++;
+						$updatedItems[] = $oldEntity;
+					}
+				}
+			}
+		}
 		if($countUpdates > 0){
 			$this->em->flush();
-		return new ModelResponse($updatedItems, $countUpdates, 0, null, false, 'S:D:004', 'Selected entries have been successfully updated within database.', $timeStamp, time());
+			return new ModelResponse($updatedItems, $countUpdates, 0, null, false, 'S:D:004', 'Selected entries have been successfully updated within database.', $timeStamp, time());
 		}
 		return new ModelResponse(null, 0, 0, null, true, 'E:D:004', 'One or more entities cannot be updated within database.', $timeStamp, time());
-    }
+	}
 
 	/**
 	 * @name 			deleteTvProgrammeCategory()
@@ -544,26 +544,26 @@ class TvManagementModel extends CoreModel{
 			return $this->createException('InvalidParameterValueException', '$urlKey must be a string.', 'E:S:007');
 		}
 		$filter[] = array(
-				'glue' => 'and',
-				'condition' => array(
-						array(
-								'glue' => 'and',
-								'condition' => array('column' => $this->entity['tvpcl']['alias'] . '.url_key', 'comparison' => '=', 'value' => $urlKey),
-						)
+			'glue' => 'and',
+			'condition' => array(
+				array(
+					'glue' => 'and',
+					'condition' => array('column' => $this->entity['tvpcl']['alias'] . '.url_key', 'comparison' => '=', 'value' => $urlKey),
 				)
+			)
 		);
 		if (!is_null($language)) {
 			$mModel = $this->kernel->getContainer()->get('multilanguagesupport.model');
 			$response = $mModel->getLanguage($language);
 			if (!$response->error->exist) {
 				$filter[] = array(
-						'glue' => 'and',
-						'condition' => array(
-								array(
-										'glue' => 'and',
-										'condition' => array('column' => $this->entity['tvpcl']['alias'] . '.language', 'comparison' => '=', 'value' => $response->result->set->getId()),
-								)
+					'glue' => 'and',
+					'condition' => array(
+						array(
+							'glue' => 'and',
+							'condition' => array('column' => $this->entity['tvpcl']['alias'] . '.language', 'comparison' => '=', 'value' => $response->result->set->getId()),
 						)
+					)
 				);
 			}
 		}
@@ -597,8 +597,8 @@ class TvManagementModel extends CoreModel{
 		$oStr = $wStr = $gStr = $fStr = '';
 
 		$qStr = 'SELECT '. $this->entity['tvpcl']['alias']
-				. ' FROM ' . $this->entity['tvpcl']['name'] . ' ' . $this->entity['tvpcl']['alias']
-				. ' JOIN ' . $this->entity['tvpcl']['alias'] . '.category ' . $this->entity['tvpc']['alias'];
+			. ' FROM ' . $this->entity['tvpcl']['name'] . ' ' . $this->entity['tvpcl']['alias']
+			. ' JOIN ' . $this->entity['tvpcl']['alias'] . '.category ' . $this->entity['tvpc']['alias'];
 
 		if (!is_null($sortOrder)) {
 			foreach ($sortOrder as $column => $direction) {
@@ -1046,7 +1046,7 @@ class TvManagementModel extends CoreModel{
 
 
 		$qStr = 'SELECT '.$this->entity['tvp']['alias']
-				.' FROM '.$this->entity['tvp']['name'].' '.$this->entity['tvp']['alias'];
+			.' FROM '.$this->entity['tvp']['name'].' '.$this->entity['tvp']['alias'];
 
 		if (!is_null($sortOrder)) {
 			foreach ($sortOrder as $column => $direction) {
@@ -1444,7 +1444,7 @@ class TvManagementModel extends CoreModel{
 		return new ModelResponse($result, 1, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, time());
 	}
 	/**
-	 * @name            getTvProgrammeGenreyByUrlKey()
+	 * @name            getTvProgrammeGenreByUrlKey()
 	 *
 	 * @since           1.0.0
 	 * @version         1.0.0
@@ -1458,32 +1458,32 @@ class TvManagementModel extends CoreModel{
 	 *
 	 * @return          \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
-	public function getTvProgrammeGenreyByUrlKey($urlKey, $language = null){
+	public function getTvProgrammeGenreByUrlKey($urlKey, $language = null){
 		$timeStamp = time();
 		if (!is_string($urlKey)) {
 			return $this->createException('InvalidParameterValueException', '$urlKey must be a string.', 'E:S:007');
 		}
 		$filter[] = array(
-				'glue' => 'and',
-				'condition' => array(
-						array(
-								'glue' => 'and',
-								'condition' => array('column' => $this->entity['tvgcl']['alias'] . '.url_key', 'comparison' => '=', 'value' => $urlKey),
-						)
+			'glue' => 'and',
+			'condition' => array(
+				array(
+					'glue' => 'and',
+					'condition' => array('column' => $this->entity['tvpgl']['alias'] . '.url_key', 'comparison' => '=', 'value' => $urlKey),
 				)
+			)
 		);
 		if (!is_null($language)) {
 			$mModel = $this->kernel->getContainer()->get('multilanguagesupport.model');
 			$response = $mModel->getLanguage($language);
 			if (!$response->error->exist) {
 				$filter[] = array(
-						'glue' => 'and',
-						'condition' => array(
-								array(
-										'glue' => 'and',
-										'condition' => array('column' => $this->entity['tvgcl']['alias'] . '.language', 'comparison' => '=', 'value' => $response->result->set->getId()),
-								)
+					'glue' => 'and',
+					'condition' => array(
+						array(
+							'glue' => 'and',
+							'condition' => array('column' => $this->entity['tvpgl']['alias'] . '.language', 'comparison' => '=', 'value' => $response->result->set->getId()),
 						)
+					)
 				);
 			}
 		}
@@ -1516,9 +1516,9 @@ class TvManagementModel extends CoreModel{
 		}
 		$oStr = $wStr = $gStr = $fStr = '';
 
-		$qStr = 'SELECT '. $this->entity['tvgpcl']['alias']
-				. ' FROM ' . $this->entity['tvgpcl']['name'] . ' ' . $this->entity['tvgpcl']['alias']
-				. ' JOIN ' . $this->entity['tvgpcl']['alias'] . '.genre ' . $this->entity['tvgpcl']['alias'];
+		$qStr = 'SELECT '. $this->entity['tvpgl']['alias']
+			. ' FROM ' . $this->entity['tvpgl']['name'] . ' ' . $this->entity['tvpgl']['alias']
+			. ' JOIN ' . $this->entity['tvpgl']['alias'] . '.genre ' . $this->entity['tvpg']['alias'];
 
 		if (!is_null($sortOrder)) {
 			foreach ($sortOrder as $column => $direction) {
@@ -1527,11 +1527,11 @@ class TvManagementModel extends CoreModel{
 					case 'date_added':
 					case 'date_updated':
 					case 'date_removed':
-						$column = $this->entity['tvgcl']['alias'] . '.' . $column;
+						$column = $this->entity['tvpgl']['alias'] . '.' . $column;
 						break;
 					case 'name':
 					case 'url_key':
-						$column = $this->entity['tvgcl']['alias'] . '.' . $column;
+						$column = $this->entity['tvpgl']['alias'] . '.' . $column;
 						break;
 				}
 				$oStr .= ' ' . $column . ' ' . strtoupper($direction) . ', ';
@@ -1552,10 +1552,10 @@ class TvManagementModel extends CoreModel{
 		$entities = array();
 		$unique = array();
 		foreach ($result as $entry) {
-			$id = $entry->getCategory()->getId();
+			$id = $entry->getGenre()->getId();
 			if (!isset($unique[$id])) {
-				$entities[] = $entry->getCategory();
-				$unique[$id] = $entry->getCategory();
+				$entities[] = $entry->getGenre();
+				$unique[$id] = $entry->getGenre();
 			}
 		}
 		$totalRows = count($entities);
@@ -1898,13 +1898,13 @@ class TvManagementModel extends CoreModel{
 		$column = $this->entity['tvps']['alias'] . '.channel';
 		$condition = array('column' => $column, 'comparison' => '=', 'value' => $channel->getId());
 		$filter[] = array(
-				'glue' => 'and',
-				'condition' => array(
-						array(
-								'glue' => 'and',
-								'condition' => $condition,
-						)
+			'glue' => 'and',
+			'condition' => array(
+				array(
+					'glue' => 'and',
+					'condition' => $condition,
 				)
+			)
 		);
 		$tvpsSortOrder = array();
 		$tvpSortOrder = array();
@@ -2583,8 +2583,8 @@ class TvManagementModel extends CoreModel{
 			if ($response->error->exist) {
 				continue;
 			}
-			$category = $response->result->set;
-			if ($this->isProgrammeAssociatedWitGenre($programme, $genre, true)) {
+			$genre = $response->result->set;
+			if ($this->isProgrammeAssociatedWithGenre($programme, $genre, true)) {
 				continue;
 			}
 			/** prepare object */
@@ -2665,7 +2665,7 @@ class TvManagementModel extends CoreModel{
 		$qStr = 'SELECT COUNT(' . $this->entity['gotp']['alias'] . '.programme)'
 			. ' FROM ' . $this->entity['gotp']['name'] . ' ' . $this->entity['gotp']['alias']
 			. ' WHERE ' . $this->entity['gotp']['alias'] . '.programme = ' . $programme->getId()
-			. ' AND ' . $this->entity['gotp']['alias'] . '.category = ' . $genre->getId();
+			. ' AND ' . $this->entity['gotp']['alias'] . '.genre = ' . $genre->getId();
 		$query = $this->em->createQuery($qStr);
 
 		$result = $query->getSingleScalarResult();
