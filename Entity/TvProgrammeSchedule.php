@@ -120,7 +120,7 @@ class TvProgrammeSchedule extends CoreEntity
 	/**
 	 * @return \DateTime
 	 */
-	public function getActualTime(){
+	public function getActualmicrotime(true){
 		return $this->actual_time;
 	}
 
@@ -141,7 +141,7 @@ class TvProgrammeSchedule extends CoreEntity
 	/**
 	 * @return \DateTime
 	 */
-	public function getEndTime(){
+	public function getEndmicrotime(true){
 		return $this->end_time;
 	}
 
