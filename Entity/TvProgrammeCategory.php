@@ -50,7 +50,7 @@ class TvProgrammeCategory extends CoreLocalizableEntity
      * )
      * @var array
      */
-    private $localizations;
+    protected $localizations;
 
     /**
      * @ORM\ManyToOne(targetEntity="BiberLtd\Bundle\TvManagementBundle\Entity\TvProgrammeCategory")

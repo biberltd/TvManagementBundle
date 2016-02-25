@@ -24,21 +24,22 @@ class GenresOfTvProgramme extends CoreEntity
      * @ORM\Column(type="datetime", nullable=false)
      * @var \DateTime
      */
-    private $date_added;
+    public $date_added;
 
     /**
      * @ORM\Column(type="datetime", nullable=false)
      * @var \DateTime
      */
-    private $date_updated;
+    public $date_updated;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      * @var \DateTime
      */
-    private $date_removed;
+    public $date_removed;
 
     /**
+     * @ORM\Id
      * @ORM\ManyToOne(targetEntity="BiberLtd\Bundle\TvManagementBundle\Entity\TvProgramme")
      * @ORM\JoinColumn(name="programme", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      * @var \BiberLtd\Bundle\TvManagementBundle\Entity\TvProgramme
@@ -46,6 +47,7 @@ class GenresOfTvProgramme extends CoreEntity
     private $programme;
 
     /**
+     * @ORM\Id
      * @ORM\ManyToOne(targetEntity="BiberLtd\Bundle\TvManagementBundle\Entity\TvProgrammeGenre")
      * @ORM\JoinColumn(name="genre", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      * @var \BiberLtd\Bundle\TvManagementBundle\Entity\TvProgrammeGenre
