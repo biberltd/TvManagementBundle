@@ -3728,4 +3728,97 @@ class TvManagementModel extends CoreModel{
 		return new ModelResponse($collection, $totalRows, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, time());
 	}
 
+	/**
+	 * @param mixed $tvProgrammeReminder
+	 * @return ModelResponse
+	 */
+	public function getTvProgrammeReminder($tvProgrammeReminder) {
+		$timeStamp = time();
+		if($tvProgrammeReminder instanceof BundleEntity\TvProgrammeReminder){
+			return new ModelResponse($tvProgrammeReminder, 1, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, time());
+		}
+		$result = null;
+		switch($tvProgrammeReminder){
+			case is_object($tvProgrammeReminder):
+				$result = $this->em->getRepository($this->entity['tvpr']['name'])->findOneBy(array('member' => $tvProgrammeReminder->member, 'programme'=>$tvProgrammeReminder->programme));
+				break;
+		}
+		if(is_null($result)){
+			return new ModelResponse($result, 0, 0, null, true, 'E:D:002', 'Unable to find request entry in database.', $timeStamp, time());
+		}
+
+		return new ModelResponse($result, 1, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, time());
+	}
+
+	/**
+	 * @param array $collection
+	 * @return array|ModelResponse
+	 */
+	public function insertTvProgrammeReminders(array $collection) {
+		$timeStamp = time();
+		if (!is_array($collection)) {
+			return $this->createException('InvalidParameterValueException', 'Invalid parameter value. Parameter must be an array collection', 'E:S:001');
+		}
+		$countInserts = 0;
+		$insertedItems = array();
+		foreach($collection as $data){
+			if($data instanceof BundleEntity\TvProgrammeReminder){
+				$entity = $data;
+				$this->em->persist($entity);
+				$insertedItems[] = $entity;
+				$countInserts++;
+			}
+			else if(is_object($data)){
+				$entity = new BundleEntity\TvProgrammeReminder();
+				foreach($data as $column => $value){
+					$set = 'set'.$this->translateColumnName($column);
+					switch($column){
+						default:
+							$entity->$set($value);
+							break;
+					}
+				}
+				$this->em->persist($entity);
+				$insertedItems[] = $entity;
+				$countInserts++;
+			}
+		}
+		if($countInserts > 0){
+			$this->em->flush();
+			return new ModelResponse($insertedItems, $countInserts, 0, null, false, 'S:D:003', 'Selected entries have been successfully inserted into database.', $timeStamp, time());
+		}
+		return new ModelResponse(null, 0, 0, null, true, 'E:D:003', 'One or more entities cannot be inserted into database.', $timeStamp, time());
+	}
+
+	/**
+	 * @param array $collection
+	 * @return array|ModelResponse
+	 */
+	public function deleteTvProgrammeReminders(array $collection) {
+		$timeStamp = time();
+		if (!is_array($collection)) {
+			return $this->createException('InvalidParameterValueException', 'Invalid parameter value. Parameter must be an array collection', 'E:S:001');
+		}
+		$countDeleted = 0;
+		foreach($collection as $entry){
+			if($entry instanceof BundleEntity\TvProgrammeReminder){
+				$this->em->remove($entry);
+				$countDeleted++;
+			}
+			else{
+				$response = $this->getTvProgrammeReminder($entry);
+				if(!$response->error->exist){
+					$entry = $response->result->set;
+					$this->em->remove($entry);
+					$countDeleted++;
+				}
+			}
+		}
+		if($countDeleted < 0){
+			return new ModelResponse(null, 0, 0, null, true, 'E:E:001', 'Unable to delete all or some of the selected entries.', $timeStamp, time());
+		}
+		$this->em->flush();
+
+		return new ModelResponse(null, 0, 0, null, false, 'S:D:001', 'Selected entries have been successfully removed from database.', $timeStamp, time());
+	}
 }
