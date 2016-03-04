@@ -62,6 +62,7 @@ class TvProgrammeSchedule extends CoreEntity
     private $duration;
 
     /**
+     * @ORM\Id
      * @ORM\ManyToOne(targetEntity="BiberLtd\Bundle\TvManagementBundle\Entity\TvChannel")
      * @ORM\JoinColumn(name="channel", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      * @var \BiberLtd\Bundle\TvManagementBundle\Entity\TvChannel
@@ -69,6 +70,7 @@ class TvProgrammeSchedule extends CoreEntity
     private $channel;
 
     /**
+     * @ORM\Id
      * @ORM\ManyToOne(targetEntity="BiberLtd\Bundle\TvManagementBundle\Entity\TvProgramme")
      * @ORM\JoinColumn(name="programme", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      * @var \BiberLtd\Bundle\TvManagementBundle\Entity\TvProgramme
@@ -120,7 +122,7 @@ class TvProgrammeSchedule extends CoreEntity
 	/**
 	 * @return \DateTime
 	 */
-	public function getActualTime(){
+	public function getActualmicrotime(){
 		return $this->actual_time;
 	}
 
@@ -141,7 +143,7 @@ class TvProgrammeSchedule extends CoreEntity
 	/**
 	 * @return \DateTime
 	 */
-	public function getEndTime(){
+	public function getEndmicrotime(){
 		return $this->end_time;
 	}
 
