@@ -3820,4 +3820,118 @@ class TvManagementModel extends CoreModel{
 
 		return new ModelResponse(null, 0, 0, null, false, 'S:D:001', 'Selected entries have been successfully removed from database.', $timeStamp, time());
 	}
+
+	/**
+	 * @param           $member
+	 * @param \DateTime $date
+	 * @param null      $sortOrder
+	 * @param null      $limit
+	 *
+	 * @return mixed
+	 */
+	public function listRemindersOfMember($member, \DateTime $date, $sortOrder = null, $limit = null){
+		$mModel = $this->kernel->getContainer()->get('membermanagement.model');
+		$response = $mModel->getMember($member);
+		if($response->error->exist){
+			return $response;
+		}
+		$member = $response->result->set;
+		$filter[] = array(
+			'glue' => 'and',
+			'condition' => array(
+				array(
+					'glue' => 'and',
+					'condition' => array('column' => $this->entity['tvpr']['alias'] . '.member', 'comparison' => '=', 'value' => $member->getId()),
+				)
+			)
+		);
+		unset($response);
+		return $this->listTvProgrammeReminders();
+	}
+
+	/**
+	 * @param           $member
+	 * @param \DateTime $date
+	 * @param null      $sortOrder
+	 * @param null      $limit
+	 *
+	 * @return mixed
+	 */
+	public function listFutureRemindersOfMember($member, \DateTime $date, $sortOrder = null, $limit = null){
+		$mModel = $this->kernel->getContainer()->get('membermanagement.model');
+		$response = $mModel->getMember($member);
+		if($response->error->exist){
+			return $response;
+		}
+		$member = $response->result->set;
+		$filter[] = array(
+			'glue' => 'and',
+			'condition' => array(
+				array(
+					'glue' => 'and',
+					'condition' => array('column' => $this->entity['tvpr']['alias'] . '.member', 'comparison' => '=', 'value' => $member->getId()),
+				),
+				array(
+					'glue' => 'and',
+					'condition' => array('column' => $this->entity['tvpr']['alias'] . '.date_reminder', 'comparison' => '>', 'value' => $date->format('Y-m-d H:i:s')),
+				),
+			)
+		);
+		unset($response);
+		return $this->listTvProgrammeReminders();
+	}
+
+	/**
+	 * @param null $filter
+	 * @param null $sortOrder
+	 * @param null $limit
+	 *
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 */
+	public function listTvProgrammeReminders($filter = null, $sortOrder = null, $limit = null) {
+		$timeStamp = time();
+		if (!is_array($sortOrder) && !is_null($sortOrder)) {
+			return $this->createException('InvalidSortOrderException', '$sortOrder must be an array with key => value pairs where value can only be "asc" or "desc".', 'E:S:002');
+		}
+		$oStr = $wStr = $gStr = $fStr = '';
+
+		$qStr = 'SELECT '.$this->entity['tvc']['alias']
+			.' FROM '.$this->entity['tvpr']['name'].' '.$this->entity['tvpr']['alias'];
+
+		if (!is_null($sortOrder)) {
+			foreach ($sortOrder as $column => $direction) {
+				switch ($column) {
+					case 'date_reminder':
+					case 'date_added':
+					case 'date_updated':
+					case 'date_removed':
+						$column = $this->entity['tvpr']['alias'].'.'.$column;
+						break;
+					default:
+						break;
+				}
+				$oStr .= ' '.$column.' '.strtoupper($direction).', ';
+			}
+			$oStr = rtrim($oStr, ', ');
+			$oStr = ' ORDER BY '.$oStr.' ';
+		}
+
+		if (!is_null($filter)) {
+			$fStr = $this->prepareWhere($filter);
+			$wStr .= ' WHERE '.$fStr;
+		}
+
+		$qStr .= $wStr.$gStr.$oStr;
+
+		$query = $this->em->createQuery($qStr);
+		$query = $this->addLimit($query, $limit);
+
+		$result = $query->getResult();
+
+		$totalRows = count($result);
+		if ($totalRows < 1) {
+			return new ModelResponse(null, 0, 0, null, true, 'E:D:002', 'No entries found in database that matches to your criterion.', $timeStamp, time());
+		}
+		return new ModelResponse($result, $totalRows, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, time());
+	}
 }
