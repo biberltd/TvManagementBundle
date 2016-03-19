@@ -3823,14 +3823,13 @@ class TvManagementModel extends CoreModel{
 	}
 
 	/**
-	 * @param mixed $member
-	 * @param \DateTime  $date
+	 * @param            $member
 	 * @param array|null $sortOrder
 	 * @param array|null $limit
 	 *
 	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
-	public function listRemindersOfMember($member, \DateTime $date, array $sortOrder = null, array $limit = null){
+	public function listRemindersOfMember($member, array $sortOrder = null, array $limit = null){
 		$mModel = $this->kernel->getContainer()->get('membermanagement.model');
 		$response = $mModel->getMember($member);
 		if($response->error->exist){
@@ -3847,7 +3846,7 @@ class TvManagementModel extends CoreModel{
 			)
 		);
 		unset($response);
-		return $this->listTvProgrammeReminders();
+		return $this->listTvProgrammeReminders($filter, $sortOrder, $limit);
 	}
 
 	/**
@@ -3879,7 +3878,7 @@ class TvManagementModel extends CoreModel{
 			)
 		);
 		unset($response);
-		return $this->listTvProgrammeReminders();
+		return $this->listTvProgrammeReminders($filter, $sortOrder, $limit);
 	}
 
 	/**
