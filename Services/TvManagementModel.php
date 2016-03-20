@@ -2243,18 +2243,21 @@ class TvManagementModel extends CoreModel{
 		);
 		$tvpsSortOrder = array();
 		$tvpSortOrder = array();
-		foreach($sortOrder as $key => $value){
-			switch($key){
-				case 'actual_time':
-				case 'end_time':
-				case 'duration':
-					$tvpsSortOrder[] = array($key => $value);
-					break;
-				default:
-					$tvpSortOrder[] = array($key => $value);
-					break;
+		if(!is_null($sortOrder)){
+			foreach($sortOrder as $key => $value){
+				switch($key){
+					case 'actual_time':
+					case 'end_time':
+					case 'duration':
+						$tvpsSortOrder[] = array($key => $value);
+						break;
+					default:
+						$tvpSortOrder[] = array($key => $value);
+						break;
+				}
 			}
 		}
+
 		unset($sortOrder);
 		$response = $this->listTvProgrammeSchedules(null, $tvpsSortOrder, null, true);
 		if($response->error->exist){
