@@ -1607,7 +1607,7 @@ class TvManagementModel extends CoreModel{
 		$localizations = array();
 		$now = new \DateTime('now', new \DateTimeZone($this->kernel->getContainer()->getParameter('app_timezone')));
 		foreach ($collection as $data) {
-			if ($data instanceof BundleEntity\TvProgrammeGenres) {
+			if ($data instanceof BundleEntity\TvProgrammeGenre) {
 				$entity = $data;
 				$this->em->persist($entity);
 				$insertedItems[] = $entity;
@@ -2252,7 +2252,7 @@ class TvManagementModel extends CoreModel{
 						$tvpsSortOrder[] = array($key => $value);
 						break;
 					default:
-						$tvpSortOrder[] = array($key => $value);
+						$tvpSortOrgder[] = array($key => $value);
 						break;
 				}
 			}
@@ -3897,7 +3897,7 @@ class TvManagementModel extends CoreModel{
 		}
 		$oStr = $wStr = $gStr = $fStr = '';
 
-		$qStr = 'SELECT '.$this->entity['tvc']['alias']
+		$qStr = 'SELECT '.$this->entity['tvpr']['alias']
 			.' FROM '.$this->entity['tvpr']['name'].' '.$this->entity['tvpr']['alias'];
 
 		if (!is_null($sortOrder)) {
