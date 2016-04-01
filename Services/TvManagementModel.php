@@ -1965,10 +1965,10 @@ class TvManagementModel extends CoreModel{
 				case 'actual_time':
 				case 'end_time':
 				case 'duration':
-					$tvpsSortOrder[] = array($key => $value);
+					$tvpsSortOrder = array($key => $value);
 					break;
 				default:
-					$tvpSortOrder[] = array($key => $value);
+					$tvpSortOrder = array($key => $value);
 					break;
 			}
 		}
@@ -2039,10 +2039,10 @@ class TvManagementModel extends CoreModel{
 				case 'actual_time':
 				case 'end_time':
 				case 'duration':
-					$tvpsSortOrder[] = array($key => $value);
+					$tvpsSortOrder = array($key => $value);
 					break;
 				default:
-					$tvpSortOrder[] = array($key => $value);
+					$tvpSortOrder = array($key => $value);
 					break;
 			}
 		}
@@ -2256,10 +2256,10 @@ class TvManagementModel extends CoreModel{
 					case 'actual_time':
 					case 'end_time':
 					case 'duration':
-						$tvpsSortOrder[] = array($key => $value);
+						$tvpsSortOrder = array($key => $value);
 						break;
 					default:
-						$tvpSortOrgder[] = array($key => $value);
+						$tvpSortOrgder = array($key => $value);
 						break;
 				}
 			}
@@ -2496,10 +2496,10 @@ class TvManagementModel extends CoreModel{
 				case 'actual_time':
 				case 'end_time':
 				case 'duration':
-					$tvpsSortOrder[] = array($key => $value);
+					$tvpsSortOrder = array($key => $value);
 					break;
 				default:
-					$tvpSortOrder[] = array($key => $value);
+					$tvpSortOrder = array($key => $value);
 					break;
 			}
 		}
@@ -2781,10 +2781,10 @@ class TvManagementModel extends CoreModel{
 				case 'actual_time':
 				case 'end_time':
 				case 'duration':
-					$tvpsSortOrder[] = array($key => $value);
+					$tvpsSortOrder = array($key => $value);
 					break;
 				default:
-					$tvpSortOrder[] = array($key => $value);
+					$tvpSortOrder = array($key => $value);
 					break;
 			}
 		}
