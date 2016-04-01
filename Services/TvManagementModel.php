@@ -2047,7 +2047,7 @@ class TvManagementModel extends CoreModel{
 			}
 		}
 		unset($sortOrder);
-		$response = $this->listTvProgrammeSchedules(null, $tvpsSortOrder, null, true);
+		$response = $this->listTvProgrammeSchedules($filter, $tvpsSortOrder, null, true);
 		if($response->error->exist){
 			$response->stats->execution->start = $timeStamp;
 			return $response;
