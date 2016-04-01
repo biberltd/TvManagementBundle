@@ -1826,9 +1826,22 @@ class TvManagementModel extends CoreModel{
 		return new ModelResponse(null, 0, 0, null, true, 'E:D:004', 'One or more entities cannot be updated within database.', $timeStamp, time());
 	}
 
-	public function listTvProgrammeSchedulesOfProgramme($tvProgrammeId) {
+	/**
+	 * @param mixed $tvProgramme
+	 * @param array|null $sortOrder
+	 * @param array|null $limit
+	 *
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 */
+	public function listTvProgrammeSchedulesOfProgramme($tvProgramme, array $sortOrder = null, array $limit = null) {
 		$column = $this->entity['tvps']['alias'] . '.programme';
-		$condition = array('column' => $column, 'comparison' => '=', 'value' => $tvProgrammeId);
+		$response = $this->getTvProgramme($tvProgramme);
+		if($response->error->exist){
+			return $response;
+		}
+		$tvProgramme = $response->result->set;
+		unset($response);
+		$condition = array('column' => $column, 'comparison' => '=', 'value' => $tvProgramme->getId());
 		$filter[] = array(
 			'glue' => 'and',
 			'condition' => array(
@@ -1839,7 +1852,7 @@ class TvManagementModel extends CoreModel{
 			)
 		);
 
-		return $this->listTvProgrammeSchedules($filter, null, null, true);
+		return $this->listTvProgrammeSchedules($filter, $sortOrder, $limit, true);
 	}
 
 	/**
