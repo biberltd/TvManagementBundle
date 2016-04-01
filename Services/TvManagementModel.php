@@ -3947,4 +3947,48 @@ class TvManagementModel extends CoreModel{
 		}
 		return new ModelResponse($result, $totalRows, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, time());
 	}
+
+	/**
+	 * @param            $programme
+	 * @param array|null $sortOrder
+	 * @param array|null $limit
+	 *
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 */
+	public function listRemindersOfTvProgramme($programme, array $sortOrder = null, array $limit = null){
+		return $this->listRemindersOfTvProgrammes(array($programme), $sortOrder, $limit);
+	}
+
+	/**
+	 * @param array      $programmes
+	 * @param array|null $sortOrder
+	 * @param array|null $limit
+	 *
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 */
+	public function listRemindersOfTvProgrammes(array $programmes, array $sortOrder = null, array $limit = null){
+		$pIds = [];
+		foreach($programmes as $programme){
+			$response = $this->getTvProgramme($programme);
+			if($response->error->exist){
+				continue;
+			}
+			$programme = $response->result->set;
+			$pIds[] = $programme->getId();
+		}
+		if(count($pIds) < 1){
+			return new ModelResponse(null, 0, 0, null, true, 'E:D:002', 'No entries found in database that matches to your criterion.', $timeStamp, time());
+		}
+		$filter[] = array(
+			'glue' => 'and',
+			'condition' => array(
+				array(
+					'glue' => 'and',
+					'condition' => array('column' => $this->entity['tvpr']['alias'] . '.programme', 'comparison' => 'in', 'value' => $pIds),
+				)
+			)
+		);
+		unset($response);
+		return $this->listTvProgrammeReminders($filter, $sortOrder, $limit);
+	}
 }
