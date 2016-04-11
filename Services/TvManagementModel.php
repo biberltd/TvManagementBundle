@@ -600,7 +600,8 @@ class TvManagementModel extends CoreModel{
 
 		$qStr = 'SELECT '. $this->entity['tvpcl']['alias']
 			. ' FROM ' . $this->entity['tvpcl']['name'] . ' ' . $this->entity['tvpcl']['alias']
-			. ' JOIN ' . $this->entity['tvpcl']['alias'] . '.category ' . $this->entity['tvpc']['alias'];
+			. ' JOIN ' . $this->entity['tvpcl']['alias'] . '.category ' . $this->entity['tvpc']['alias']
+			. ' WITH '. $this->entity['tvpcl']['alias'].'.category = '. $this->entity['tvpc']['alias'].'.id';
 
 		if (!is_null($sortOrder)) {
 			foreach ($sortOrder as $column => $direction) {
@@ -1522,7 +1523,8 @@ class TvManagementModel extends CoreModel{
 
 		$qStr = 'SELECT '. $this->entity['tvpgl']['alias']
 			. ' FROM ' . $this->entity['tvpgl']['name'] . ' ' . $this->entity['tvpgl']['alias']
-			. ' JOIN ' . $this->entity['tvpgl']['alias'] . '.genre ' . $this->entity['tvpg']['alias'];
+			. ' JOIN ' . $this->entity['tvpgl']['alias'] . '.genre ' . $this->entity['tvpg']['alias']
+			. ' WITH '. $this->entity['tvpgl']['alias'].'.genre = '. $this->entity['tvpg']['alias'].'.id';
 
 		if (!is_null($sortOrder)) {
 			foreach ($sortOrder as $column => $direction) {
@@ -2884,6 +2886,7 @@ class TvManagementModel extends CoreModel{
 		$qStr = 'SELECT ' . $this->entity['cotp']['alias']
 			. ' FROM ' . $this->entity['tvp']['name'] . ' ' . $this->entity['tvp']['alias']
 			. ' JOIN ' . $this->entity['cotp']['name'] . ' ' . $this->entity['cotp']['alias']
+			. ' WITH '. $this->entity['cotp']['alias'].'.programme = '. $this->entity['tvp']['alias'].'.id'
 			. ' WHERE ' . $this->entity['cotp']['alias'] . '.category IN ' . $categoryIdStr;
 
 		$oStr = '';
@@ -2977,6 +2980,7 @@ class TvManagementModel extends CoreModel{
 		$qStr = 'SELECT ' . $this->entity['gotp']['alias']
 			. ' FROM ' . $this->entity['gotp']['name'] . ' ' . $this->entity['gotp']['alias']
 			. ' JOIN ' . $this->entity['gotp']['alias'] . '.programme ' . $this->entity['tvp']['alias']
+			. ' WITH '. $this->entity['gotp']['alias'].'.programme = '. $this->entity['tvp']['alias'].'.id'
 			. ' WHERE ' . $this->entity['gotp']['alias'] . '.genre IN ' . $genreIdsStr;
 
 
@@ -3621,6 +3625,7 @@ class TvManagementModel extends CoreModel{
 		$qStr = 'SELECT ' . $this->entity['gotp']['alias']
 			. ' FROM ' . $this->entity['gotp']['name'] . ' ' . $this->entity['gotp']['alias']
 			. ' JOIN ' . $this->entity['gotp']['alias'] . '.programme ' . $this->entity['tvp']['alias']
+			. ' WITH '. $this->entity['gotp']['alias'].'.programme= '. $this->entity['tvp']['alias'].'.id'
 			. ' WHERE ' . $this->entity['gotp']['alias'] . '.programme = ' . $programme->getId();
 
 
@@ -3692,6 +3697,7 @@ class TvManagementModel extends CoreModel{
 		$qStr = 'SELECT ' . $this->entity['cotp']['alias']
 			. ' FROM ' . $this->entity['cotp']['name'] . ' ' . $this->entity['cotp']['alias']
 			. ' JOIN ' . $this->entity['cotp']['alias'] . '.programme ' . $this->entity['tvp']['alias']
+			. ' WITH '. $this->entity['cotp']['alias'].'.category = '. $this->entity['tvpc']['alias'].'.id'
 			. ' WHERE ' . $this->entity['cotp']['alias'] . '.programme = ' . $programme->getId();
 
 
@@ -3990,5 +3996,53 @@ class TvManagementModel extends CoreModel{
 		);
 		unset($response);
 		return $this->listTvProgrammeReminders($filter, $sortOrder, $limit);
+	}
+	/**
+	 * @param mixed $category
+	 * @param array|null $sortOrder
+	 * @param array|null $limit
+	 *
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 */
+	public function listChildCategoriesOfTvProgrammeCategory($category, array $sortOrder = null, array $limit = null)
+	{
+		$response = $this->getTvProgrammeCategory($category);
+		if($response->error->exist){
+			return $response;
+		}
+		$category = $response->result->set;
+		$column = $this->entity['tvpc']['alias'] . '.parent';
+		$condition = array('column' => $column, 'comparison' => 'eq', 'value' => $category->getId());
+		$filter[] = array(
+			'glue' => 'and',
+			'condition' => array(
+				array(
+					'glue' => 'and',
+					'condition' => $condition,
+				)
+			)
+		);
+		return $this->listTvProgrammeCategories($filter, $sortOrder, $limit);
+	}
+	/**
+	 * @param array|null $sortOrder
+	 * @param array|null $limit
+	 *
+	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 */
+	public function listParentOnlyTvProgrammeCategories(array $sortOrder = null, array $limit = null)
+	{
+		$column = $this->entity['tvpc']['alias'] . '.parent';
+		$condition = array('column' => $column, 'comparison' => 'null', 'value' => null);
+		$filter[] = array(
+			'glue' => 'and',
+			'condition' => array(
+				array(
+					'glue' => 'and',
+					'condition' => $condition,
+				)
+			)
+		);
+		return $this->listTvProgrammeCategories($filter, $sortOrder, $limit);
 	}
 }
