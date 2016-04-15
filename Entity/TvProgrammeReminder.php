@@ -36,15 +36,16 @@ class TvProgrammeReminder extends CoreEntity
     /**
      * @ORM\Id
      * @ORM\ManyToOne(targetEntity="BiberLtd\Bundle\MemberManagementBundle\Entity\Member")
-     * @ORM\JoinColumn(name="member", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\JoinColumn(name="member", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      * @var \BiberLtd\Bundle\MemberManagementBundle\Entity\Member
      */
     private $member;
 
     /**
      * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="BiberLtd\Bundle\TvManagementBundle\Entity\TvProgramme")
-     * @ORM\JoinColumn(name="programme", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\ManyToOne(targetEntity="BiberLtd\Bundle\TvManagementBundle\Entity\TvProgramme
+")
+     * @ORM\JoinColumn(name="programme", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      * @var \BiberLtd\Bundle\TvManagementBundle\Entity\TvProgramme
      */
     private $programme;

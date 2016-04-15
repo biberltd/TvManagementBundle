@@ -39,15 +39,16 @@ class GenresOfTvProgramme extends CoreEntity
     public $date_removed;
 
     /**
-     * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="BiberLtd\Bundle\TvManagementBundle\Entity\TvProgramme")
+     * 
+     * @ORM\ManyToOne(targetEntity="BiberLtd\Bundle\TvManagementBundle\Entity\TvProgramme
+")
      * @ORM\JoinColumn(name="programme", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      * @var \BiberLtd\Bundle\TvManagementBundle\Entity\TvProgramme
      */
     private $programme;
 
     /**
-     * @ORM\Id
+     * 
      * @ORM\ManyToOne(targetEntity="BiberLtd\Bundle\TvManagementBundle\Entity\TvProgrammeGenre")
      * @ORM\JoinColumn(name="genre", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      * @var \BiberLtd\Bundle\TvManagementBundle\Entity\TvProgrammeGenre

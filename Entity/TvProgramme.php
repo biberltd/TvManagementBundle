@@ -128,6 +128,12 @@ class TvProgramme extends CoreEntity
     private $raw_json;
 
     /**
+     * @ORM\Column(type="text", nullable=true)
+     * @var string
+     */
+    private $uniq_key;
+
+    /**
      * @return int
      */
     public function getId(){
@@ -439,6 +445,27 @@ class TvProgramme extends CoreEntity
         }
         $this->raw_json = $raw_json;
 
+        return $this;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getUniqKey(){
+        return $this->uniq_key;
+    }
+    
+    /**
+     * @param string $uniq_key
+     *
+     * @return $this
+     */
+    public function setUniqKey(string $uniq_key){
+        if(!$this->setModified('uniq_key', $uniq_key)->isModified()){
+            return $this;
+        }
+        $this->uniq_key = $uniq_key;
+        
         return $this;
     }
 }

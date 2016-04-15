@@ -90,6 +90,7 @@ CREATE TABLE `tv_programme` (
   `is_dubbed` char(1) COLLATE utf8_turkish_ci DEFAULT NULL COMMENT 'y:yes,n:no',
   `is_turkish` char(1) COLLATE utf8_turkish_ci DEFAULT NULL COMMENT 'y:yes,n:no',
   `raw_json` longtext COLLATE utf8_turkish_ci,
+  `uniq_key` text COLLATE utf8_turkish_ci DEFAULT  NULL COMMENT 'A special key to identify unique programmes.',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
 
