@@ -16,61 +16,51 @@ use Doctrine\ORM\Mapping AS ORM;
  * @ORM\Table(name="tv_programme", options={"charset":"utf8","collate":"utf8_turkish_ci","engine":"innodb"})
  */
 class TvProgramme extends CoreEntity
-
 {
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @var int
      */
     private $id;
 
     /**
      * @ORM\Column(type="text", nullable=true)
-     * @var string
      */
     private $summary;
 
     /**
      * @ORM\Column(type="datetime", nullable=false)
-     * @var \DateTime
      */
-    public $date_added;
+    private $date_added;
 
     /**
      * @ORM\Column(type="datetime", nullable=false)
-     * @var \DateTime
      */
-    public $date_updated;
+    private $date_updated;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     * @var \DateTime
      */
-    public  $date_removed;
+    private $date_removed;
 
     /**
      * @ORM\Column(type="string", unique=true, nullable=true)
-     * @var string
      */
     private $title_original;
 
     /**
      * @ORM\Column(type="string", nullable=true)
-     * @var string
      */
     private $title_local;
 
     /**
      * @ORM\Column(type="string", nullable=true)
-     * @var string
      */
     private $broadcast_type;
 
     /**
      * @ORM\Column(type="text", nullable=true)
-     * @var string
      */
     private $description;
 
@@ -81,51 +71,48 @@ class TvProgramme extends CoreEntity
 
     /**
      * @ORM\Column(type="string", length=1, nullable=true)
-     * @var string
      */
     private $rating_tag;
 
     /**
      * @ORM\Column(type="text", nullable=true)
-     * @var string
      */
     private $url;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @var string
      */
     private $presenter;
 
     /**
      * @ORM\Column(type="string", length=3, nullable=true)
-     * @var string
      */
     private $broadcast_quality;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
-     * @var int
      */
     private $production_year;
 
     /**
      * @ORM\Column(type="string", nullable=true)
-     * @var string
      */
     private $is_dubbed;
 
     /**
      * @ORM\Column(type="string", length=1, nullable=true)
-     * @var string
      */
     private $is_turkish;
 
     /**
      * @ORM\Column(type="text", nullable=true)
-     * @var string
      */
     private $raw_json;
+
+    /**
+     *
+     */
+    private $uniqe_key;
 
     /**
      * @return int
@@ -441,4 +428,27 @@ class TvProgramme extends CoreEntity
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getUniqeKey(){
+        return $this->uniqe_key;
+    }
+
+    /**
+     * @param $uniqe_key
+     *
+     * @return $this
+     */
+    public function setUniqeKey($uniqe_key){
+        if(!$this->setModified('uniqe_key', $uniqe_key)->isModified()){
+            return $this;
+        }
+        $this->uniqe_key = $uniqe_key;
+
+        return $this;
+    }
+
+
 }
