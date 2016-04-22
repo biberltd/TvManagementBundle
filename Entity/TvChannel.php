@@ -29,7 +29,7 @@ class TvChannel extends CoreEntity
     private $id;
 
     /**
-     * @ORM\Column(nullable=false)
+     * @ORM\Column(type="string", nullable=false)
      * @var string
      */
     private $name;
@@ -41,7 +41,7 @@ class TvChannel extends CoreEntity
     private $logo;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\Column(type="string", nullable=true)
      * @var string
      */
     private $frequency;
@@ -63,6 +63,16 @@ class TvChannel extends CoreEntity
      * @var \DateTime
      */
 	public $date_removed;
+
+	/**
+	 * @ORM\Column(type="string", nullable=true)
+	 */
+	private $url_key;
+
+	/**
+	 * @ORM\Column(type="string", nullable=false, options={"default":false})
+	 */
+	private $is_premium;
 
 	/**
 	 * @return mixed

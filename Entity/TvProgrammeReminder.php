@@ -34,6 +34,11 @@ class TvProgrammeReminder extends CoreEntity
     private $date_reminder;
 
     /**
+     * @ORM\Column(type="string", nullable=false)
+     */
+    private $reminder_date;
+
+    /**
      * @ORM\Id
      * @ORM\ManyToOne(targetEntity="BiberLtd\Bundle\MemberManagementBundle\Entity\Member")
      * @ORM\JoinColumn(name="member", referencedColumnName="id", nullable=false, onDelete="CASCADE")

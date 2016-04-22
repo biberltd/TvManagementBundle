@@ -3,7 +3,7 @@
   <module name="\TvManagementBundle" local-name="TvManagementBundle" namespace="\BiberLtd\Bundle\TvManagementBundle\Entity" local-namespace="BiberLtd\Bundle\TvManagementBundle\Entity" export-format="Doctrine2Php" export-path="../Entity" uuid="8df118b3-f262-4295-8436-9b1c655d84fc">
     <entity name="\BiberLtd\Bundle\TvManagementBundle\Entity\TvProgramme&#10;" local-name="TvProgramme&#10;" namespace="\BiberLtd\Bundle\TvManagementBundle\Entity" description="Holds details of a tv programme." uuid="1be2d3b4-aa06-4d8c-8620-b7a43c163b30">
       <field name="id" description="System given id." type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="33518d09-00c7-48ab-b364-5590f147ed3f"/>
-      <field name="summary" description="Summary / description of programme." type="text" uuid="e422e9bd-eac6-4171-be57-11d192ad3f63"/>
+      <field name="summary" description="Summary / description of programme." type="string" uuid="15cf6375-67fa-4092-9362-971b394e13ac"/>
       <field name="date_added" description="Date when the record first added." type="datetime" required="true" uuid="46bd4910-1f08-4601-95c3-bff57f7c7372"/>
       <field name="date_updated" description="Date when the record is last updated." type="datetime" required="true" uuid="f03d19dd-a22d-484e-943f-13d8e8c92f49"/>
       <field name="date_removed" description="Date when the record is marked as removed." type="datetime" uuid="8a77162a-5559-4e0b-a0be-68f40e87d770"/>
@@ -21,6 +21,18 @@
       <field name="is_turkish" description="y:yes,n:no" type="string" size="1" uuid="fe121fdd-0bbb-44c0-8892-ccfd445e70f4"/>
       <field name="raw_json" description="Raw json entry." type="text" uuid="2214a1ce-081f-4fb0-9f9d-8b1c3d3970c9"/>
       <field name="uniqe_key" description="A special key that is used to identify unique programmes." type="text" uuid="81c6af45-173e-4ec3-8819-f1bcc41cdcb3"/>
+      <field name="preview" description="Preview of tv programme." type="string" uuid="a4706ee2-0a30-4456-aa16-419de0d0193c"/>
+      <field name="channel" description="Channel of tv programme." type="integer" required="true" uuid="8483bc4d-779b-4665-a2dd-b47e0d1e0598"/>
+      <field name="scheduleId" description="Schedule id." type="integer" uuid="96af2e41-1557-498b-bac6-5ba04c48a6dd"/>
+      <field name="time" description="Time of tv programme." type="string" required="true" uuid="1a9b9da0-2e8f-45fa-95d0-ac444a46a1d0"/>
+      <field name="end_time" description="End time of tv programme." type="string" uuid="22a89045-4940-4fb3-aa73-00b6326480eb"/>
+      <field name="duration" description="Duration of tv programme in minutes." type="integer" uuid="381121db-15ac-444f-9cec-8736e8ebf75b"/>
+      <field name="categories" description="Categories of tv programme." type="array" required="true" uuid="308fea07-caf2-4afe-8d5a-a47eefbe169d"/>
+      <field name="genres" description="Genre of tv programme." type="array" required="true" uuid="2ce1a818-f969-4eb5-8511-8a5cd87d8ec8"/>
+      <field name="raiting" description="Raiting of tv programme." type="string" uuid="ca282497-5b37-4a87-bc0f-1db2055a5fc2"/>
+      <field name="title" description="Title of tv programme." type="string" required="true" uuid="21078f7b-19aa-48bf-bc92-5519a46c15a7"/>
+      <field name="is_reminded" type="boolean" required="true" uuid="1fc3cdec-c32c-459c-9cd3-e2ab8f086141"/>
+      <field name="is_local" type="datetimetz" required="true" uuid="90e03aee-6ee1-4b01-b2e6-b0ce1a2e6ddf"/>
       <orm-attributes>
         <attribute name="table">tv_programme</attribute>
         <attribute name="export-file-name">TvProgramme.php</attribute>
@@ -115,12 +127,14 @@
           </attribute>
         </orm-attributes>
       </field>
-      <field name="name" description="Name of tv channel." required="true" uuid="b294bafd-56fc-4739-b91c-d2caf6505851"/>
+      <field name="name" description="Name of tv channel." type="string" required="true" uuid="b294bafd-56fc-4739-b91c-d2caf6505851"/>
       <field name="logo" description="Path to logo image." type="string" uuid="5a585308-9b6e-495f-80c2-8547feefbc78"/>
-      <field name="frequency" description="Tv frequency. It may be a json string for complex requirements." type="text" uuid="2b917837-24d0-4282-b95e-61dc16f98b10"/>
+      <field name="frequency" description="Tv frequency. It may be a json string for complex requirements." type="string" uuid="2b917837-24d0-4282-b95e-61dc16f98b10"/>
       <field name="date_added" description="Date when the record first added." type="datetime" required="true" uuid="66b966eb-f95e-4a55-a9b2-b1bc718148c2"/>
       <field name="date_updated" description="Date when the record last updated." type="datetime" required="true" uuid="40922b51-8c72-4836-8152-255b6bcbba7b"/>
       <field name="date_removed" description="Date when the record was last removed." type="datetime" uuid="09f8f7a1-4b85-4fde-982a-eadd50269a07"/>
+      <field name="url_key" description="Tv channel url key." type="string" uuid="556937a4-bf73-478e-a4d8-d809486726a7"/>
+      <field name="is_premium" description="Tv channel status." type="string" default="false" required="true" uuid="69e4b2bb-0c5d-4a0f-bee3-4ff2d53736ba"/>
       <orm-attributes>
         <attribute name="table">tv_channel</attribute>
         <attribute name="export-file-name">TvChannel.php</attribute>
@@ -143,7 +157,12 @@
       <field name="date_added" description="Date when the entry is first added." type="datetime" required="true" uuid="047df2ae-7eca-4ffd-8ab6-ae9d5dd22cd9"/>
       <field name="date_updated" description="Date when the entry is last updated." type="datetime" required="true" uuid="d8ec7126-492a-4dcd-9b06-49235fb34d03"/>
       <field name="date_removed" description="Date when the entry is marked as removed.7" type="datetime" uuid="e1721fe7-5199-42a5-8272-f1cdbf5c710e"/>
-      <field name="parent" type="integer" size="5" uuid="415490e0-68ba-4186-a133-4e18ac58a4fa"/>
+      <field name="parent" description="Parent of tv programme category." type="integer" size="5" uuid="415490e0-68ba-4186-a133-4e18ac58a4fa"/>
+      <field name="name" description="Name of tv programme category." type="string" required="true" uuid="8fd20f56-4b74-487e-bf70-0ac4fcd80cee"/>
+      <field name="display_name" description="Display name of tv programme category." type="string" uuid="8cd0ccdf-50dc-438d-805c-9aa6d2c6fe63"/>
+      <field name="url_key" description="Url key of tv programme category." type="string" uuid="cd03f381-bf3d-4cee-95df-10a4216f28fc"/>
+      <field name="count_programmes" type="integer" default="0" uuid="a19e1d1f-be04-47cd-8d1d-401cea6cb075"/>
+      <field name="children" description="Array of tv programme category." type="array" uuid="e20abf61-7ec9-4869-8907-1ce801f1d9d3"/>
       <orm-attributes>
         <attribute name="export-file-name">TvProgrammeCategory.php</attribute>
         <attribute name="table">tv_programme_category</attribute>
@@ -205,6 +224,9 @@
       <field name="date_updated" description="Date when the entry is last updated." type="datetime" required="true" uuid="b1a6e65b-991d-49e5-b547-97035817e6bf"/>
       <field name="date_removed" description="Date when the entry is marked as removed.7" type="datetime" uuid="87d3c628-3728-4123-98df-149466bf3bff"/>
       <field name="parent" description="Parent genre." type="integer" size="5" uuid="6e4c8ed8-8ddc-4497-84db-10343f53c7f3"/>
+      <field name="name" description="Name of tv programme genre." type="string" required="true" uuid="d07808f6-2382-48f7-afe6-b7cbc64d80d1"/>
+      <field name="display_name" description="Display name of tv programme genre." type="string" uuid="1e4d0ae0-6bc6-4201-a89b-b5bdae064384"/>
+      <field name="url_key" description="UrlKey of tv programme genre." type="string" uuid="75eb31f9-145a-4665-8bba-6b3e666be794"/>
       <orm-attributes>
         <attribute name="export-file-name">TvProgrammeGenre.php</attribute>
         <attribute name="table">tv_programme_genre</attribute>
@@ -261,6 +283,7 @@
       <field name="date_reminder" description="Date of reminder." type="datetime" uuid="79f98ae6-e24a-439b-a848-53689ab198e2"/>
       <field name="member" description="Member to remind." type="integer" size="10" required="true" primary="true" unsigned="true" uuid="79fce1b0-97c3-4b1b-af79-72dfb2b9c144"/>
       <field name="programme" description="Programme to remind." type="integer" required="true" primary="true" unsigned="true" uuid="4951168e-2aa1-4454-b795-3df10b5d4077"/>
+      <field name="reminder_date" description="d.m.Y H:i:s" type="string" required="true" uuid="54dda80d-1a12-40fa-a3d3-11bbba7817ac"/>
       <orm-attributes>
         <attribute name="export-file-name">TvProgrammeReminder.php</attribute>
         <attribute name="options">
@@ -820,13 +843,13 @@
           </attribute>
         </orm-attributes>
       </field>
-      <field name="name_first" description="First name of member." type="string" size="155" uuid="506cff93-a7db-47a5-b4a7-20a517cecfef"/>
-      <field name="name_last" description="Last name of member." type="string" size="155" uuid="96c9095a-6035-42a3-a841-54f5bee1260c"/>
+      <field name="first_name" description="First name of member." type="string" size="155" uuid="506cff93-a7db-47a5-b4a7-20a517cecfef"/>
+      <field name="last_name" description="Last name of member." type="string" size="155" uuid="96c9095a-6035-42a3-a841-54f5bee1260c"/>
       <field name="email" description="Email of the account owner." type="string" size="255" required="true" unique="true" uuid="4b050af5-6a77-4f90-8ff7-49a2470bde58"/>
       <field name="username" description="username of the account owner." type="string" size="155" required="true" unique="true" uuid="9d062d3e-f9bd-4e47-b6fd-9285101acfbe"/>
       <field name="password" description="Encoded password of the user." type="text" required="true" uuid="c6ea77ec-0930-42b3-86ad-4113b83e6052"/>
-      <field name="date_birth" description="Birth date of the member." type="datetime" uuid="247b4de5-b35d-47c1-98fd-7ea975a37b91"/>
-      <field name="file_avatar" description="If exitsts, path to the avatar of the member." type="text" uuid="26747695-1220-4376-ae00-136e565914ad"/>
+      <field name="dateBirth" description="Birth date of the member." type="datetime" uuid="247b4de5-b35d-47c1-98fd-7ea975a37b91"/>
+      <field name="fileAvatar" description="If exitsts, path to the avatar of the member." type="text" uuid="26747695-1220-4376-ae00-136e565914ad"/>
       <field name="date_registration" description="Account registration date." type="datetime" required="true" uuid="99a6b542-01a4-4ae1-942a-018fc38967e7"/>
       <field name="date_activation" description="Account activation date." type="datetime" required="true" uuid="c03c3bed-1f6c-468b-aa0f-8d63c0a19e17"/>
       <field name="date_status_changed" description="Date when the account status last changed." type="datetime" required="true" uuid="961fc7b1-5168-4b9a-a8b2-b8002c53194b"/>
@@ -844,13 +867,16 @@
         </orm-attributes>
       </field>
       <field name="date_last_login" description="Date when the user last loggedin." type="datetime" uuid="89974941-8aa3-4153-972c-45b9898a4b41"/>
-      <field name="extra_info" description="Extra user details such as settings etc." type="text" uuid="06d8f3d1-22b2-403d-ac25-60798bbb361f"/>
+      <field name="extra_info" description="Extra user details such as settings etc. " type="string" uuid="06d8f3d1-22b2-403d-ac25-60798bbb361f"/>
+      <field name="notification" description="push(bool),sms(bool),email(bool),duration(json object)(value:integer,name.string )" type="json_array" uuid="c8ced421-6df2-4258-b8fa-05047009427e"/>
+      <field name="type" description="f:freemium,m:mobile payment,t:Turkcell Sms" type="string" default="r" uuid="ccb0a1d6-2632-4739-a0ae-99a21f95b60b"/>
+      <field name="msisdn" description="Use as username." type="string" uuid="4ba1d1b9-eab0-4e92-b5cd-fab009c46cfa"/>
       <index name="idxUMemberId" unique="true">
         <index-field name="id"/>
       </index>
       <index name="idxNFullNameOfMember">
-        <index-field name="name_first"/>
-        <index-field name="name_last"/>
+        <index-field name="first_name"/>
+        <index-field name="last_name"/>
       </index>
       <index name="idxUMemberUsername" unique="true">
         <index-field name="username"/>
@@ -864,7 +890,7 @@
         <index-field name="date_registration"/>
       </index>
       <index name="idxNMemberDateBirth">
-        <index-field name="date_birth"/>
+        <index-field name="dateBirth"/>
       </index>
       <index name="idxNMemberDateActivation">
         <index-field name="date_activation"/>
@@ -1160,10 +1186,6 @@
       </orm-attributes>
     </entity>
   </module>
-  <module name="\../../site-management-bundle/Entity" local-name="../../site-management-bundle/Entity" namespace="\BiberLtd\Bundle\SiteManagementBundle\Entity" local-namespace="\BiberLtd\Bundle\SiteManagementBundle\Entity" export-format="Doctrine2Php" export-path="../../site-management-bundle/Entity" uuid="408aa8e0-f096-42cd-b2d3-193479ec24ed"/>
-  <module name="\../../multilanguage-support-bundle/Entity" local-name="../../multilanguage-support-bundle/Entity" namespace="\BiberLtd\Bundle\MultiLanguageSupportBundle\Entity" local-namespace="\BiberLtd\Bundle\MultiLanguageSupportBundle\Entity" export-format="Doctrine2Php" export-path="../../multilanguage-support-bundle/Entity" uuid="71f105a7-783a-4b36-8fe1-f7e161850ac9"/>
-  <module name="\../../file-management-bundle/Entity" local-name="../../file-management-bundle/Entity" namespace="\BiberLtd\Bundle\FileManagementBundle\Entity" local-namespace="\BiberLtd\Bundle\FileManagementBundle\Entity" export-format="Doctrine2Php" export-path="../../file-management-bundle/Entity" uuid="9b4f8b0b-f0c8-4cd7-bf6d-ca31b749a73c"/>
-  <module name="\../../member-management-bundle/Entity" local-name="../../member-management-bundle/Entity" namespace="\BiberLtd\Bundle\MemberManagementBundle\Entity" local-namespace="\BiberLtd\Bundle\MemberManagementBundle\Entity" export-format="Doctrine2Php" export-path="../../member-management-bundle/Entity" uuid="d1739aec-1a58-43b1-84f8-4f0997d75805"/>
   <visual-data>
     <association uuid="0132b5a4-c206-4f06-bcf7-08bf61d249f3" color="#969696"/>
     <association uuid="02e3ef16-39f8-42b5-891d-96224803b169" color="#969696"/>
@@ -1196,7 +1218,7 @@
     <association uuid="b210e152-462a-45f8-b840-75b0217b73c5" color="#969696"/>
     <association uuid="b9e4d241-2e4f-4fbf-a78c-0414234947d6" color="#969696"/>
     <association uuid="c821334b-cf7b-4b30-a499-c53e1549f08c" color="#969696"/>
-    <association uuid="c887a9bb-2e58-4f0e-b56a-0863540f107c" color="#969696"/>
+    <association uuid="c887a9bb-2e58-4f0e-b56a-0863540f107c" caption1-position-x="96" caption1-position-y="-3" center-position-x="0" center-position-y="0" color="#969696"/>
     <association uuid="c9717edb-1291-46d3-af44-549fab9eaa16" color="#969696"/>
     <association uuid="d0a6295c-5f68-40e3-bfb4-da2ca6e40fb6" color="#969696"/>
     <association uuid="d120204e-3d7c-47ea-bfe6-c33110876e00" color="#969696"/>
@@ -1209,15 +1231,15 @@
     <entity uuid="04602777-d7d4-4b5f-9557-c3a1ba1f9dbb" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="350" position-y="100" size-x="0" size-x2="20" size-y="0" size-y2="20"/>
     <entity uuid="062dc364-3d01-474f-8a28-77bb8b1e21fd" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="550" position-y="1" size-x="0" size-x2="130" size-y="0" size-y2="87"/>
     <entity uuid="07eeeac7-da1a-48f5-96c1-665a12f5d84f" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="450" position-y="401" size-x="0" size-x2="125" size-y="0" size-y2="59"/>
-    <entity uuid="094635ae-a6d3-45e9-9b42-b2a240f53aec" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="439" position-y="128" size-x="0" size-x2="20" size-y="0" size-y2="20"/>
-    <entity uuid="14c93230-f474-4924-b30a-32578154d0ad" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="739" position-y="28" size-x="0" size-x2="130" size-y="0" size-y2="73"/>
-    <entity uuid="1be2d3b4-aa06-4d8c-8620-b7a43c163b30" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="197" position-y="73" size-x="0" size-x2="142" size-y="0" size-y2="255"/>
+    <entity uuid="094635ae-a6d3-45e9-9b42-b2a240f53aec" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="542" position-y="36" size-x="0" size-x2="124" size-y="0" size-y2="157"/>
+    <entity uuid="14c93230-f474-4924-b30a-32578154d0ad" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="738" position-y="-4" size-x="0" size-x2="133" size-y="0" size-y2="157"/>
+    <entity uuid="1be2d3b4-aa06-4d8c-8620-b7a43c163b30" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="194" position-y="32" size-x="0" size-x2="136" size-y="0" size-y2="451"/>
     <entity uuid="2d0a30b3-246d-47fa-b198-331e87d4a439" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="200" position-y="294" size-x="0" size-x2="121" size-y="0" size-y2="59"/>
     <entity uuid="3504b5c8-3afa-4ae7-b2c5-64fdcb265fc0" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="20" position-y="40" size-x="0" size-x2="142" size-y="0" size-y2="269"/>
     <entity uuid="41bcf7a2-e5e3-42a8-af5a-39de1f0e86ff" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="400" position-y="44" size-x="0" size-x2="130" size-y="0" size-y2="115"/>
     <entity uuid="45fa10e6-64bd-4726-82aa-61fd301b1b5f" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="50" position-y="50" size-x="0" size-x2="148" size-y="0" size-y2="157"/>
     <entity uuid="4f7327b7-2034-4aac-bf68-d2e1fbda6bc4" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="389" position-y="478" size-x="0" size-x2="130" size-y="0" size-y2="101"/>
-    <entity uuid="52bd6869-f5a1-4842-9cc3-2059f414c9e2" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="39" position-y="328" size-x="0" size-x2="130" size-y="0" size-y2="73"/>
+    <entity uuid="52bd6869-f5a1-4842-9cc3-2059f414c9e2" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="36" position-y="325" size-x="0" size-x2="124" size-y="0" size-y2="129"/>
     <entity uuid="600e665a-901f-442b-a5e7-c126e0e991e7" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="839" position-y="328" size-x="0" size-x2="134" size-y="0" size-y2="87"/>
     <entity uuid="7ce99bbb-4d97-4ee5-8703-dfe82e965514" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="100" position-y="94" size-x="0" size-x2="109" size-y="0" size-y2="115"/>
     <entity uuid="9109d3a6-7a5c-4ab9-8ff7-8b5da86662c6" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="50" position-y="401" size-x="0" size-x2="363" size-y="0" size-y2="87"/>
@@ -1233,14 +1255,10 @@
     <entity uuid="edc820a6-e14d-41ad-a986-7cabb15fd53a" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="197" position-y="99" size-x="0" size-x2="130" size-y="0" size-y2="269"/>
     <entity uuid="fe68189e-23c6-4fa9-aa79-3f36094e7aa1" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="10" position-y="20"/>
     <module uuid="264804cf-5ddd-4089-aaa2-d7c0f129a5ed" bg-color="#FDF5F3" position-x="1200" position-y="506" size-x="0" size-x2="700" size-y="56" size-y2="417"/>
-    <module uuid="408aa8e0-f096-42cd-b2d3-193479ec24ed" bg-color="#E7F3E7" position-x="4003" position-y="50" size-x="0" size-x2="100" size-y="0" size-y2="100"/>
-    <module uuid="71f105a7-783a-4b36-8fe1-f7e161850ac9" bg-color="#FEFCE8" position-x="4003" position-y="250" size-x="0" size-x2="100" size-y="0" size-y2="100"/>
     <module uuid="860bb986-ef71-4cef-9da2-f560e58c2569" bg-color="#7E7975" position-x="1210" position-y="50" size-x="0" size-x2="490" size-y="0" size-y2="327"/>
     <module uuid="8df118b3-f262-4295-8436-9b1c655d84fc" bg-color="#9E9893" position-x="61" position-y="72" size-x="11" size-x2="1089" size-y="22" size-y2="621"/>
-    <module uuid="9b4f8b0b-f0c8-4cd7-bf6d-ca31b749a73c" bg-color="#FEEFE3" position-x="4003" position-y="450" size-x="0" size-x2="100" size-y="0" size-y2="100"/>
     <module uuid="9d574194-22af-4673-a2ee-bb67ec7d212e" bg-color="#C70000" position-x="2026" position-y="51" size-x="26" size-x2="695" size-y="1" size-y2="487"/>
     <module uuid="be3c0866-f0a7-4a2e-b726-225b294ae9ff" bg-color="#E7F5FD" position-x="3721" position-y="50" size-x="0" size-x2="182" size-y="0" size-y2="329"/>
-    <module uuid="d1739aec-1a58-43b1-84f8-4f0997d75805" bg-color="#FDEBEF" position-x="4203" position-y="450" size-x="0" size-x2="100" size-y="0" size-y2="100"/>
     <module uuid="d40aa0eb-3691-4818-880c-0a9ad1dd9833" bg-color="#C70000" position-x="2821" position-y="99" size-x="0" size-x2="800" size-y="49" size-y2="559"/>
     <project uuid="e0f115e7-ab9b-4ce4-81d5-62ff642bebe9" size-x="0" size-x2="4353" size-y="0" size-y2="973"/>
   </visual-data>

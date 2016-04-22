@@ -44,6 +44,21 @@ class TvProgrammeGenre extends CoreLocalizableEntity
     public  $date_removed;
 
     /**
+     * @ORM\Column(type="string", nullable=false)
+     */
+    private $name;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $display_name;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $url_key;
+
+    /**
      * @ORM\OneToMany(
      *     targetEntity="BiberLtd\Bundle\TvManagementBundle\Entity\TvProgrammeGenreLocalization",
      *     mappedBy="genre"

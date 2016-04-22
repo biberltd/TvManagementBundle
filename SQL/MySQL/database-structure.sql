@@ -1,15 +1,24 @@
-/**
- * @author		Can Berkol
- *
- * @copyright   Biber Ltd. (http://www.biberltd.com) (C) 2015
- * @license     GPLv3
- *
- * @date        28.12.2015
- */
-SET FOREIGN_KEY_CHECKS=0;
+/*
+ Navicat Premium Data Transfer
+
+ Source Server         : localhost
+ Source Server Type    : MySQL
+ Source Server Version : 50505
+ Source Host           : 127.0.0.1
+ Source Database       : tv_management_bundle
+
+ Target Server Type    : MySQL
+ Target Server Version : 50505
+ File Encoding         : utf-8
+
+ Date: 04/22/2016 11:05:50 AM
+*/
+
+SET NAMES utf8;
+SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
--- Table structure for categories_of_tv_programme
+--  Table structure for `categories_of_tv_programme`
 -- ----------------------------
 DROP TABLE IF EXISTS `categories_of_tv_programme`;
 CREATE TABLE `categories_of_tv_programme` (
@@ -25,11 +34,7 @@ CREATE TABLE `categories_of_tv_programme` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
 
 -- ----------------------------
--- Records of categories_of_tv_programme
--- ----------------------------
-
--- ----------------------------
--- Table structure for genres_of_tv_programme
+--  Table structure for `genres_of_tv_programme`
 -- ----------------------------
 DROP TABLE IF EXISTS `genres_of_tv_programme`;
 CREATE TABLE `genres_of_tv_programme` (
@@ -45,11 +50,7 @@ CREATE TABLE `genres_of_tv_programme` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
 
 -- ----------------------------
--- Records of genres_of_tv_programme
--- ----------------------------
-
--- ----------------------------
--- Table structure for tv_channel
+--  Table structure for `tv_channel`
 -- ----------------------------
 DROP TABLE IF EXISTS `tv_channel`;
 CREATE TABLE `tv_channel` (
@@ -60,20 +61,17 @@ CREATE TABLE `tv_channel` (
   `date_added` datetime NOT NULL,
   `date_updated` datetime NOT NULL,
   `date_removed` datetime DEFAULT NULL,
+  `url_key` text COLLATE utf8_turkish_ci,
+  `is_premium` text COLLATE utf8_turkish_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
 
 -- ----------------------------
--- Records of tv_channel
--- ----------------------------
-
--- ----------------------------
--- Table structure for tv_programme
+--  Table structure for `tv_programme`
 -- ----------------------------
 DROP TABLE IF EXISTS `tv_programme`;
 CREATE TABLE `tv_programme` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'System given id.',
-  `summary` text COLLATE utf8_turkish_ci,
   `rating_tag` varchar(20) COLLATE utf8_turkish_ci DEFAULT NULL,
   `date_added` datetime NOT NULL,
   `date_updated` datetime NOT NULL,
@@ -90,16 +88,24 @@ CREATE TABLE `tv_programme` (
   `is_dubbed` char(1) COLLATE utf8_turkish_ci DEFAULT NULL COMMENT 'y:yes,n:no',
   `is_turkish` char(1) COLLATE utf8_turkish_ci DEFAULT NULL COMMENT 'y:yes,n:no',
   `raw_json` longtext COLLATE utf8_turkish_ci,
-  `uniq_key` text COLLATE utf8_turkish_ci DEFAULT  NULL COMMENT 'A special key to identify unique programmes.',
+  `uniq_key` text COLLATE utf8_turkish_ci COMMENT 'A special key to identify unique programmes.',
+  `preview` text COLLATE utf8_turkish_ci,
+  `channel` int(11) DEFAULT NULL,
+  `schedule_id` int(11) DEFAULT NULL,
+  `time` text COLLATE utf8_turkish_ci NOT NULL,
+  `duration` int(11) DEFAULT NULL,
+  `summary` text COLLATE utf8_turkish_ci,
+  `categories` text COLLATE utf8_turkish_ci NOT NULL,
+  `genres` text COLLATE utf8_turkish_ci NOT NULL,
+  `raiting` text COLLATE utf8_turkish_ci,
+  `title` text COLLATE utf8_turkish_ci NOT NULL,
+  `is_reminded` text COLLATE utf8_turkish_ci NOT NULL,
+  `is_local` text COLLATE utf8_turkish_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
 
 -- ----------------------------
--- Records of tv_programme
--- ----------------------------
-
--- ----------------------------
--- Table structure for tv_programme_category
+--  Table structure for `tv_programme_category`
 -- ----------------------------
 DROP TABLE IF EXISTS `tv_programme_category`;
 CREATE TABLE `tv_programme_category` (
@@ -108,17 +114,18 @@ CREATE TABLE `tv_programme_category` (
   `date_updated` datetime NOT NULL,
   `date_removed` datetime DEFAULT NULL,
   `parent` int(5) unsigned DEFAULT NULL,
+  `name` text COLLATE utf8_turkish_ci NOT NULL,
+  `display_name` text COLLATE utf8_turkish_ci,
+  `url_key` text COLLATE utf8_turkish_ci,
+  `count_programmes` int(11) DEFAULT '0',
+  `children` text COLLATE utf8_turkish_ci,
   PRIMARY KEY (`id`),
   KEY `idxFParentTvProgrammeCategory` (`parent`),
   CONSTRAINT `idxFParentTvProgrammeCategory` FOREIGN KEY (`parent`) REFERENCES `tv_programme_category` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
 
 -- ----------------------------
--- Records of tv_programme_category
--- ----------------------------
-
--- ----------------------------
--- Table structure for tv_programme_category_localization
+--  Table structure for `tv_programme_category_localization`
 -- ----------------------------
 DROP TABLE IF EXISTS `tv_programme_category_localization`;
 CREATE TABLE `tv_programme_category_localization` (
@@ -133,11 +140,7 @@ CREATE TABLE `tv_programme_category_localization` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
 
 -- ----------------------------
--- Records of tv_programme_category_localization
--- ----------------------------
-
--- ----------------------------
--- Table structure for tv_programme_genre
+--  Table structure for `tv_programme_genre`
 -- ----------------------------
 DROP TABLE IF EXISTS `tv_programme_genre`;
 CREATE TABLE `tv_programme_genre` (
@@ -146,17 +149,16 @@ CREATE TABLE `tv_programme_genre` (
   `date_updated` datetime NOT NULL,
   `date_removed` datetime DEFAULT NULL,
   `parent` int(5) unsigned DEFAULT NULL,
+  `name` text COLLATE utf8_turkish_ci NOT NULL,
+  `display_name` text COLLATE utf8_turkish_ci,
+  `url_key` text COLLATE utf8_turkish_ci,
   PRIMARY KEY (`id`),
   KEY `idxFParentTvProgrammeGenre` (`parent`),
   CONSTRAINT `idxFParentTvProgrammeGenre` FOREIGN KEY (`parent`) REFERENCES `tv_programme_genre` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
 
 -- ----------------------------
--- Records of tv_programme_genre
--- ----------------------------
-
--- ----------------------------
--- Table structure for tv_programme_genre_localization
+--  Table structure for `tv_programme_genre_localization`
 -- ----------------------------
 DROP TABLE IF EXISTS `tv_programme_genre_localization`;
 CREATE TABLE `tv_programme_genre_localization` (
@@ -171,11 +173,7 @@ CREATE TABLE `tv_programme_genre_localization` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
 
 -- ----------------------------
--- Records of tv_programme_genre_localization
--- ----------------------------
-
--- ----------------------------
--- Table structure for tv_programme_reminder
+--  Table structure for `tv_programme_reminder`
 -- ----------------------------
 DROP TABLE IF EXISTS `tv_programme_reminder`;
 CREATE TABLE `tv_programme_reminder` (
@@ -185,6 +183,7 @@ CREATE TABLE `tv_programme_reminder` (
   `date_reminder` datetime DEFAULT NULL,
   `member` int(10) unsigned DEFAULT NULL,
   `programme` int(10) unsigned DEFAULT NULL,
+  `reminder_date` text COLLATE utf8_turkish_ci NOT NULL,
   KEY `idxFMemberOfTvProgrammeReminder` (`member`),
   KEY `idxFProgrammeOfTvProgrammeReminder` (`programme`),
   CONSTRAINT `idxFMemberOfTvProgrammeReminder` FOREIGN KEY (`member`) REFERENCES `member` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -192,11 +191,7 @@ CREATE TABLE `tv_programme_reminder` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
 
 -- ----------------------------
--- Records of tv_programme_reminder
--- ----------------------------
-
--- ----------------------------
--- Table structure for tv_programme_schedule
+--  Table structure for `tv_programme_schedule`
 -- ----------------------------
 DROP TABLE IF EXISTS `tv_programme_schedule`;
 CREATE TABLE `tv_programme_schedule` (
@@ -216,6 +211,4 @@ CREATE TABLE `tv_programme_schedule` (
   CONSTRAINT `idxFProgrammeOfTvProgrammeSchedule` FOREIGN KEY (`programme`) REFERENCES `tv_channel` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
 
--- ----------------------------
--- Records of tv_programme_schedule
--- ----------------------------
+SET FOREIGN_KEY_CHECKS = 1;

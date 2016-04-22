@@ -601,7 +601,7 @@ class TvManagementModel extends CoreModel{
 		$qStr = 'SELECT '. $this->entity['tvpcl']['alias']
 			. ' FROM ' . $this->entity['tvpcl']['name'] . ' ' . $this->entity['tvpcl']['alias']
 			. ' JOIN ' . $this->entity['tvpcl']['alias'] . '.category ' . $this->entity['tvpc']['alias']
-			. ' WITH '. $this->entity['tvpcl']['alias'].'.category = '. $this->entity['tvpc']['alias'].'.id';
+			. ' WITH ' . $this->entity['tvpcl']['alias'] . '.category = ' . $this->entity['tvpc']['alias'].'.id';
 
 		if (!is_null($sortOrder)) {
 			foreach ($sortOrder as $column => $direction) {
@@ -1524,7 +1524,7 @@ class TvManagementModel extends CoreModel{
 		$qStr = 'SELECT '. $this->entity['tvpgl']['alias']
 			. ' FROM ' . $this->entity['tvpgl']['name'] . ' ' . $this->entity['tvpgl']['alias']
 			. ' JOIN ' . $this->entity['tvpgl']['alias'] . '.genre ' . $this->entity['tvpg']['alias']
-			. ' WITH '. $this->entity['tvpgl']['alias'].'.genre = '. $this->entity['tvpg']['alias'].'.id';
+			. ' WITH ' . $this->entity['tvpgl']['alias'] . '.genre = ' . $this->entity['tvpg']['alias'].'.id';
 
 		if (!is_null($sortOrder)) {
 			foreach ($sortOrder as $column => $direction) {
@@ -1609,7 +1609,7 @@ class TvManagementModel extends CoreModel{
 		$localizations = array();
 		$now = new \DateTime('now', new \DateTimeZone($this->kernel->getContainer()->getParameter('app_timezone')));
 		foreach ($collection as $data) {
-			if ($data instanceof BundleEntity\TvProgrammeGenres) {
+			if ($data instanceof BundleEntity\TvProgrammeGenre) {
 				$entity = $data;
 				$this->em->persist($entity);
 				$insertedItems[] = $entity;
@@ -1829,21 +1829,15 @@ class TvManagementModel extends CoreModel{
 	}
 
 	/**
-	 * @param mixed $tvProgramme
-	 * @param array|null $sortOrder
-	 * @param array|null $limit
+	 * @param      $tvProgrammeId
+	 * @param null $sortOrder
+	 * @param null $limit
 	 *
 	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
-	public function listTvProgrammeSchedulesOfProgramme($tvProgramme, array $sortOrder = null, array $limit = null) {
+	public function listTvProgrammeSchedulesOfProgramme($tvProgrammeId, $sortOrder = null, $limit = null) {
 		$column = $this->entity['tvps']['alias'] . '.programme';
-		$response = $this->getTvProgramme($tvProgramme);
-		if($response->error->exist){
-			return $response;
-		}
-		$tvProgramme = $response->result->set;
-		unset($response);
-		$condition = array('column' => $column, 'comparison' => '=', 'value' => $tvProgramme->getId());
+		$condition = array('column' => $column, 'comparison' => '=', 'value' => $tvProgrammeId);
 		$filter[] = array(
 			'glue' => 'and',
 			'condition' => array(
@@ -2258,18 +2252,21 @@ class TvManagementModel extends CoreModel{
 		);
 		$tvpsSortOrder = array();
 		$tvpSortOrder = array();
-		foreach($sortOrder as $key => $value){
-			switch($key){
-				case 'actual_time':
-				case 'end_time':
-				case 'duration':
-					$tvpsSortOrder[$key] = $value;
-					break;
-				default:
-					$tvpSortOrder[$key] = $value;
-					break;
+		if(!is_null($sortOrder)){
+			foreach($sortOrder as $key => $value){
+				switch($key){
+					case 'actual_time':
+					case 'end_time':
+					case 'duration':
+						$tvpsSortOrder[$key] = $value;
+						break;
+					default:
+						$tvpSortOrgder = array($key => $value);
+						break;
+				}
 			}
 		}
+
 		unset($sortOrder);
 		$response = $this->listTvProgrammeSchedules(null, $tvpsSortOrder, null, true);
 		if($response->error->exist){
@@ -2657,7 +2654,6 @@ class TvManagementModel extends CoreModel{
 	 */
 	public function listScheduledTvProgrammesOfCategoriesBetween(\DateTime $dateStart, \DateTime $dateEnd, array $categories, array $filter = null, array $sortOrder = null, array $limit = null)	{
 		$timeStamp = time();
-
 		$filter[] = array(
 			'glue' => 'and',
 			'condition' => array(
@@ -2694,7 +2690,7 @@ class TvManagementModel extends CoreModel{
 
 		$pIds = [];
 		foreach($response->result->set as $item){
-			$pIds[] = $item['tvps_programme'];
+			$pIds[$item['tvps_programme']] = $item['tvps_programme'];
 		}
 		array_pop($filter);
 		unset($response);
@@ -2709,12 +2705,13 @@ class TvManagementModel extends CoreModel{
 				)
 			)
 		);
-		$response = $this->listTvProgrammesOfCategories($categories, $filter, $tvpSortOrder, $limit);
 
+		$response = $this->listTvProgrammesOfCategories($categories, $filter, $tvpSortOrder, $limit);
 		if($response->error->exist){
 			$response->stats->execution->start = $timeStamp;
 			return $response;
 		}
+
 		$totalRows = count($response->result->set);
 		if ($totalRows < 1) {
 			return new ModelResponse(null, 0, 0, null, true, 'E:D:002', 'No entries found in database that matches to your criterion.', $timeStamp, time());
@@ -2881,13 +2878,22 @@ class TvManagementModel extends CoreModel{
 			}
 		}
 
-		$categoryIdStr = '('.implode(',', $categoryIds).')';
+		if(count($categoryIds) > 0){
+			$filter[] = array(
+				'glue' => 'and',
+				'condition' => array(
+					array(
+						'glue' => 'and',
+						'condition' => array('column' => $this->entity['cotp']['alias'] . '.category', 'comparison' => 'in', 'value' => $categoryIds),
+					)
+				)
+			);
+		}
 
-		$qStr = 'SELECT ' . $this->entity['cotp']['alias']
+		$qStr = 'SELECT DISTINCT ' . $this->entity['cotp']['alias']
 			. ' FROM ' . $this->entity['tvp']['name'] . ' ' . $this->entity['tvp']['alias']
 			. ' JOIN ' . $this->entity['cotp']['name'] . ' ' . $this->entity['cotp']['alias']
-			. ' WITH '. $this->entity['cotp']['alias'].'.programme = '. $this->entity['tvp']['alias'].'.id'
-			. ' WHERE ' . $this->entity['cotp']['alias'] . '.category IN ' . $categoryIdStr;
+			. ' WITH ' . $this->entity['tvp']['alias'] . '.id = ' . $this->entity['cotp']['alias'].'.programme';
 
 		$oStr = '';
 		if ($sortOrder != null) {
@@ -2917,7 +2923,12 @@ class TvManagementModel extends CoreModel{
 				$oStr = ' ORDER BY ' . $oStr . ' ';
 			}
 		}
-		$qStr .= $oStr;
+		$wStr = '';
+		if (!is_null($filter)) {
+			$fStr = $this->prepareWhere($filter);
+			$wStr .= ' WHERE '.$fStr;
+		}
+		$qStr .= $wStr.$oStr;
 		$query = $this->em->createQuery($qStr);
 		$result = $query->getResult();
 		$collection = array();
@@ -2928,10 +2939,12 @@ class TvManagementModel extends CoreModel{
 
 			$collection[$item->getProgramme()->getId()] = $item->getProgramme()->getId();
 		}
+
 		unset($result);
 		if(count($collection) < 1){
 			return new ModelResponse(null, 0, 0, null, true, 'E:D:002', 'No entries found in database that matches to your criterion.', $timeStamp, time());
 		}
+		$filter = [];
 		$filter[] = array(
 			'glue' => 'and',
 			'condition' => array(
@@ -2941,7 +2954,8 @@ class TvManagementModel extends CoreModel{
 				)
 			)
 		);
-		return $this->listTvProgrammes($filter, $sortOrder, $limit);
+		$response = $this->listTvProgrammes($filter, $sortOrder, $limit);
+		return $response;
 	}
 
 	/**
@@ -2980,9 +2994,8 @@ class TvManagementModel extends CoreModel{
 		$qStr = 'SELECT ' . $this->entity['gotp']['alias']
 			. ' FROM ' . $this->entity['gotp']['name'] . ' ' . $this->entity['gotp']['alias']
 			. ' JOIN ' . $this->entity['gotp']['alias'] . '.programme ' . $this->entity['tvp']['alias']
-			. ' WITH '. $this->entity['gotp']['alias'].'.programme = '. $this->entity['tvp']['alias'].'.id'
+			. ' WITH ' . $this->entity['gotp']['alias'] . '.programme = ' . $this->entity['tvp']['alias'].'.id'
 			. ' WHERE ' . $this->entity['gotp']['alias'] . '.genre IN ' . $genreIdsStr;
-
 
 		$oStr = '';
 		if ($sortOrder != null && count($sortOrder) > 0) {
@@ -3625,7 +3638,7 @@ class TvManagementModel extends CoreModel{
 		$qStr = 'SELECT ' . $this->entity['gotp']['alias']
 			. ' FROM ' . $this->entity['gotp']['name'] . ' ' . $this->entity['gotp']['alias']
 			. ' JOIN ' . $this->entity['gotp']['alias'] . '.programme ' . $this->entity['tvp']['alias']
-			. ' WITH '. $this->entity['gotp']['alias'].'.programme= '. $this->entity['tvp']['alias'].'.id'
+			. ' WITH ' . $this->entity['gotp']['alias'] . '.programme = ' . $this->entity['tvp']['alias'].'.id'
 			. ' WHERE ' . $this->entity['gotp']['alias'] . '.programme = ' . $programme->getId();
 
 
@@ -3697,7 +3710,7 @@ class TvManagementModel extends CoreModel{
 		$qStr = 'SELECT ' . $this->entity['cotp']['alias']
 			. ' FROM ' . $this->entity['cotp']['name'] . ' ' . $this->entity['cotp']['alias']
 			. ' JOIN ' . $this->entity['cotp']['alias'] . '.programme ' . $this->entity['tvp']['alias']
-			. ' WITH '. $this->entity['cotp']['alias'].'.category = '. $this->entity['tvpc']['alias'].'.id'
+			. ' WITH ' . $this->entity['cotp']['alias'] . '.programme = ' . $this->entity['tvp']['alias'].'.id'
 			. ' WHERE ' . $this->entity['cotp']['alias'] . '.programme = ' . $programme->getId();
 
 
@@ -3746,7 +3759,6 @@ class TvManagementModel extends CoreModel{
 
 		return new ModelResponse($collection, $totalRows, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, time());
 	}
-
 	/**
 	 * @param mixed $tvProgrammeReminder
 	 * @return ModelResponse
@@ -3842,13 +3854,13 @@ class TvManagementModel extends CoreModel{
 	}
 
 	/**
-	 * @param            $member
-	 * @param array|null $sortOrder
-	 * @param array|null $limit
+	 * @param      $member
+	 * @param null $sortOrder
+	 * @param null $limit
 	 *
 	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
-	public function listRemindersOfMember($member, array $sortOrder = null, array $limit = null){
+	public function listRemindersOfMember($member, $sortOrder = null, $limit = null){
 		$mModel = $this->kernel->getContainer()->get('membermanagement.model');
 		$response = $mModel->getMember($member);
 		if($response->error->exist){
@@ -3869,14 +3881,14 @@ class TvManagementModel extends CoreModel{
 	}
 
 	/**
-	 * @param  mixed $member
-	 * @param \DateTime  $date
-	 * @param array|null $sortOrder
-	 * @param array|null $limit
+	 * @param           $member
+	 * @param \DateTime $date
+	 * @param null      $sortOrder
+	 * @param null      $limit
 	 *
-	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
+	 * @return mixed
 	 */
-	public function listFutureRemindersOfMember($member, \DateTime $date, array $sortOrder = null, array $limit = null){
+	public function listFutureRemindersOfMember($member, \DateTime $date, $sortOrder = null, $limit = null){
 		$mModel = $this->kernel->getContainer()->get('membermanagement.model');
 		$response = $mModel->getMember($member);
 		if($response->error->exist){
@@ -3901,20 +3913,20 @@ class TvManagementModel extends CoreModel{
 	}
 
 	/**
-	 * @param array|null $filter
-	 * @param array|null $sortOrder
-	 * @param array|null $limit
+	 * @param null $filter
+	 * @param null $sortOrder
+	 * @param null $limit
 	 *
 	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
-	public function listTvProgrammeReminders(array $filter = null, array $sortOrder = null, array $limit = null) {
+	public function listTvProgrammeReminders($filter = null, $sortOrder = null, $limit = null) {
 		$timeStamp = time();
 		if (!is_array($sortOrder) && !is_null($sortOrder)) {
 			return $this->createException('InvalidSortOrderException', '$sortOrder must be an array with key => value pairs where value can only be "asc" or "desc".', 'E:S:002');
 		}
 		$oStr = $wStr = $gStr = $fStr = '';
 
-		$qStr = 'SELECT '.$this->entity['tvc']['alias']
+		$qStr = 'SELECT '.$this->entity['tvpr']['alias']
 			.' FROM '.$this->entity['tvpr']['name'].' '.$this->entity['tvpr']['alias'];
 
 		if (!is_null($sortOrder)) {
@@ -3952,50 +3964,6 @@ class TvManagementModel extends CoreModel{
 			return new ModelResponse(null, 0, 0, null, true, 'E:D:002', 'No entries found in database that matches to your criterion.', $timeStamp, time());
 		}
 		return new ModelResponse($result, $totalRows, 0, null, false, 'S:D:002', 'Entries successfully fetched from database.', $timeStamp, time());
-	}
-
-	/**
-	 * @param            $programme
-	 * @param array|null $sortOrder
-	 * @param array|null $limit
-	 *
-	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
-	 */
-	public function listRemindersOfTvProgramme($programme, array $sortOrder = null, array $limit = null){
-		return $this->listRemindersOfTvProgrammes(array($programme), $sortOrder, $limit);
-	}
-
-	/**
-	 * @param array      $programmes
-	 * @param array|null $sortOrder
-	 * @param array|null $limit
-	 *
-	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
-	 */
-	public function listRemindersOfTvProgrammes(array $programmes, array $sortOrder = null, array $limit = null){
-		$pIds = [];
-		foreach($programmes as $programme){
-			$response = $this->getTvProgramme($programme);
-			if($response->error->exist){
-				continue;
-			}
-			$programme = $response->result->set;
-			$pIds[] = $programme->getId();
-		}
-		if(count($pIds) < 1){
-			return new ModelResponse(null, 0, 0, null, true, 'E:D:002', 'No entries found in database that matches to your criterion.', $timeStamp, time());
-		}
-		$filter[] = array(
-			'glue' => 'and',
-			'condition' => array(
-				array(
-					'glue' => 'and',
-					'condition' => array('column' => $this->entity['tvpr']['alias'] . '.programme', 'comparison' => 'in', 'value' => $pIds),
-				)
-			)
-		);
-		unset($response);
-		return $this->listTvProgrammeReminders($filter, $sortOrder, $limit);
 	}
 	/**
 	 * @param mixed $category
