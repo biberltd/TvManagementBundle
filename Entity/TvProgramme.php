@@ -467,5 +467,6 @@ class TvProgramme extends CoreEntity
         $this->uniq_key = $uniq_key;
         
         return $this;
-    }
+    }   
+    
 }

@@ -3973,6 +3973,7 @@ class TvManagementModel extends CoreModel{
 	 * @return \BiberLtd\Bundle\CoreBundle\Responses\ModelResponse
 	 */
 	public function listRemindersOfTvProgrammes(array $programmes, array $sortOrder = null, array $limit = null){
+		$timeStamp = time();
 		$pIds = [];
 		foreach($programmes as $programme){
 			$response = $this->getTvProgramme($programme);
