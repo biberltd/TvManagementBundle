@@ -143,4 +143,46 @@ class TvChannel extends CoreEntity
 
 		return $this;
 	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getUrlKey($url_key){
+		return $this->url_key;
+	}
+
+	/**
+	 * @param $url_key
+	 *
+	 * @return $this
+	 */
+	public function setUrlKey($url_key){
+		if(!$this->setModified('url_key', $url_key)->isModified()){
+			return $this;
+		}
+		$this->url_key = $url_key;
+
+		return $this;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getIsPremium($is_premium){
+		return $this->is_premium;
+	}
+
+	/**
+	 * @param $is_premium
+	 *
+	 * @return $this
+	 */
+	public function setIsPremium($is_premium){
+		if(!$this->setModified('is_premium', $is_premium)->isModified()){
+			return $this;
+		}
+		$this->is_premium = $is_premium;
+
+		return $this;
+	}
 }
