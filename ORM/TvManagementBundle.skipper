@@ -22,17 +22,6 @@
       <field name="raw_json" description="Raw json entry." type="text" uuid="2214a1ce-081f-4fb0-9f9d-8b1c3d3970c9"/>
       <field name="uniqe_key" description="A special key that is used to identify unique programmes." type="text" uuid="81c6af45-173e-4ec3-8819-f1bcc41cdcb3"/>
       <field name="preview" description="Preview of tv programme." type="string" uuid="a4706ee2-0a30-4456-aa16-419de0d0193c"/>
-      <field name="channel" description="Channel of tv programme." type="integer" required="true" uuid="8483bc4d-779b-4665-a2dd-b47e0d1e0598"/>
-      <field name="scheduleId" description="Schedule id." type="integer" uuid="96af2e41-1557-498b-bac6-5ba04c48a6dd"/>
-      <field name="time" description="Time of tv programme." type="string" required="true" uuid="1a9b9da0-2e8f-45fa-95d0-ac444a46a1d0"/>
-      <field name="end_time" description="End time of tv programme." type="string" uuid="22a89045-4940-4fb3-aa73-00b6326480eb"/>
-      <field name="duration" description="Duration of tv programme in minutes." type="integer" uuid="381121db-15ac-444f-9cec-8736e8ebf75b"/>
-      <field name="categories" description="Categories of tv programme." type="array" required="true" uuid="308fea07-caf2-4afe-8d5a-a47eefbe169d"/>
-      <field name="genres" description="Genre of tv programme." type="array" required="true" uuid="2ce1a818-f969-4eb5-8511-8a5cd87d8ec8"/>
-      <field name="raiting" description="Raiting of tv programme." type="string" uuid="ca282497-5b37-4a87-bc0f-1db2055a5fc2"/>
-      <field name="title" description="Title of tv programme." type="string" required="true" uuid="21078f7b-19aa-48bf-bc92-5519a46c15a7"/>
-      <field name="is_reminded" type="boolean" required="true" uuid="1fc3cdec-c32c-459c-9cd3-e2ab8f086141"/>
-      <field name="is_local" type="datetimetz" required="true" uuid="90e03aee-6ee1-4b01-b2e6-b0ce1a2e6ddf"/>
       <orm-attributes>
         <attribute name="table">tv_programme</attribute>
         <attribute name="export-file-name">TvProgramme.php</attribute>
@@ -225,7 +214,6 @@
       <field name="date_removed" description="Date when the entry is marked as removed.7" type="datetime" uuid="87d3c628-3728-4123-98df-149466bf3bff"/>
       <field name="parent" description="Parent genre." type="integer" size="5" uuid="6e4c8ed8-8ddc-4497-84db-10343f53c7f3"/>
       <field name="name" description="Name of tv programme genre." type="string" required="true" uuid="d07808f6-2382-48f7-afe6-b7cbc64d80d1"/>
-      <field name="display_name" description="Display name of tv programme genre." type="string" uuid="1e4d0ae0-6bc6-4201-a89b-b5bdae064384"/>
       <field name="url_key" description="UrlKey of tv programme genre." type="string" uuid="75eb31f9-145a-4665-8bba-6b3e666be794"/>
       <orm-attributes>
         <attribute name="export-file-name">TvProgrammeGenre.php</attribute>
@@ -283,7 +271,6 @@
       <field name="date_reminder" description="Date of reminder." type="datetime" uuid="79f98ae6-e24a-439b-a848-53689ab198e2"/>
       <field name="member" description="Member to remind." type="integer" size="10" required="true" primary="true" unsigned="true" uuid="79fce1b0-97c3-4b1b-af79-72dfb2b9c144"/>
       <field name="programme" description="Programme to remind." type="integer" required="true" primary="true" unsigned="true" uuid="4951168e-2aa1-4454-b795-3df10b5d4077"/>
-      <field name="reminder_date" description="d.m.Y H:i:s" type="string" required="true" uuid="54dda80d-1a12-40fa-a3d3-11bbba7817ac"/>
       <orm-attributes>
         <attribute name="export-file-name">TvProgrammeReminder.php</attribute>
         <attribute name="options">
@@ -1233,7 +1220,7 @@
     <entity uuid="07eeeac7-da1a-48f5-96c1-665a12f5d84f" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="450" position-y="401" size-x="0" size-x2="125" size-y="0" size-y2="59"/>
     <entity uuid="094635ae-a6d3-45e9-9b42-b2a240f53aec" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="542" position-y="36" size-x="0" size-x2="124" size-y="0" size-y2="157"/>
     <entity uuid="14c93230-f474-4924-b30a-32578154d0ad" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="738" position-y="-4" size-x="0" size-x2="133" size-y="0" size-y2="157"/>
-    <entity uuid="1be2d3b4-aa06-4d8c-8620-b7a43c163b30" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="194" position-y="32" size-x="0" size-x2="136" size-y="0" size-y2="451"/>
+    <entity uuid="1be2d3b4-aa06-4d8c-8620-b7a43c163b30" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="195" position-y="22" size-x="0" size-x2="136" size-y="0" size-y2="451"/>
     <entity uuid="2d0a30b3-246d-47fa-b198-331e87d4a439" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="200" position-y="294" size-x="0" size-x2="121" size-y="0" size-y2="59"/>
     <entity uuid="3504b5c8-3afa-4ae7-b2c5-64fdcb265fc0" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="20" position-y="40" size-x="0" size-x2="142" size-y="0" size-y2="269"/>
     <entity uuid="41bcf7a2-e5e3-42a8-af5a-39de1f0e86ff" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="400" position-y="44" size-x="0" size-x2="130" size-y="0" size-y2="115"/>
@@ -1246,7 +1233,7 @@
     <entity uuid="9d6e3263-745b-4220-91e2-8c0c2432ffad" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="739" position-y="178" size-x="0" size-x2="167" size-y="0" size-y2="73"/>
     <entity uuid="9df7cd56-6a97-410f-b0fe-2fd5538bd528" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="350" position-y="51" size-x="0" size-x2="112" size-y="0" size-y2="87"/>
     <entity uuid="a12d9552-e3b0-4189-870d-82bf4cd5b6ed" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="500" position-y="151" size-x="0" size-x2="130" size-y="0" size-y2="87"/>
-    <entity uuid="afaa4cd5-a9f4-4fa8-a0f3-c68989c619fc" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="50" position-y="1" size-x="0" size-x2="159" size-y="0" size-y2="269"/>
+    <entity uuid="afaa4cd5-a9f4-4fa8-a0f3-c68989c619fc" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="56" position-y="-26" size-x="0" size-x2="153" size-y="0" size-y2="311"/>
     <entity uuid="ba767360-ab78-4203-87b1-b20274756853" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="639" position-y="378" size-x="0" size-x2="130" size-y="0" size-y2="87"/>
     <entity uuid="c04c801c-5047-41eb-9209-dfd6732d5e31" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="445" position-y="30" size-x="0" size-x2="156" size-y="0" size-y2="213"/>
     <entity uuid="d731b316-305d-4125-8824-3385eb5120ea" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="300" position-y="251" size-x="0" size-x2="130" size-y="0" size-y2="129"/>
@@ -1259,7 +1246,7 @@
     <module uuid="8df118b3-f262-4295-8436-9b1c655d84fc" bg-color="#9E9893" position-x="61" position-y="72" size-x="11" size-x2="1089" size-y="22" size-y2="621"/>
     <module uuid="9d574194-22af-4673-a2ee-bb67ec7d212e" bg-color="#C70000" position-x="2026" position-y="51" size-x="26" size-x2="695" size-y="1" size-y2="487"/>
     <module uuid="be3c0866-f0a7-4a2e-b726-225b294ae9ff" bg-color="#E7F5FD" position-x="3721" position-y="50" size-x="0" size-x2="182" size-y="0" size-y2="329"/>
-    <module uuid="d40aa0eb-3691-4818-880c-0a9ad1dd9833" bg-color="#C70000" position-x="2821" position-y="99" size-x="0" size-x2="800" size-y="49" size-y2="559"/>
+    <module uuid="d40aa0eb-3691-4818-880c-0a9ad1dd9833" bg-color="#C70000" position-x="2821" position-y="98" size-x="0" size-x2="800" size-y="49" size-y2="559"/>
     <project uuid="e0f115e7-ab9b-4ce4-81d5-62ff642bebe9" size-x="0" size-x2="4353" size-y="0" size-y2="973"/>
   </visual-data>
 </skipper>

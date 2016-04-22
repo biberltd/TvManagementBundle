@@ -34,7 +34,7 @@ class TvProgrammeReminder extends CoreEntity
     private $date_reminder;
 
     /**
-     * @ORM\Column(type="string", nullable=false)
+     * 
      */
     private $reminder_date;
 

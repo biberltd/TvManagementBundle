@@ -119,6 +119,116 @@ class TvProgramme
      * 
      */
     private $preview;
+}
+
+/**
+ * 
+ * 
+ */
+class TvProgramme
+
+{
+    /**
+     * 
+     * 
+     * 
+     */
+    private $id;
+
+    /**
+     * 
+     */
+    private $summary;
+
+    /**
+     * 
+     */
+    private $date_added;
+
+    /**
+     * 
+     */
+    private $date_updated;
+
+    /**
+     * 
+     */
+    private $date_removed;
+
+    /**
+     * 
+     */
+    private $title_original;
+
+    /**
+     * 
+     */
+    private $title_local;
+
+    /**
+     * 
+     */
+    private $broadcast_type;
+
+    /**
+     * 
+     */
+    private $description;
+
+    /**
+     * 
+     */
+    private $motto;
+
+    /**
+     * 
+     */
+    private $rating_tag;
+
+    /**
+     * 
+     */
+    private $url;
+
+    /**
+     * 
+     */
+    private $presenter;
+
+    /**
+     * 
+     */
+    private $broadcast_quality;
+
+    /**
+     * 
+     */
+    private $production_year;
+
+    /**
+     * 
+     */
+    private $is_dubbed;
+
+    /**
+     * 
+     */
+    private $is_turkish;
+
+    /**
+     * 
+     */
+    private $raw_json;
+
+    /**
+     * 
+     */
+    private $uniqe_key;
+
+    /**
+     * 
+     */
+    private $preview;
 
     /**
      * 

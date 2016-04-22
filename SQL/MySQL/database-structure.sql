@@ -11,7 +11,7 @@
  Target Server Version : 50505
  File Encoding         : utf-8
 
- Date: 04/22/2016 11:05:50 AM
+ Date: 04/22/2016 17:07:29 PM
 */
 
 SET NAMES utf8;
@@ -90,17 +90,7 @@ CREATE TABLE `tv_programme` (
   `raw_json` longtext COLLATE utf8_turkish_ci,
   `uniq_key` text COLLATE utf8_turkish_ci COMMENT 'A special key to identify unique programmes.',
   `preview` text COLLATE utf8_turkish_ci,
-  `channel` int(11) DEFAULT NULL,
-  `schedule_id` int(11) DEFAULT NULL,
-  `time` text COLLATE utf8_turkish_ci NOT NULL,
-  `duration` int(11) DEFAULT NULL,
   `summary` text COLLATE utf8_turkish_ci,
-  `categories` text COLLATE utf8_turkish_ci NOT NULL,
-  `genres` text COLLATE utf8_turkish_ci NOT NULL,
-  `raiting` text COLLATE utf8_turkish_ci,
-  `title` text COLLATE utf8_turkish_ci NOT NULL,
-  `is_reminded` text COLLATE utf8_turkish_ci NOT NULL,
-  `is_local` text COLLATE utf8_turkish_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci;
 
@@ -150,7 +140,6 @@ CREATE TABLE `tv_programme_genre` (
   `date_removed` datetime DEFAULT NULL,
   `parent` int(5) unsigned DEFAULT NULL,
   `name` text COLLATE utf8_turkish_ci NOT NULL,
-  `display_name` text COLLATE utf8_turkish_ci,
   `url_key` text COLLATE utf8_turkish_ci,
   PRIMARY KEY (`id`),
   KEY `idxFParentTvProgrammeGenre` (`parent`),
@@ -183,7 +172,6 @@ CREATE TABLE `tv_programme_reminder` (
   `date_reminder` datetime DEFAULT NULL,
   `member` int(10) unsigned DEFAULT NULL,
   `programme` int(10) unsigned DEFAULT NULL,
-  `reminder_date` text COLLATE utf8_turkish_ci NOT NULL,
   KEY `idxFMemberOfTvProgrammeReminder` (`member`),
   KEY `idxFProgrammeOfTvProgrammeReminder` (`programme`),
   CONSTRAINT `idxFMemberOfTvProgrammeReminder` FOREIGN KEY (`member`) REFERENCES `member` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,

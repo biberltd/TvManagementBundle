@@ -49,7 +49,7 @@ class TvProgrammeGenre extends CoreLocalizableEntity
     private $name;
 
     /**
-     * @ORM\Column(type="string", nullable=true)
+     * 
      */
     private $display_name;
 
