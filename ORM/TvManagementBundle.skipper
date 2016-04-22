@@ -115,12 +115,13 @@
           </attribute>
         </orm-attributes>
       </field>
-      <field name="name" description="Name of tv channel." required="true" uuid="b294bafd-56fc-4739-b91c-d2caf6505851"/>
+      <field name="name" description="Name of tv channel." type="string" required="true" uuid="b294bafd-56fc-4739-b91c-d2caf6505851"/>
       <field name="logo" description="Path to logo image." type="string" uuid="5a585308-9b6e-495f-80c2-8547feefbc78"/>
       <field name="frequency" description="Tv frequency. It may be a json string for complex requirements." type="text" uuid="2b917837-24d0-4282-b95e-61dc16f98b10"/>
       <field name="date_added" description="Date when the record first added." type="datetime" required="true" uuid="66b966eb-f95e-4a55-a9b2-b1bc718148c2"/>
       <field name="date_updated" description="Date when the record last updated." type="datetime" required="true" uuid="40922b51-8c72-4836-8152-255b6bcbba7b"/>
       <field name="date_removed" description="Date when the record was last removed." type="datetime" uuid="09f8f7a1-4b85-4fde-982a-eadd50269a07"/>
+      <field name="is_premium" description="Indicates wheter the channel is a premium channel." type="string" uuid="3ffca395-fac1-4052-9e29-9321250ebef2"/>
       <orm-attributes>
         <attribute name="table">tv_channel</attribute>
         <attribute name="export-file-name">TvChannel.php</attribute>
@@ -1161,9 +1162,6 @@
     </entity>
   </module>
   <module name="\../../site-management-bundle/Entity" local-name="../../site-management-bundle/Entity" namespace="\BiberLtd\Bundle\SiteManagementBundle\Entity" local-namespace="\BiberLtd\Bundle\SiteManagementBundle\Entity" export-format="Doctrine2Php" export-path="../../site-management-bundle/Entity" uuid="408aa8e0-f096-42cd-b2d3-193479ec24ed"/>
-  <module name="\../../multilanguage-support-bundle/Entity" local-name="../../multilanguage-support-bundle/Entity" namespace="\BiberLtd\Bundle\MultiLanguageSupportBundle\Entity" local-namespace="\BiberLtd\Bundle\MultiLanguageSupportBundle\Entity" export-format="Doctrine2Php" export-path="../../multilanguage-support-bundle/Entity" uuid="71f105a7-783a-4b36-8fe1-f7e161850ac9"/>
-  <module name="\../../file-management-bundle/Entity" local-name="../../file-management-bundle/Entity" namespace="\BiberLtd\Bundle\FileManagementBundle\Entity" local-namespace="\BiberLtd\Bundle\FileManagementBundle\Entity" export-format="Doctrine2Php" export-path="../../file-management-bundle/Entity" uuid="9b4f8b0b-f0c8-4cd7-bf6d-ca31b749a73c"/>
-  <module name="\../../member-management-bundle/Entity" local-name="../../member-management-bundle/Entity" namespace="\BiberLtd\Bundle\MemberManagementBundle\Entity" local-namespace="\BiberLtd\Bundle\MemberManagementBundle\Entity" export-format="Doctrine2Php" export-path="../../member-management-bundle/Entity" uuid="d1739aec-1a58-43b1-84f8-4f0997d75805"/>
   <visual-data>
     <association uuid="0132b5a4-c206-4f06-bcf7-08bf61d249f3" color="#969696"/>
     <association uuid="02e3ef16-39f8-42b5-891d-96224803b169" color="#969696"/>
@@ -1234,13 +1232,10 @@
     <entity uuid="fe68189e-23c6-4fa9-aa79-3f36094e7aa1" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="10" position-y="20"/>
     <module uuid="264804cf-5ddd-4089-aaa2-d7c0f129a5ed" bg-color="#FDF5F3" position-x="1200" position-y="506" size-x="0" size-x2="700" size-y="56" size-y2="417"/>
     <module uuid="408aa8e0-f096-42cd-b2d3-193479ec24ed" bg-color="#E7F3E7" position-x="4003" position-y="50" size-x="0" size-x2="100" size-y="0" size-y2="100"/>
-    <module uuid="71f105a7-783a-4b36-8fe1-f7e161850ac9" bg-color="#FEFCE8" position-x="4003" position-y="250" size-x="0" size-x2="100" size-y="0" size-y2="100"/>
     <module uuid="860bb986-ef71-4cef-9da2-f560e58c2569" bg-color="#7E7975" position-x="1210" position-y="50" size-x="0" size-x2="490" size-y="0" size-y2="327"/>
     <module uuid="8df118b3-f262-4295-8436-9b1c655d84fc" bg-color="#9E9893" position-x="61" position-y="72" size-x="11" size-x2="1089" size-y="22" size-y2="621"/>
-    <module uuid="9b4f8b0b-f0c8-4cd7-bf6d-ca31b749a73c" bg-color="#FEEFE3" position-x="4003" position-y="450" size-x="0" size-x2="100" size-y="0" size-y2="100"/>
     <module uuid="9d574194-22af-4673-a2ee-bb67ec7d212e" bg-color="#C70000" position-x="2026" position-y="51" size-x="26" size-x2="695" size-y="1" size-y2="487"/>
     <module uuid="be3c0866-f0a7-4a2e-b726-225b294ae9ff" bg-color="#E7F5FD" position-x="3721" position-y="50" size-x="0" size-x2="182" size-y="0" size-y2="329"/>
-    <module uuid="d1739aec-1a58-43b1-84f8-4f0997d75805" bg-color="#FDEBEF" position-x="4203" position-y="450" size-x="0" size-x2="100" size-y="0" size-y2="100"/>
     <module uuid="d40aa0eb-3691-4818-880c-0a9ad1dd9833" bg-color="#C70000" position-x="2821" position-y="99" size-x="0" size-x2="800" size-y="49" size-y2="559"/>
     <project uuid="e0f115e7-ab9b-4ce4-81d5-62ff642bebe9" size-x="0" size-x2="4353" size-y="0" size-y2="973"/>
   </visual-data>

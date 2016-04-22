@@ -15,7 +15,8 @@ use Doctrine\ORM\Mapping AS ORM;
  * @ORM\Entity
  * @ORM\Table(name="tv_programme", options={"charset":"utf8","collate":"utf8_turkish_ci","engine":"innodb"})
  */
-class TvProgramme extends CoreEntity
+class TvProgramme
+
 {
     /**
      * @ORM\Id
@@ -106,6 +107,110 @@ class TvProgramme extends CoreEntity
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     */
+    private $raw_json;
+
+    /**
+     * 
+     */
+    private $uniqe_key;
+}
+
+/**
+ * 
+ * 
+ */
+class TvProgramme extends CoreEntity
+{
+    /**
+     * 
+     * 
+     * 
+     */
+    private $id;
+
+    /**
+     * 
+     */
+    private $summary;
+
+    /**
+     * 
+     */
+    private $date_added;
+
+    /**
+     * 
+     */
+    private $date_updated;
+
+    /**
+     * 
+     */
+    private $date_removed;
+
+    /**
+     * 
+     */
+    private $title_original;
+
+    /**
+     * 
+     */
+    private $title_local;
+
+    /**
+     * 
+     */
+    private $broadcast_type;
+
+    /**
+     * 
+     */
+    private $description;
+
+    /**
+     * 
+     */
+    private $motto;
+
+    /**
+     * 
+     */
+    private $rating_tag;
+
+    /**
+     * 
+     */
+    private $url;
+
+    /**
+     * 
+     */
+    private $presenter;
+
+    /**
+     * 
+     */
+    private $broadcast_quality;
+
+    /**
+     * 
+     */
+    private $production_year;
+
+    /**
+     * 
+     */
+    private $is_dubbed;
+
+    /**
+     * 
+     */
+    private $is_turkish;
+
+    /**
+     * 
      */
     private $raw_json;
 
