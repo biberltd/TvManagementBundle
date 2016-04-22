@@ -29,7 +29,7 @@ class TvChannel extends CoreEntity
     private $id;
 
     /**
-     * @ORM\Column(nullable=false)
+     * @ORM\Column(type="string", nullable=false)
      * @var string
      */
     private $name;
@@ -63,6 +63,12 @@ class TvChannel extends CoreEntity
      * @var \DateTime
      */
 	public $date_removed;
+
+	/**
+	 * @ORM\Column(type="string", nullable=true)
+	 * @var string
+	 */
+	private $is_premium;
 
 	/**
 	 * @return mixed
@@ -133,4 +139,26 @@ class TvChannel extends CoreEntity
 
 		return $this;
 	}
+
+	/**
+	 * @return string
+	 */
+	public function getIsPremium()
+	{
+		return $this->is_premium;
+	}
+
+	/**
+	 * @param $is_premium
+	 * @return $this
+	 */
+	public function setIsPremium(string $is_premium)
+	{
+		if (!$this->setModified('is_premium', $is_premium)->isModified()) {
+			return $this;
+		}
+		$this->is_premium = $is_premium;
+		return $this;
+	}
+
 }
