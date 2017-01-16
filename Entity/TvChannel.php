@@ -93,8 +93,8 @@ class TvChannel extends CoreEntity
 	 *
 	 * @return $this
 	 */
-	public function setNameOriginal($name){
-		if(!$this->setModified('name_original', $name)->isModified()){
+	public function setName($name){
+		if(!$this->setModified('name', $name)->isModified()){
 			return $this;
 		}
 		$this->name = $name;
